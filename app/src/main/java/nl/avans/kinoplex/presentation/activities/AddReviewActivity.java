@@ -1,9 +1,11 @@
-package nl.avans.kinoplex;
+package nl.avans.kinoplex.presentation.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import nl.avans.kinoplex.R;
+
+public class AddReviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
