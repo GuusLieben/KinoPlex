@@ -22,4 +22,16 @@ public class MovieList {
     public void removeMovie(int movieId) {
 
     }
+
+    public List<Movie> getMovieList() {
+        return movieList;
+    }
+
+    public static Set<MovieList> getListSet() {
+        return listSet;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -1,17 +1,16 @@
 package nl.avans.kinoplex.data.dataaccessobjects;
 
+import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 
-public class FirebaseUserDao implements DaoObject<Pair> {
+public class FirestoreUserDao implements DaoObject<Pair> {
     @Override
     public boolean create(Pair pair) {
         return false;
     }
 
     @Override
-    public Pair read() {
-        return null;
-    }
+    public void read(RecyclerView.Adapter adapter) { }
 
     @Override
     public boolean update(Pair pair) {

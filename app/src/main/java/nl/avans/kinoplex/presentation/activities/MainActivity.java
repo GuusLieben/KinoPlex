@@ -2,23 +2,22 @@ package nl.avans.kinoplex.presentation.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.support.v7.widget.RecyclerView;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
+import nl.avans.kinoplex.presentation.adapters.ListAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  RecyclerView.Adapter listAdapter;
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("movies");
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        DatabaseReference FighClub = databaseReference.child("550").child("title");
-        System.out.println(FighClub);
-    }
+    listAdapter = new ListAdapter();
+    new FirestoreDaoFactory().getListDao().read(listAdapter);
+  }
 }
