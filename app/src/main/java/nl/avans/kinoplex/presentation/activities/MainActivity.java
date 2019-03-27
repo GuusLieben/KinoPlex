@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     listAdapter = new ListAdapter(new ArrayList<>());
-    new FirestoreDaoFactory().getListDao().read(listAdapter);
+    new FirestoreDaoFactory().getListDao().readIntoAdapter(listAdapter);
 
     movieAdapter = new ListAdapter(new ArrayList<>());
-    new FirestoreDaoFactory().getMovieDao(550).read(movieAdapter);
+    new FirestoreDaoFactory().getMovieDao(550).readIntoAdapter(movieAdapter);
   }
 }

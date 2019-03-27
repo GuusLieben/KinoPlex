@@ -21,7 +21,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
 
   @Override
   @Deprecated
-  public void read(RecyclerView.Adapter adapter) {
+  public void readIntoAdapter(RecyclerView.Adapter adapter) {
     throw new UnsupportedOperationException("This method should not be used for movie collections");
   }
 

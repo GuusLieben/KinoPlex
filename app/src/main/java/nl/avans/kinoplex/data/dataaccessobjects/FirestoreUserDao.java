@@ -10,7 +10,7 @@ public class FirestoreUserDao implements DaoObject<Pair> {
     }
 
     @Override
-    public void read(RecyclerView.Adapter adapter) { }
+    public void readIntoAdapter(RecyclerView.Adapter adapter) { }
 
     @Override
     public boolean update(Pair pair) {
