@@ -8,9 +8,9 @@ import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.domain.Review;
 
 public interface DaoFactory {
-    DaoObject<Review> getReviewDao();
+    DaoObject<Review> getReviewDao(int movieId);
 
-    DaoObject<Movie> getMovieDao();
+    DaoObject<Movie> getMovieDao(int movieId);
 
     DaoObject<MovieList> getListDao();
 
