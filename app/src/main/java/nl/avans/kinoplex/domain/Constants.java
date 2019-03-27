@@ -23,6 +23,11 @@ public class Constants {
     // Urls
     public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
 
+    // Collections - Firestore
+    public static final String COL_LISTS = "lists";
+    public static final String COL_MOVIES = "movies";
+    public static final String COL_GENRES = "genres";
+
     // Tags
     public static final String MOVIEDETAILCOLLECTOR_TAG = MovieDetailCollectorTaskLoader.class.getCanonicalName();
     public static final String REVIEWDETAILCOLLECTOR_TAG = ReviewDetailCollectorTaskLoader.class.getCanonicalName();
@@ -45,19 +50,19 @@ public class Constants {
     public static final String MOVIELIST_TAG = MovieList.class.getCanonicalName();
     public static final String TMDBREVIEW_TAG = TMDbReview.class.getCanonicalName();
 
-//    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
+    //    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
 //    public static final String DETAILACT_TAG = DetailActivity.class.getCanonicalName();
 //    public static final String LISTACT_TAG = ListActivity.class.getCanonicalName();
 //    public static final String LOGINACT_TAG = LoginActivity.class.getCanonicalName();
     public static final String MAINACT_TAG = MainActivity.class.getCanonicalName();
-//    public static final String REGISTERACT_TAG = RegisterActivity.class.getCanonicalName();
+    //    public static final String REGISTERACT_TAG = RegisterActivity.class.getCanonicalName();
 //    public static final String REVIEWSACT_TAG = ReviewsActivity.class.getCanonicalName();
     public static final String SEARCHACT_TAG = SearchActivity.class.getCanonicalName();
 
-//    public static final String LISTADAPT_TAG = ListActivity.class.getCanonicalName();
+    //    public static final String LISTADAPT_TAG = ListActivity.class.getCanonicalName();
     public static final String MOVIEADAPT_TAG = MovieAdapter.class.getCanonicalName();
     public static final String PARENTADAPT_TAG = ParentAdapter.class.getCanonicalName();
-//    public static final String REVIEWADAPT_TAG = ReviewAdapter.class.getCanonicalName();
+    //    public static final String REVIEWADAPT_TAG = ReviewAdapter.class.getCanonicalName();
     public static final String SEARCHADAPT_TAG = SearchAdapter.class.getCanonicalName();
 
 //    public static final String LISTVH_TAG  = ListViewHolder.class.getCanonicalName();
@@ -65,8 +70,6 @@ public class Constants {
 //    public static final String PARENTVH_TAG= ParentViewHolder.class.getCanonicalName();
 //    public static final String REVIEWVH_TAG = ReviewViewHolder.class.getCanonicalName();
 //    public static final String SEARCHVH_TAG = SearchViewHolder.class.getCanonicalName();
-
-
 
 
 }

@@ -8,6 +8,9 @@ import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.domain.Review;
 
 public class TMDbDaoFactory implements DaoFactory {
+  
+  // It's a factory, what do you think it does?
+
   @Override
   public DaoObject<Review> getReviewDao(int movieId) {
     return null;

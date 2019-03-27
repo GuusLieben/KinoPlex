@@ -16,51 +16,60 @@ import java.util.List;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 
 public class FirestoreUtils
-    extends AsyncTask<Pair<String, RecyclerView.Adapter>, Void, List<DocumentSnapshot>> {
+        extends AsyncTask<Pair<String, RecyclerView.Adapter>, Void, List<DocumentSnapshot>> {
 
-  private Object documentId;
+    private Object documentId;
 
-  public FirestoreUtils(Object documentId) {
-    this.documentId = documentId;
-  }
-
-  @Override
-  protected List<DocumentSnapshot> doInBackground(Pair<String, RecyclerView.Adapter>... data) {
-    String collection = data[0].first;
-    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    FirebaseFirestoreSettings settings =
-        new FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build();
-    firestore.setFirestoreSettings(settings);
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    System.out.println("Starting collect");
-
-    // If only the collection is requested
-    if (documentId == null) {
-      Task<QuerySnapshot> task = db.collection(collection).get();
-      task.addOnCompleteListener(
-          querySnapshotTask -> {
-            QuerySnapshot snapshot = querySnapshotTask.getResult();
-            updateAdapter(snapshot.getDocuments(), data[0].second);
-          });
-
-      // If a specific document is requested
-    } else {
-      Task<DocumentSnapshot> task = db.collection(collection).document(documentId.toString()).get();
-      task.addOnCompleteListener(
-          documentSnapshotTask -> {
-            DocumentSnapshot snapshot = documentSnapshotTask.getResult();
-            addToAdapter(snapshot, data[0].second);
-          });
+    public FirestoreUtils(Object documentId) {
+        this.documentId = documentId;
     }
-    return new ArrayList<>();
-  }
 
-  private void addToAdapter(DocumentSnapshot documentSnapshot, RecyclerView.Adapter adapter) {
-    ((AbstractAdapter) adapter).addToDataSet(documentSnapshot);
-  }
+    @SafeVarargs
+    @Override
+    protected final List<DocumentSnapshot> doInBackground(Pair<String, RecyclerView.Adapter>... data) {
+        // Get the collection name as passed to the Utility by the calling method (Constants : lists, movies, genres)
+        String collection = data[0].first;
 
-  private void updateAdapter(List<DocumentSnapshot> snapshot, RecyclerView.Adapter adapter) {
-    ((AbstractAdapter) adapter).updateDataSet(snapshot);
-  }
+        // Set up Firestore instance
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings =
+                new FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build();
+        firestore.setFirestoreSettings(settings);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // If only the collection is requested
+        if (documentId == null) {
+            // Collect the collection directly
+            Task<QuerySnapshot> task = db.collection(collection).get();
+            task.addOnCompleteListener(
+                    querySnapshotTask -> {
+                        // Swap the entire adapter once results have been gathered
+                        QuerySnapshot snapshot = querySnapshotTask.getResult();
+                        updateAdapter(snapshot.getDocuments(), data[0].second);
+                    });
+
+            // If a specific document is requested
+        } else {
+            // Collect the specific document
+            Task<DocumentSnapshot> task = db.collection(collection).document(documentId.toString()).get();
+            task.addOnCompleteListener(
+                    documentSnapshotTask -> {
+                        // Add to the adapter once results have been gathered
+                        DocumentSnapshot snapshot = documentSnapshotTask.getResult();
+                        addToAdapter(snapshot, data[0].second);
+                    });
+        }
+        // Never return null
+        return new ArrayList<>();
+    }
+
+    private void addToAdapter(DocumentSnapshot documentSnapshot, RecyclerView.Adapter adapter) {
+        // Add to the dataset, use abstracts
+        ((AbstractAdapter) adapter).addToDataSet(documentSnapshot);
+    }
+
+    private void updateAdapter(List<DocumentSnapshot> snapshot, RecyclerView.Adapter adapter) {
+        // Update the dataset, use abstracts
+        ((AbstractAdapter) adapter).updateDataSet(snapshot);
+    }
 }

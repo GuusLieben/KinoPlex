@@ -13,11 +13,13 @@ public abstract class AbstractAdapter extends RecyclerView.Adapter {
     this.dataSet = dataSet;
   }
 
+  // Replace the entire dataset (used for Collection collection)
   public void updateDataSet(List<DocumentSnapshot> dataSet) {
     this.dataSet = dataSet;
     notifyDataSetChanged();
   }
 
+  // Add to the dataset, but don't replace it (used for Document collection)
   public void addToDataSet(DocumentSnapshot documentSnapshot) {
     this.dataSet.add(documentSnapshot);
     notifyDataSetChanged();

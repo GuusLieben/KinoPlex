@@ -21,10 +21,12 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    // Load the adapters with a blank dataset.
+    // TODO : Replace blank ArrayLists with existing Datasets from Firestore (cache)
     parentAdapter = new ParentAdapter(new ArrayList<>());
-    new FirestoreDaoFactory().getListDao().readIntoAdapter(parentAdapter);
+    new FirestoreDaoFactory().getListDao().readIntoAdapter(parentAdapter); // Async
 
     movieAdapter = new MovieAdapter(new ArrayList<>());
-    new FirestoreDaoFactory().getMovieDao(550).readIntoAdapter(movieAdapter);
+    new FirestoreDaoFactory().getMovieDao(550).readIntoAdapter(movieAdapter); // Async
   }
 }
