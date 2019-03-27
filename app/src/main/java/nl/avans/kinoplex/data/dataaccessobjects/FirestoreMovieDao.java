@@ -8,21 +8,22 @@ import nl.avans.kinoplex.domain.Movie;
 
 public class FirestoreMovieDao implements DaoObject<Movie> {
 
+  private int movieId;
+
+  public FirestoreMovieDao(int movieId) {
+    this.movieId = movieId;
+  }
+
   @Override
   public boolean create(Movie movie) {
     return false;
   }
 
-  public void read(RecyclerView.Adapter adapter, int movieId) {
+  @Override
+  public void readIntoAdapter(RecyclerView.Adapter adapter) {
     FirestoreUtils firestoreUtils = new FirestoreUtils(movieId);
     //noinspection unchecked
     firestoreUtils.execute(new Pair<>("movies", adapter));
-  }
-
-  @Override
-  @Deprecated
-  public void readIntoAdapter(RecyclerView.Adapter adapter) {
-    throw new UnsupportedOperationException("This method should not be used for movie collections");
   }
 
   @Override

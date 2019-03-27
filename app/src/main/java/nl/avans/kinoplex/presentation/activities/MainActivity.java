@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
-import nl.avans.kinoplex.presentation.adapters.ListAdapter;
+import nl.avans.kinoplex.presentation.adapters.MovieAdapter;
+import nl.avans.kinoplex.presentation.adapters.ParentAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-  RecyclerView.Adapter listAdapter;
+  RecyclerView.Adapter parentAdapter;
   RecyclerView.Adapter movieAdapter;
 
   @Override
@@ -20,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    listAdapter = new ListAdapter(new ArrayList<>());
-    new FirestoreDaoFactory().getListDao().readIntoAdapter(listAdapter);
+    parentAdapter = new ParentAdapter(new ArrayList<>());
+    new FirestoreDaoFactory().getListDao().readIntoAdapter(parentAdapter);
 
-    movieAdapter = new ListAdapter(new ArrayList<>());
+    movieAdapter = new MovieAdapter(new ArrayList<>());
     new FirestoreDaoFactory().getMovieDao(550).readIntoAdapter(movieAdapter);
   }
 }

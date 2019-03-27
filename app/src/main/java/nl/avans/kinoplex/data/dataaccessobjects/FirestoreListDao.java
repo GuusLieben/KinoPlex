@@ -14,7 +14,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
 
   @Override
   public void readIntoAdapter(RecyclerView.Adapter adapter) {
-    FirestoreUtils firestoreUtils = new FirestoreUtils();
+    FirestoreUtils firestoreUtils = new FirestoreUtils(null);
     //noinspection unchecked
     firestoreUtils.execute(new Pair<>("lists", adapter));
   }
