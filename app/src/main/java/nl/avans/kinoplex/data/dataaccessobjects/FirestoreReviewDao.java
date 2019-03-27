@@ -11,7 +11,7 @@ public class FirestoreReviewDao implements DaoObject<Review> {
     }
 
     @Override
-    public void read(RecyclerView.Adapter adapter) { }
+    public void readIntoAdapter(RecyclerView.Adapter adapter) { }
 
     @Override
     public boolean update(Review review) {

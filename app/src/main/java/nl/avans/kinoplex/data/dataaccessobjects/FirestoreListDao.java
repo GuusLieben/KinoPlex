@@ -12,11 +12,8 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     return false;
   }
 
-  private volatile MovieList[] movieLists;
-
   @Override
-  public void read(RecyclerView.Adapter adapter) {
-    movieLists = null;
+  public void readIntoAdapter(RecyclerView.Adapter adapter) {
     FirestoreUtils firestoreUtils = new FirestoreUtils();
     //noinspection unchecked
     firestoreUtils.execute(new Pair<>("lists", adapter));

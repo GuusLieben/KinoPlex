@@ -4,6 +4,7 @@ import android.util.Pair;
 
 import nl.avans.kinoplex.data.dataaccessobjects.DaoObject;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
+import nl.avans.kinoplex.data.dataaccessobjects.FirestoreMovieDao;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.domain.Review;
@@ -11,13 +12,13 @@ import nl.avans.kinoplex.domain.Review;
 public class FirestoreDaoFactory implements DaoFactory {
 
   @Override
-  public DaoObject<Review> getReviewDao() {
+  public DaoObject<Review> getReviewDao(int movieId) {
     return null;
   }
 
   @Override
-  public DaoObject<Movie> getMovieDao() {
-    return null;
+  public DaoObject<Movie> getMovieDao(int movieId) {
+    return new FirestoreMovieDao();
   }
 
   @Override
