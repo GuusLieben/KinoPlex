@@ -50,4 +50,12 @@ public class Movie {
     public Date getReleaseDate() {
         return null;
     }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
 }
