@@ -6,14 +6,12 @@ import android.view.ViewGroup;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MovieAdapter extends RecyclerView.Adapter {
-  private List<DocumentSnapshot> dataSet;
+public class MovieAdapter extends AbstractAdapter {
 
-  public MovieAdapter(ArrayList<DocumentSnapshot> dataSet) {
-    this.dataSet = dataSet;
+  public MovieAdapter(List<DocumentSnapshot> dataSet) {
+    super(dataSet);
   }
 
   @NonNull
@@ -24,9 +22,4 @@ public class MovieAdapter extends RecyclerView.Adapter {
 
   @Override
   public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {}
-
-  @Override
-  public int getItemCount() {
-    return 0;
-  }
 }

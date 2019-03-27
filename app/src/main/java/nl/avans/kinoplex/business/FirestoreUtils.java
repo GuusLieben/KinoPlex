@@ -13,7 +13,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.avans.kinoplex.presentation.adapters.AdapterInterface;
+import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 
 public class FirestoreUtils
     extends AsyncTask<Pair<String, RecyclerView.Adapter>, Void, List<DocumentSnapshot>> {
@@ -57,10 +57,10 @@ public class FirestoreUtils
   }
 
   private void addToAdapter(DocumentSnapshot documentSnapshot, RecyclerView.Adapter adapter) {
-    ((AdapterInterface) adapter).addToDataSet(documentSnapshot);
+    ((AbstractAdapter) adapter).addToDataSet(documentSnapshot);
   }
 
   private void updateAdapter(List<DocumentSnapshot> snapshot, RecyclerView.Adapter adapter) {
-    ((AdapterInterface) adapter).updateDataSet(snapshot);
+    ((AbstractAdapter) adapter).updateDataSet(snapshot);
   }
 }

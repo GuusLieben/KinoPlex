@@ -8,39 +8,27 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;
 
-public class ParentAdapter extends RecyclerView.Adapter implements AdapterInterface {
+public class ParentAdapter extends AbstractAdapter {
 
-    private List<DocumentSnapshot> dataSet;
+  public ParentAdapter(List<DocumentSnapshot> dataSet) {
+    super(dataSet);
+  }
 
-    public ParentAdapter(List<DocumentSnapshot> dataSet) {
-        this.dataSet = dataSet;
-    }
+  @NonNull
+  @Override
+  public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    return null;
+  }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return null;
-    }
+  @Override
+  public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    DocumentSnapshot documentSnapshot = getDataSet().get(i);
+    String name = documentSnapshot.getString("name");
+    Object[] movieIds = (Object[]) documentSnapshot.get("movies");
+  }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        DocumentSnapshot documentSnapshot = dataSet.get(i);
-        String name = documentSnapshot.getString("name");
-        Object[] movieIds = (Object[]) documentSnapshot.get("movies");
-    }
-
-    public void updateDataSet(List<DocumentSnapshot> dataSet) {
-        this.dataSet = dataSet;
-        notifyDataSetChanged();
-    }
-
-    public void addToDataSet(DocumentSnapshot documentSnapshot) {
-        this.dataSet.add(documentSnapshot);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
+  @Override
+  public int getItemCount() {
+    return getDataSet().size();
+  }
 }
