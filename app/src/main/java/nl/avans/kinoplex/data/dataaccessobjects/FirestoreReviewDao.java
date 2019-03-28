@@ -1,17 +1,32 @@
 package nl.avans.kinoplex.data.dataaccessobjects;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 
+import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.domain.Review;
 
 public class FirestoreReviewDao implements DaoObject<Review> {
+
+    private int movieId;
+
+    public FirestoreReviewDao(int movieId) {
+        this.movieId = movieId;
+    }
+
     @Override
     public boolean create(Review review) {
         return false;
     }
 
     @Override
-    public void readIntoAdapter(RecyclerView.Adapter adapter) { }
+    public void readIntoAdapter(RecyclerView.Adapter adapter) {
+        // Create a document FirestoreUtils instance
+        FirestoreUtils firestoreUtils = new FirestoreUtils(movieId);
+        // Start the task to fill the given adapter
+        //noinspection unchecked
+        firestoreUtils.execute(new Pair<>("reviews", adapter));
+    }
 
     @Override
     public boolean update(Review review) {
