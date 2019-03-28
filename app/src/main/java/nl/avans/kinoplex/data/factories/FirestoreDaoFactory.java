@@ -17,7 +17,7 @@ public class FirestoreDaoFactory implements DaoFactory {
 
     @Override
     public DaoObject<Review> getReviewDao(int movieId) {
-        return new FirestoreReviewDao();
+        return new FirestoreReviewDao(movieId);
     }
 
     @Override
