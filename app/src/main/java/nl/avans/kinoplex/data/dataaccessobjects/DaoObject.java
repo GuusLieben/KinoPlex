@@ -1,5 +1,7 @@
 package nl.avans.kinoplex.data.dataaccessobjects;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 
 public interface DaoObject<T> {
@@ -7,6 +9,8 @@ public interface DaoObject<T> {
   boolean create(T t);
 
   void readIntoAdapter(RecyclerView.Adapter adapter);
+
+  void readIntoIntent(Intent intent, Context context);
 
   void readAll(RecyclerView.Adapter adapter);
 

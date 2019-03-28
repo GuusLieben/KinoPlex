@@ -1,9 +1,10 @@
 package nl.avans.kinoplex.business.firestoreutils;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import java.util.List;
 
@@ -13,21 +14,13 @@ import nl.avans.kinoplex.presentation.viewholders.AbstractViewHolder;
 
 public class FirestoreUtils {
 
-  private Object documentId;
-
-  public FirestoreUtils(Object documentId) {
-    this.documentId = documentId;
-  }
-
-  public void writeToFirestore(String collection, DomainObject obj) {
-    FirestoreWrite firestoreWrite = new FirestoreWrite();
-    firestoreWrite.execute(collection, obj.storeToMap());
-  }
-
-  public void readIntoAdapter(Pair<String, RecyclerView.Adapter> adapterPair) {
-    FirestoreRead firestoreRead = new FirestoreRead(documentId);
-    //noinspection unchecked
-    firestoreRead.execute(adapterPair);
+  public static FirebaseFirestore getInstance() {
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    FirebaseFirestoreSettings settings =
+        new FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build();
+    firestore.setFirestoreSettings(settings);
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    return db;
   }
 
   public static void addToAdapter(DocumentSnapshot documentSnapshot, RecyclerView.Adapter adapter) {
@@ -35,7 +28,7 @@ public class FirestoreUtils {
     ((AbstractAdapter<AbstractViewHolder>) adapter).addToDataSet(documentSnapshot);
   }
 
-  public static void updateAdapter(List<DocumentSnapshot> snapshot, RecyclerView.Adapter adapter) {
+  public static void updateAdapter(List<DomainObject> snapshot, RecyclerView.Adapter adapter) {
     // Update the dataset, use abstracts
     ((AbstractAdapter<AbstractViewHolder>) adapter).updateDataSet(snapshot);
   }

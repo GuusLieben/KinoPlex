@@ -11,11 +11,21 @@ public class MovieList extends DomainObject {
   private List<Movie> movieList;
   private static Set<MovieList> listSet = new LinkedHashSet<>();
   private String name;
-  private String userId;
+  private String dbId;
+  private int userId;
 
-  public MovieList(String name) {
+  public MovieList(String name, int userId) {
     this.name = name;
+    this.userId = userId;
     movieList = new ArrayList<>();
+  }
+
+  public String getDbId() {
+    return dbId;
+  }
+
+  public void setDbId(String dbId) {
+    this.dbId = dbId;
   }
 
   public void addMovie(Movie movie) {
@@ -43,6 +53,8 @@ public class MovieList extends DomainObject {
         Object[] movies = movieList.toArray(new Object[0]);
         put("name", name);
         put("movies", movies);
+        put("id", dbId);
+        put("user_id", userId);
       }
     };
   }
