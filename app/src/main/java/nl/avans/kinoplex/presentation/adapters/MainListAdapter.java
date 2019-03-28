@@ -25,7 +25,9 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
 
   @Override
   public void onBindViewHolder(@NonNull MainListViewHolder mainListViewHolder, int i) {
-
+    DocumentSnapshot documentSnapshot = getDataSet().get(i);
+    String name = documentSnapshot.getString("name");
+    Object[] movieIds = (Object[]) documentSnapshot.get("movies");
   }
 
   @Override
