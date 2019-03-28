@@ -8,7 +8,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;
 
-public class MovieAdapter extends AbstractAdapter {
+import nl.avans.kinoplex.presentation.viewholders.AbstractViewHolder;
+
+public class MovieAdapter extends AbstractAdapter<AbstractViewHolder> {
 
   public MovieAdapter(List<DocumentSnapshot> dataSet) {
     super(dataSet);
