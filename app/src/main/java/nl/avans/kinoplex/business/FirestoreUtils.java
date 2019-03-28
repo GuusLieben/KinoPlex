@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
+import nl.avans.kinoplex.presentation.viewholders.AbstractViewHolder;
 
 public class FirestoreUtils
         extends AsyncTask<Pair<String, RecyclerView.Adapter>, Void, List<DocumentSnapshot>> {
@@ -65,11 +66,11 @@ public class FirestoreUtils
 
     private void addToAdapter(DocumentSnapshot documentSnapshot, RecyclerView.Adapter adapter) {
         // Add to the dataset, use abstracts
-        ((AbstractAdapter) adapter).addToDataSet(documentSnapshot);
+        ((AbstractAdapter<AbstractViewHolder>) adapter).addToDataSet(documentSnapshot);
     }
 
     private void updateAdapter(List<DocumentSnapshot> snapshot, RecyclerView.Adapter adapter) {
         // Update the dataset, use abstracts
-        ((AbstractAdapter) adapter).updateDataSet(snapshot);
+        ((AbstractAdapter<AbstractViewHolder>) adapter).updateDataSet(snapshot);
     }
 }

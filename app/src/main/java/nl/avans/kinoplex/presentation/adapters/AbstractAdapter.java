@@ -6,7 +6,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;
 
-public abstract class AbstractAdapter extends RecyclerView.Adapter {
+import nl.avans.kinoplex.presentation.viewholders.AbstractViewHolder;
+
+public abstract class AbstractAdapter<M extends AbstractViewHolder> extends RecyclerView.Adapter<M> {
   private List<DocumentSnapshot> dataSet;
 
   public AbstractAdapter(List<DocumentSnapshot> dataSet) {

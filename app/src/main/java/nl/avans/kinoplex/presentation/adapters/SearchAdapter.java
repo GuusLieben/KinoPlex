@@ -1,39 +1,48 @@
 package nl.avans.kinoplex.presentation.adapters;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.domain.Movie;
+import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
 
-public class SearchAdapter extends RecyclerView.Adapter implements Filterable {
-    private List<Movie> movieList;
-    private List<Movie> movieListFull;
 
-    public SearchAdapter(List<Movie> movieList) {
-        this.movieList = movieList;
-        movieListFull = new ArrayList<>(movieList);
+public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements Filterable {
+
+    public SearchAdapter(List<DocumentSnapshot> dataSet) {
+        super(dataSet);
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return null;
+    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_row,
+                viewGroup, false);
+        return new MovieViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull MovieViewHolder viewHolder, int position) {
+        DocumentSnapshot currentMovie = getDataSet().get(position);
 
+        // viewHolder.moviePoster.setImageResource(currentMovie.getPosterPath()); // glide or picasso
+        viewHolder.getMovieTitle().setText(currentMovie.getString("title"));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return getDataSet().size();
     }
 
     @Override
@@ -44,16 +53,16 @@ public class SearchAdapter extends RecyclerView.Adapter implements Filterable {
     private Filter movieFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Movie> filteredList = new ArrayList<>();
+            List<DocumentSnapshot> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(movieListFull);
+                filteredList.addAll(getDataSet());
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (Movie movie : movieListFull) {
-                    if (movie.getTitle().toLowerCase().contains(filterPattern)) {
-                        movieListFull.add(movie);
+                for (DocumentSnapshot snapshot : getDataSet()) {
+                    if (snapshot.getString("title").toLowerCase().contains(filterPattern)) {
+                        filteredList.add(snapshot);
                     }
                 }
             }
@@ -65,8 +74,7 @@ public class SearchAdapter extends RecyclerView.Adapter implements Filterable {
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            movieList.clear();
-            movieList.addAll((List) filterResults.values);
+            updateDataSet((List) filterResults.values);
             notifyDataSetChanged();
         }
     };

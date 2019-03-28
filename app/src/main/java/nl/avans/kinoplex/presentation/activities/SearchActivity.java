@@ -8,28 +8,28 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.factories.DaoFactory;
+import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
 
 public class SearchActivity extends TaskLoaderActivity {
     private SearchAdapter adapter;
-    private List<Movie> movieList;
-
-    public SearchActivity(List<Movie> movieList) {
-        this.movieList = movieList;
-    }
+    private DaoFactory daoFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        daoFactory = new FirestoreDaoFactory();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview_movie_filter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        adapter = new SearchAdapter(movieList);
+        adapter = new SearchAdapter(new ArrayList<>());
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
