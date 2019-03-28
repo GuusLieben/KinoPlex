@@ -28,6 +28,11 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
     firestoreUtils.readIntoAdapter(new Pair<>("movies", adapter));
   }
 
+  public void readAll(RecyclerView.Adapter adapter) {
+    FirestoreUtils firestoreUtils = new FirestoreUtils(null);
+    firestoreUtils.readIntoAdapter(new Pair<>("movies", adapter));
+  }
+
   @Override
   public boolean update(Movie movie) {
     return false;
