@@ -3,7 +3,7 @@ package nl.avans.kinoplex.data.dataaccessobjects;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 
-import nl.avans.kinoplex.business.FirestoreUtils;
+import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
 import nl.avans.kinoplex.domain.Review;
 
 public class FirestoreReviewDao implements DaoObject<Review> {

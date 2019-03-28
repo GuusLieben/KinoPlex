@@ -3,7 +3,7 @@ package nl.avans.kinoplex.data.dataaccessobjects;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 
-import nl.avans.kinoplex.business.FirestoreUtils;
+import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
 import nl.avans.kinoplex.domain.Movie;
 
 public class FirestoreMovieDao implements DaoObject<Movie> {
@@ -25,7 +25,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
     FirestoreUtils firestoreUtils = new FirestoreUtils(movieId);
     // Start the task to fill the given adapter
     //noinspection unchecked
-    firestoreUtils.execute(new Pair<>("movies", adapter));
+    firestoreUtils.readIntoAdapter(new Pair<>("movies", adapter));
   }
 
   @Override

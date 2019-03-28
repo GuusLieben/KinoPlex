@@ -1,6 +1,6 @@
 package nl.avans.kinoplex.domain;
 
-import nl.avans.kinoplex.business.FirestoreUtils;
+import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
 import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.business.taskloaders.ApiCollectorTaskLoader;
 import nl.avans.kinoplex.business.taskloaders.ApiSearchTaskLoader;

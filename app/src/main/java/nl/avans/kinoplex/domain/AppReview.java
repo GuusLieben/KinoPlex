@@ -1,48 +1,63 @@
 package nl.avans.kinoplex.domain;
 
-public class AppReview implements Review {
+import java.util.HashMap;
+import java.util.Map;
 
-    String id;
-    String userId;
-    String content;
-    int rating;
+public class AppReview extends DomainObject implements Review {
 
-    public AppReview(String id, String userId, String content, int rating) {
-        this.id = id;
-        this.userId = userId;
-        this.content = content;
-        this.rating = rating;
-    }
+  String id;
+  String userId;
+  String content;
+  int rating;
 
-    public String getId() {
-        return id;
-    }
+  public AppReview(String id, String userId, String content, int rating) {
+    this.id = id;
+    this.userId = userId;
+    this.content = content;
+    this.rating = rating;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getUserId() {
-        return userId;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+  public String getUserId() {
+    return userId;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public int getRating() {
-        return rating;
-    }
+  public void setContent(String content) {
+    this.content = content;
+  }
 
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
+  public int getRating() {
+    return rating;
+  }
+
+  public void setRating(int rating) {
+    this.rating = rating;
+  }
+
+  @Override
+  public Map<String, Object> storeToMap() {
+    return new HashMap<String, Object>() {
+      {
+        put("id", id);
+        put("user_id", userId);
+        put("content", content);
+        put("rating", rating);
+      }
+    };
+  }
 }

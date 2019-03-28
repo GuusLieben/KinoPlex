@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 
 import nl.avans.kinoplex.R;
-import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
+import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.presentation.adapters.MovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.ParentAdapter;
 
@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
     // Load the adapters with a blank dataset.
     // TODO : Replace blank ArrayLists with existing Datasets from Firestore (cache)
     parentAdapter = new ParentAdapter(new ArrayList<>());
-    new FirestoreDaoFactory().getListDao().readIntoAdapter(parentAdapter); // Async
+    DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
 
     movieAdapter = new MovieAdapter(new ArrayList<>());
-    new FirestoreDaoFactory().getMovieDao(550).readIntoAdapter(movieAdapter); // Async
+    DataMigration.getFactory().getMovieDao(550).readIntoAdapter(movieAdapter); // Async
   }
 }
