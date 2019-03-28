@@ -8,6 +8,8 @@ public interface DaoObject<T> {
 
   void readIntoAdapter(RecyclerView.Adapter adapter);
 
+  void readAll(RecyclerView.Adapter adapter);
+
   boolean update(T t);
 
   boolean delete(T t);
