@@ -30,6 +30,11 @@ public class FirestoreReviewDao implements DaoObject<Review> {
     }
 
     @Override
+    public void readAll(RecyclerView.Adapter adapter) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public boolean update(Review review) {
         return false;
     }

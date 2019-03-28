@@ -25,6 +25,11 @@ public class FirestoreListDao implements DaoObject<MovieList> {
   }
 
   @Override
+  public void readAll(RecyclerView.Adapter adapter) {
+    readIntoAdapter(adapter);
+  }
+
+  @Override
   public boolean update(MovieList movieList) {
     return false;
   }
