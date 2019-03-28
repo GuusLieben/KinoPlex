@@ -9,24 +9,23 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.List;
 
 import nl.avans.kinoplex.presentation.viewholders.AbstractViewHolder;
+import nl.avans.kinoplex.presentation.viewholders.MainListViewHolder;
 
-public class ParentAdapter extends AbstractAdapter<AbstractViewHolder> {
+public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
 
-  public ParentAdapter(List<DocumentSnapshot> dataSet) {
+  public MainListAdapter(List<DocumentSnapshot> dataSet) {
     super(dataSet);
   }
 
   @NonNull
   @Override
-  public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+  public MainListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
     return null;
   }
 
   @Override
-  public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-    DocumentSnapshot documentSnapshot = getDataSet().get(i);
-    String name = documentSnapshot.getString("name");
-    Object[] movieIds = (Object[]) documentSnapshot.get("movies");
+  public void onBindViewHolder(@NonNull MainListViewHolder mainListViewHolder, int i) {
+
   }
 
   @Override

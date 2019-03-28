@@ -15,7 +15,7 @@ import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
 import nl.avans.kinoplex.presentation.activities.SearchActivity;
 import nl.avans.kinoplex.presentation.adapters.MovieAdapter;
-import nl.avans.kinoplex.presentation.adapters.ParentAdapter;
+import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
 
 public class Constants {
@@ -61,7 +61,7 @@ public class Constants {
 
     //    public static final String LISTADAPT_TAG = ListActivity.class.getCanonicalName();
     public static final String MOVIEADAPT_TAG = MovieAdapter.class.getCanonicalName();
-    public static final String PARENTADAPT_TAG = ParentAdapter.class.getCanonicalName();
+    public static final String PARENTADAPT_TAG = MainListAdapter.class.getCanonicalName();
     //    public static final String REVIEWADAPT_TAG = ReviewAdapter.class.getCanonicalName();
     public static final String SEARCHADAPT_TAG = SearchAdapter.class.getCanonicalName();
 
