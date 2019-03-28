@@ -23,9 +23,10 @@ public class FirestoreReviewDao implements DaoObject<Review> {
     public void readIntoAdapter(RecyclerView.Adapter adapter) {
         // Create a document FirestoreUtils instance
         FirestoreUtils firestoreUtils = new FirestoreUtils(movieId);
+
         // Start the task to fill the given adapter
         //noinspection unchecked
-        firestoreUtils.execute(new Pair<>("reviews", adapter));
+        firestoreUtils.readIntoAdapter(new Pair<>("reviews", adapter));
     }
 
     @Override
