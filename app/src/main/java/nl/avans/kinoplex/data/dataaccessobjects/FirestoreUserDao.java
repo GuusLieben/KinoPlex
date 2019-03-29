@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
+import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.domain.Constants;
 
 public class FirestoreUserDao implements DaoObject<Pair> {
