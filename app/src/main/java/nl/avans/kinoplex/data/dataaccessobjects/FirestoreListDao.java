@@ -28,88 +28,87 @@ import static android.content.ContentValues.TAG;
 
 public class FirestoreListDao implements DaoObject<MovieList> {
 
-  private FirebaseFirestore db;
+    private FirebaseFirestore db;
 
-  public FirestoreListDao() {
-    db = FirestoreUtils.getInstance();
-  }
-
-  @Override
-  public boolean create(MovieList movieList) {
-    DocumentReference ref = db.collection(Constants.COL_LISTS).document();
-    db.collection(Constants.COL_LISTS)
-        .document(ref.getId())
-        .set(movieList.storeToMap())
-        .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
-        .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
-    return true;
-  }
-
-  @Override
-  public void readIntoAdapter(RecyclerView.Adapter adapter) {
-    Task<QuerySnapshot> task = db.collection(Constants.COL_LISTS).get();
-    task.addOnCompleteListener(
-        querySnapshotTask -> {
-          QuerySnapshot snapshot = querySnapshotTask.getResult();
-          List<DomainObject> movieLists = new ArrayList<>();
-          for (Iterator<QueryDocumentSnapshot> iterator = snapshot.iterator();
-              iterator.hasNext(); ) {
-            QueryDocumentSnapshot documentSnapshot = iterator.next();
-
-            String name = documentSnapshot.getString("name");
-            int userId =
-                Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString("user_id")));
-            MovieList list = new MovieList(name, userId);
-
-            list.setDbId(documentSnapshot.getId());
-            Map<String, Object> movieIds = (Map<String, Object>) documentSnapshot.get("movies");
-
-            for (Map.Entry<String, Object> movieId : movieIds.entrySet())
-              ((FirestoreMovieDao)
-                      DataMigration.getFactory().getMovieDao((Integer) movieId.getValue()))
-                  .readIntoList(list);
-            movieLists.add(list);
-          }
-          ((AbstractAdapter) adapter).updateDataSet(movieLists);
-        });
-  }
-
-  @Override
-  public void readIntoIntent(Intent intent, Context context, Object id) {
-    throw new UnsupportedOperationException();
-    // TODO : Make this work
-  }
-
-  @Override
-  public void readAll(RecyclerView.Adapter adapter) {
-    readIntoAdapter(adapter);
-  }
-
-  @Override
-  public boolean update(MovieList movieList) {
-    if (movieList.getDbId() == null) {
-      DocumentReference ref = db.collection(Constants.COL_LISTS).document();
-      movieList.setDbId(ref.getId());
+    public FirestoreListDao() {
+        db = FirestoreUtils.getInstance();
     }
-    db.collection(Constants.COL_LISTS)
-        .document(movieList.getDbId())
-        .set(movieList.storeToMap())
-        .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
-        .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
-    return true;
-  }
 
-  @Override
-  public boolean delete(MovieList movieList) {
-    if (movieList.getDbId() == null) {
-      DocumentReference ref = db.collection(Constants.COL_LISTS).document();
-      movieList.setDbId(ref.getId());
+    @Override
+    public boolean create(MovieList movieList) {
+        DocumentReference ref = db.collection(Constants.COL_LISTS).document();
+        db.collection(Constants.COL_LISTS)
+                .document(ref.getId())
+                .set(movieList.storeToMap())
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+        return true;
     }
-    db.collection(Constants.COL_LISTS)
-        .document(movieList.getDbId())
-        .delete()
-        .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
-        .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
-    return true;
-  }
+
+    @Override
+    public void readIntoAdapter(RecyclerView.Adapter adapter) {
+        Task<QuerySnapshot> task = db.collection(Constants.COL_LISTS).get();
+        task.addOnCompleteListener(
+                querySnapshotTask -> {
+                    QuerySnapshot snapshot = querySnapshotTask.getResult();
+                    List<DomainObject> movieLists = new ArrayList<>();
+                    for (Iterator<QueryDocumentSnapshot> iterator = snapshot.iterator();
+                         iterator.hasNext(); ) {
+                        QueryDocumentSnapshot documentSnapshot = iterator.next();
+
+                        String name = documentSnapshot.getString("name");
+                        String userId = Objects.requireNonNull(documentSnapshot.get("user_id")).toString();
+                        MovieList list = new MovieList(name, Integer.parseInt(userId));
+
+                        list.setDbId(documentSnapshot.getId());
+                        Map<String, Object> movieIds = (Map<String, Object>) documentSnapshot.get("movies");
+
+                        for (Map.Entry<String, Object> movieId : movieIds.entrySet())
+                            ((FirestoreMovieDao)
+                                    DataMigration.getFactory().getMovieDao((Integer) movieId.getValue()))
+                                    .readIntoList(list);
+                        movieLists.add(list);
+                    }
+                    ((AbstractAdapter) adapter).updateDataSet(movieLists);
+                });
+    }
+
+    @Override
+    public void readIntoIntent(Intent intent, Context context, Object id) {
+        throw new UnsupportedOperationException();
+        // TODO : Make this work
+    }
+
+    @Override
+    public void readAll(RecyclerView.Adapter adapter) {
+        readIntoAdapter(adapter);
+    }
+
+    @Override
+    public boolean update(MovieList movieList) {
+        if (movieList.getDbId() == null) {
+            DocumentReference ref = db.collection(Constants.COL_LISTS).document();
+            movieList.setDbId(ref.getId());
+        }
+        db.collection(Constants.COL_LISTS)
+                .document(movieList.getDbId())
+                .set(movieList.storeToMap())
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+        return true;
+    }
+
+    @Override
+    public boolean delete(MovieList movieList) {
+        if (movieList.getDbId() == null) {
+            DocumentReference ref = db.collection(Constants.COL_LISTS).document();
+            movieList.setDbId(ref.getId());
+        }
+        db.collection(Constants.COL_LISTS)
+                .document(movieList.getDbId())
+                .delete()
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+        return true;
+    }
 }

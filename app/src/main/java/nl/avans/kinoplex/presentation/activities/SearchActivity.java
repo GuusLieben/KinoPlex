@@ -13,19 +13,19 @@ import java.util.List;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.factories.DaoFactory;
+import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
 
 public class SearchActivity extends TaskLoaderActivity {
     private SearchAdapter adapter;
-    private DaoFactory daoFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        daoFactory = new FirestoreDaoFactory();
+        DataMigration.getFactory().getMovieDao(0).readAll(adapter);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.searchactivity_layout);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview_movie_filter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
