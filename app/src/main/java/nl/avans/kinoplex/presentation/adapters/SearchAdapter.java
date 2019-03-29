@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,9 +14,9 @@ import java.util.Objects;
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
-import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
+import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
-public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements Filterable {
+public class SearchAdapter extends AbstractAdapter<MainMovieViewHolder> implements Filterable {
 
   public SearchAdapter(List<DomainObject> dataSet) {
     super(dataSet);
@@ -26,14 +24,14 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
 
   @NonNull
   @Override
-  public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+  public MainMovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
     View v =
         LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_row, viewGroup, false);
-    return new MovieViewHolder(v);
+    return new MainMovieViewHolder(v);
   }
 
   @Override
-  public void onBindViewHolder(@NonNull MovieViewHolder viewHolder, int position) {
+  public void onBindViewHolder(@NonNull MainMovieViewHolder viewHolder, int position) {
     DomainObject currentMovie = (Movie) getDataSet().get(position);
 
     // viewHolder.moviePoster.setImageResource(currentMovie.getPosterPath()); // glide or picasso

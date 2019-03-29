@@ -4,4 +4,6 @@
 
     <string name="contentDescription" translatable="false">Image</string>
     <string name="showReviews">Show Reviews</string>
+
+    <string name="seeAll">SEE ALL</string>
 </resources>

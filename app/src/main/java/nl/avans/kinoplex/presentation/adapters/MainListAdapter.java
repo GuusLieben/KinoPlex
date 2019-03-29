@@ -32,8 +32,8 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
     LayoutInflater inflater = LayoutInflater.from(context);
 
     View view = inflater.inflate(layoutIdForMovieList, viewGroup, false);
-    MainListViewHolder viewHolder = new MainListViewHolder(view);
-    return viewHolder;
+
+    return new MainListViewHolder(view);
   }
 
   @Override

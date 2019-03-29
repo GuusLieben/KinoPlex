@@ -8,8 +8,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +15,11 @@ import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.business.taskloaders.ApiCollectorTaskLoader;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.DomainObject;
-import nl.avans.kinoplex.presentation.adapters.MovieAdapter;
+import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<DomainObject>> {
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<List<DomainObject>> {
 
   private MainListAdapter parentAdapter;
   RecyclerView.Adapter movieAdapter;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     mainRecyclerView.setAdapter(parentAdapter);
 
     // TODO :: set in the parentAdapter.viewHolder the movieAdapter to the recyclerview of that list_item
-    movieAdapter = new MovieAdapter(new ArrayList<>());
+    movieAdapter = new MainMovieAdapter(new ArrayList<>());
     DataMigration.getFactory().getMovieDao(550).readIntoAdapter(movieAdapter); // Async
   }
 
