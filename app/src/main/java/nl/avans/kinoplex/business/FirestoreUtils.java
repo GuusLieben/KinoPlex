@@ -1,4 +1,4 @@
-package nl.avans.kinoplex.business.firestoreutils;
+package nl.avans.kinoplex.business;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;

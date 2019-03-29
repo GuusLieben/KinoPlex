@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
+import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;

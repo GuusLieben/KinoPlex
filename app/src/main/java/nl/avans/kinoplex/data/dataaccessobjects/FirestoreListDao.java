@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
+import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
@@ -62,7 +62,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
             list.setDbId(documentSnapshot.getId());
             List<Object> movieIds = (List<Object>) documentSnapshot.get("movies");
 
-            for (Object movieId : movieIds)
+            for (Object movieId : Objects.requireNonNull(movieIds))
               ((FirestoreMovieDao)
                       DataMigration.getFactory().getMovieDao(((Long) movieId).intValue()))
                   .readIntoList(list);
