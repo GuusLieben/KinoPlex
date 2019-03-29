@@ -26,7 +26,7 @@ public class JsonUtils<T> {
     return new Gson().fromJson(json, t);
   }
 
-  static JSONObject getJSONObjectFromUrl(Uri uri) {
+  public static JSONObject getJSONObjectFromUrl(Uri uri) {
     URLConnection connection;
     BufferedReader reader = null;
     try {
