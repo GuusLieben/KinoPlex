@@ -14,7 +14,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
@@ -57,16 +56,15 @@ public class FirestoreListDao implements DaoObject<MovieList> {
             QueryDocumentSnapshot documentSnapshot = iterator.next();
 
             String name = documentSnapshot.getString("name");
-            int userId =
-                Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString("user_id")));
-            MovieList list = new MovieList(name, userId);
+            String userId = Objects.requireNonNull(documentSnapshot.get("user_id")).toString();
+            MovieList list = new MovieList(name, Integer.parseInt(userId));
 
             list.setDbId(documentSnapshot.getId());
-            Map<String, Object> movieIds = (Map<String, Object>) documentSnapshot.get("movies");
+            List<Object> movieIds = (List<Object>) documentSnapshot.get("movies");
 
-            for (Map.Entry<String, Object> movieId : movieIds.entrySet())
+            for (Object movieId : movieIds)
               ((FirestoreMovieDao)
-                      DataMigration.getFactory().getMovieDao((Integer) movieId.getValue()))
+                      DataMigration.getFactory().getMovieDao(((Long) movieId).intValue()))
                   .readIntoList(list);
             movieLists.add(list);
           }

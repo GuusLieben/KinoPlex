@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.data.dataaccessobjects;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
 import nl.avans.kinoplex.domain.Constants;
@@ -59,15 +61,17 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
 
   private Movie getMovieFromSnapshot(DocumentSnapshot documentSnapshot) {
     try {
+      System.out.println(documentSnapshot.getData());
       String title = documentSnapshot.getString("title");
       int id = Integer.parseInt(documentSnapshot.getId());
-      int runtime = (int) documentSnapshot.get("runtime");
+      int runtime = ((Long) Objects.requireNonNull(documentSnapshot.get("runtime"))).intValue();
       String uriString = documentSnapshot.getString("poster_path");
       Uri posterPath = Uri.parse(uriString);
       String tag = documentSnapshot.getString("tagline");
       String language = documentSnapshot.getString("language");
       String overview = documentSnapshot.getString("overview");
-      DateFormat dateFormat = SimpleDateFormat.getDateInstance();
+      @SuppressLint("SimpleDateFormat")
+      DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
       String value = documentSnapshot.getString("release_date");
 
       Date releaseDate = dateFormat.parse(value);
