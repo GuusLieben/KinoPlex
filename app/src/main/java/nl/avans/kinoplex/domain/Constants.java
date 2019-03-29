@@ -2,10 +2,6 @@ package nl.avans.kinoplex.domain;
 
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.business.JsonUtils;
-import nl.avans.kinoplex.business.taskloaders.ApiCollectorTaskLoader;
-import nl.avans.kinoplex.business.taskloaders.ApiSearchTaskLoader;
-import nl.avans.kinoplex.business.taskloaders.MovieDetailCollectorTaskLoader;
-import nl.avans.kinoplex.business.taskloaders.ReviewDetailCollectorTaskLoader;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreMovieDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
@@ -14,14 +10,16 @@ import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
 import nl.avans.kinoplex.presentation.activities.SearchActivity;
-import nl.avans.kinoplex.presentation.adapters.MovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
+import nl.avans.kinoplex.presentation.adapters.MovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
 
 public class Constants {
 
     // Urls
-    public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+    public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+    public static final String API_KEY = "fe324f20d33c7b7991dbbd8bdb4b7413";
+    public static final String MOVIE_API_URL = "https://api.themoviedb.org/3/movie/";
 
     // Collections - Firestore
     public static final String COL_LISTS = "lists";
@@ -29,12 +27,6 @@ public class Constants {
     public static final String COL_GENRES = "genres";
     public static final String COL_REVIEWS = "reviews";
     public static final String COL_USERS = "users";
-
-    // Tags
-    public static final String MOVIEDETAILCOLLECTOR_TAG = MovieDetailCollectorTaskLoader.class.getCanonicalName();
-    public static final String REVIEWDETAILCOLLECTOR_TAG = ReviewDetailCollectorTaskLoader.class.getCanonicalName();
-    public static final String APICOLLECTOR_TAG = ApiCollectorTaskLoader.class.getCanonicalName();
-    public static final String APISEARCH_TAG = ApiSearchTaskLoader.class.getCanonicalName();
 
     public static final String FIRESTOREUTILS_TAG = FirestoreUtils.class.getCanonicalName();
     public static final String JSONUTILS_TAG = JsonUtils.class.getCanonicalName();
