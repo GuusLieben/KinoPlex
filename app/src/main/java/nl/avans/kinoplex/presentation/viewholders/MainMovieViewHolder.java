@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.presentation.viewholders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.Rating;
 import android.support.annotation.NonNull;
@@ -12,8 +13,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
+import nl.avans.kinoplex.presentation.activities.DetailActivity;
+import nl.avans.kinoplex.presentation.activities.MainActivity;
 
 import static nl.avans.kinoplex.domain.Constants.INTENT_EXTRA_MOVIEID;
 import static nl.avans.kinoplex.domain.Constants.MAINMOVIEVH_TAG;
@@ -30,10 +34,14 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
     private TextView movieTitle;
     private RatingBar movieRating;
 
+    Context context;
+
     private Movie movie;
 
     public MainMovieViewHolder(@NonNull View itemView) {
         super(itemView);
+
+        this.context = itemView.getContext();
 
         Log.d(MAINMOVIEVH_TAG, "MainMovieViewHolder was created");
 
@@ -64,8 +72,8 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
     public void onClick(View v) {
         Log.d(MAINMOVIEVH_TAG, "User clicked on MainMovieViewHolder");
 
-        Intent detailIntent = new Intent();
-        detailIntent.putExtra(INTENT_EXTRA_MOVIEID, movie.getId());
-        v.getContext().startActivity(detailIntent);
+        Intent detailIntent = new Intent(context, DetailActivity.class);
+        DataMigration.getFactory().getMovieDao().readIntoIntent(detailIntent, context, "550");
+
     }
 }

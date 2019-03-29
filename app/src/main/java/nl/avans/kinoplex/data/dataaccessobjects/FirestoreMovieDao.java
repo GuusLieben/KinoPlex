@@ -112,7 +112,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
             documentSnapshot -> {
               Movie movie = getMovieFromSnapshot(documentSnapshot);
               String movieJson = new Gson().toJson(movie);
-              intent.putExtra("movieJson", movieJson);
+              intent.putExtra(Constants.INTENT_EXTRA_MOVIE_JSON, movieJson);
               context.startActivity(intent);
             });
   }

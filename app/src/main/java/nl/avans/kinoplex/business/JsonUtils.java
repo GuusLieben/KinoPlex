@@ -17,6 +17,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import nl.avans.kinoplex.domain.Constants;
+import nl.avans.kinoplex.domain.Movie;
 
 public class JsonUtils<T> {
 
