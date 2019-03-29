@@ -10,7 +10,7 @@ public interface DaoObject<T> {
 
   void readIntoAdapter(RecyclerView.Adapter adapter);
 
-  void readIntoIntent(Intent intent, Context context);
+  void readIntoIntent(Intent intent, Context context, Object id);
 
   void readAll(RecyclerView.Adapter adapter);
 

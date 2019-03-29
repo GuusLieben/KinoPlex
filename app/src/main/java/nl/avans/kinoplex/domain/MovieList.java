@@ -47,6 +47,11 @@ public class MovieList extends DomainObject {
   }
 
   @Override
+  public String getId() {
+    return dbId;
+  }
+
+  @Override
   public Map<String, Object> storeToMap() {
     return new HashMap<String, Object>() {
       {

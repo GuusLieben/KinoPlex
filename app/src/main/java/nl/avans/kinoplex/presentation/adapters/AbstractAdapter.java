@@ -22,8 +22,8 @@ public abstract class AbstractAdapter<M extends AbstractViewHolder>
   }
 
   // Add to the dataset, but don't replace it (used for Document collection)
-  public void addToDataSet(DomainObject documentSnapshot) {
-    this.dataSet.add(documentSnapshot);
+  public void addToDataSet(DomainObject domainObject) {
+    this.dataSet.add(domainObject);
     notifyDataSetChanged();
   }
 

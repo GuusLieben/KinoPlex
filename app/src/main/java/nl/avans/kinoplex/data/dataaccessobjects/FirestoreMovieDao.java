@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -99,20 +100,35 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
   }
 
   @Override
-  public void readIntoIntent(Intent intent, Context context) {
-
-    context.startActivity(intent);
+  public void readIntoIntent(Intent intent, Context context, Object id) {
+    db.collection(Constants.COL_MOVIES)
+        .document(String.valueOf(id))
+        .get()
+        .addOnSuccessListener(
+            documentSnapshot -> {
+              Movie movie = getMovieFromSnapshot(documentSnapshot);
+              String movieJson = new Gson().toJson(movie);
+              intent.putExtra("movieJson", movieJson);
+              context.startActivity(intent);
+            });
   }
 
-  public void readAll(RecyclerView.Adapter adapter) {}
+  public void readAll(RecyclerView.Adapter adapter) {
+    readIntoAdapter(adapter);
+  }
 
   @Override
   public boolean update(Movie movie) {
-    return false;
+    db.collection(Constants.COL_MOVIES)
+        .document(String.valueOf(movie.getId()))
+        .set(movie.storeToMap())
+        .addOnSuccessListener(aVoid -> Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Updated movie"));
+    return true;
   }
 
   @Override
   public boolean delete(Movie movie) {
-    return false;
+    db.collection(Constants.COL_MOVIES).document(String.valueOf(movie.getId())).delete();
+    return true;
   }
 }

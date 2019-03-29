@@ -47,8 +47,8 @@ public class Movie extends DomainObject {
     return title;
   }
 
-  public int getId() {
-    return id;
+  public String getId() {
+    return String.valueOf(id);
   }
 
   public int getRuntime() {
