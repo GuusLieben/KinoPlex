@@ -9,7 +9,6 @@ public class DataMigration {
   private static DaoFactory factory = new FirestoreDaoFactory();
 
   public static DaoFactory getFactory() {
-
     return factory;
   }
 

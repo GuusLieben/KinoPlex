@@ -2,55 +2,81 @@ package nl.avans.kinoplex.domain;
 
 import android.net.Uri;
 
-import com.google.gson.JsonObject;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Movie extends DomainObject {
-  JsonObject jsonObject;
   List<Review> reviews;
+  String title;
+  int id;
+  int runtime;
+  Uri posterPath;
+  String[] genres;
+  String tag;
+  String language;
+  String overview;
+  Date releaseDate;
+  boolean adult;
 
-  public Movie(JsonObject jsonObject) {
-    this.jsonObject = jsonObject;
+  public Movie(
+      String title,
+      int id,
+      int runtime,
+      Uri posterPath,
+      boolean adult,
+      String[] genres,
+      String tag,
+      String language,
+      String overview,
+      Date releaseDate) {
+    this.title = title;
+    this.id = id;
+    this.runtime = runtime;
+    this.posterPath = posterPath;
+    this.adult = adult;
+    this.genres = genres;
+    this.tag = tag;
+    this.language = language;
+    this.overview = overview;
+    this.releaseDate = releaseDate;
   }
 
   public String getTitle() {
-    return null;
+    return title;
   }
 
-  public int getId() {
-    return -1;
+  public String getId() {
+    return String.valueOf(id);
   }
 
   public int getRuntime() {
-    return -1;
+    return runtime;
   }
 
   public Uri getPosterPath() {
-    return null;
+    return posterPath;
   }
 
   public String[] getGenres() {
-    return null;
+    return genres;
   }
 
   public String getTag() {
-    return null;
+    return tag;
   }
 
   public String getLanguage() {
-    return null;
+    return language;
   }
 
   public String getOverview() {
-    return null;
+    return overview;
   }
 
   public Date getReleaseDate() {
-    return null;
+    return releaseDate;
   }
 
   public void addReview(Review review) {
@@ -65,22 +91,16 @@ public class Movie extends DomainObject {
   public Map<String, Object> storeToMap() {
     return new HashMap<String, Object>() {
       {
-        String[] keys = {
-          "id",
-          "title",
-          "adult",
-          "language",
-          "release_date",
-          "runtime",
-          "overview",
-          "poster",
-          "trailer",
-          "tagline",
-          "genre"
-        };
-        for (String key : keys) {
-            put(key, jsonObject.get(key));
-        }
+        put("id", id);
+        put("title", title);
+        put("adult", adult);
+        put("language", language);
+        put("release_date", releaseDate);
+        put("runtime", runtime);
+        put("overview", overview);
+        put("poster", posterPath.toString());
+        put("tagline", tag);
+        put("genre", genres);
       }
     };
   }

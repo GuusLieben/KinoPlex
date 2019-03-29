@@ -2,28 +2,28 @@ package nl.avans.kinoplex.presentation.adapters;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-
 import java.util.List;
 
+import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.presentation.viewholders.AbstractViewHolder;
 
-public abstract class AbstractAdapter<M extends AbstractViewHolder> extends RecyclerView.Adapter<M> {
-  private List<DocumentSnapshot> dataSet;
+public abstract class AbstractAdapter<M extends AbstractViewHolder>
+    extends RecyclerView.Adapter<M> {
+  private List<DomainObject> dataSet;
 
-  public AbstractAdapter(List<DocumentSnapshot> dataSet) {
+  public AbstractAdapter(List<DomainObject> dataSet) {
     this.dataSet = dataSet;
   }
 
   // Replace the entire dataset (used for Collection collection)
-  public void updateDataSet(List<DocumentSnapshot> dataSet) {
+  public void updateDataSet(List<DomainObject> dataSet) {
     this.dataSet = dataSet;
     notifyDataSetChanged();
   }
 
   // Add to the dataset, but don't replace it (used for Document collection)
-  public void addToDataSet(DocumentSnapshot documentSnapshot) {
-    this.dataSet.add(documentSnapshot);
+  public void addToDataSet(DomainObject domainObject) {
+    this.dataSet.add(domainObject);
     notifyDataSetChanged();
   }
 
@@ -32,7 +32,7 @@ public abstract class AbstractAdapter<M extends AbstractViewHolder> extends Recy
     return dataSet.size();
   }
 
-  List<DocumentSnapshot> getDataSet() {
-      return dataSet;
+  List<DomainObject> getDataSet() {
+    return dataSet;
   }
 }

@@ -27,6 +27,8 @@ public class Constants {
     public static final String COL_LISTS = "lists";
     public static final String COL_MOVIES = "movies";
     public static final String COL_GENRES = "genres";
+    public static final String COL_REVIEWS = "reviews";
+    public static final String COL_USERS = "users";
 
     // Tags
     public static final String MOVIEDETAILCOLLECTOR_TAG = MovieDetailCollectorTaskLoader.class.getCanonicalName();
