@@ -22,9 +22,9 @@ import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.MovieList;
+import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 
 import static android.content.ContentValues.TAG;
-import static nl.avans.kinoplex.business.firestoreutils.FirestoreUtils.updateAdapter;
 
 public class FirestoreListDao implements DaoObject<MovieList> {
 
@@ -67,16 +67,17 @@ public class FirestoreListDao implements DaoObject<MovieList> {
             for (Map.Entry<String, Object> movieId : movieIds.entrySet())
               ((FirestoreMovieDao)
                       DataMigration.getFactory().getMovieDao((Integer) movieId.getValue()))
-                      .readIntoList(list);
+                  .readIntoList(list);
             movieLists.add(list);
           }
-          updateAdapter(movieLists, adapter);
+          ((AbstractAdapter) adapter).updateDataSet(movieLists);
         });
   }
 
   @Override
-  public void readIntoIntent(Intent intent, Context context) {
+  public void readIntoIntent(Intent intent, Context context, Object id) {
     throw new UnsupportedOperationException();
+    // TODO : Make this work
   }
 
   @Override
