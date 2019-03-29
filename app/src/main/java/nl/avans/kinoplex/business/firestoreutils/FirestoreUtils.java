@@ -18,8 +18,10 @@ public class FirestoreUtils {
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     FirebaseFirestoreSettings settings =
         new FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build();
+
     firestore.setFirestoreSettings(settings);
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     return db;
   }
 

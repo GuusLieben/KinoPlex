@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">KinoPlex</string>
     <string name="search">Search</string>
+
+    <string name="contentDescription" translatable="false">Image</string>
+    <string name="showReviews">Show Reviews</string>
 </resources>

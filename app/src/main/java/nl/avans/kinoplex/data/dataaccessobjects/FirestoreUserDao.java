@@ -1,5 +1,7 @@
 package nl.avans.kinoplex.data.dataaccessobjects;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 
@@ -11,6 +13,11 @@ public class FirestoreUserDao implements DaoObject<Pair> {
 
   @Override
   public void readIntoAdapter(RecyclerView.Adapter adapter) {}
+
+  @Override
+  public void readIntoIntent(Intent intent, Context context) {
+
+  }
 
   @Override
   public void readAll(RecyclerView.Adapter adapter) {
