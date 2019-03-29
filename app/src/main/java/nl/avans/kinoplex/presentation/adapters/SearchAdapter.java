@@ -14,7 +14,9 @@ import java.util.Objects;
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
+
 import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
+
 
 public class SearchAdapter extends AbstractAdapter<MainMovieViewHolder> implements Filterable {
 
@@ -32,10 +34,9 @@ public class SearchAdapter extends AbstractAdapter<MainMovieViewHolder> implemen
 
   @Override
   public void onBindViewHolder(@NonNull MainMovieViewHolder viewHolder, int position) {
-    DomainObject currentMovie = (Movie) getDataSet().get(position);
-
+    Movie movie = (Movie) getDataSet().get(position);
     // viewHolder.moviePoster.setImageResource(currentMovie.getPosterPath()); // glide or picasso
-    viewHolder.getMovieTitle().setText(((Movie) currentMovie).getTitle());
+    viewHolder.getMovieTitle().setText(movie.getTitle());
   }
 
   @Override
@@ -59,11 +60,11 @@ public class SearchAdapter extends AbstractAdapter<MainMovieViewHolder> implemen
           } else {
             String filterPattern = constraint.toString().toLowerCase().trim();
 
-            for (DomainObject object : getDataSet()) {
-              if (Objects.requireNonNull(((Movie) object).getTitle())
+            for (DomainObject movie : getDataSet()) {
+              if (Objects.requireNonNull(((Movie) movie).getTitle())
                   .toLowerCase()
                   .contains(filterPattern)) {
-                filteredList.add(object);
+                filteredList.add(movie);
               }
             }
           }

@@ -14,6 +14,7 @@ public class TMDbReview extends DomainObject implements Review {
     this.content = content;
   }
 
+  @Override
   public String getId() {
     return id;
   }

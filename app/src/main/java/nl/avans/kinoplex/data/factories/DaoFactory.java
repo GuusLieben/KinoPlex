@@ -12,6 +12,8 @@ public interface DaoFactory {
 
     DaoObject<Movie> getMovieDao(int movieId);
 
+    DaoObject<Movie> getMovieDao();
+
     DaoObject<MovieList> getListDao();
 
     DaoObject<Pair> getUserDao();

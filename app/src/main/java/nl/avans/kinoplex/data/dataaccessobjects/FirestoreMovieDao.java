@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.data.dataaccessobjects;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,13 +9,15 @@ import android.util.Log;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
-import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
+import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
@@ -58,15 +61,17 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
 
   private Movie getMovieFromSnapshot(DocumentSnapshot documentSnapshot) {
     try {
+      System.out.println(documentSnapshot.getData());
       String title = documentSnapshot.getString("title");
       int id = Integer.parseInt(documentSnapshot.getId());
-      int runtime = (int) documentSnapshot.get("runtime");
+      int runtime = ((Long) Objects.requireNonNull(documentSnapshot.get("runtime"))).intValue();
       String uriString = documentSnapshot.getString("poster_path");
       Uri posterPath = Uri.parse(uriString);
       String tag = documentSnapshot.getString("tagline");
       String language = documentSnapshot.getString("language");
       String overview = documentSnapshot.getString("overview");
-      DateFormat dateFormat = SimpleDateFormat.getDateInstance();
+      @SuppressLint("SimpleDateFormat")
+      DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
       String value = documentSnapshot.getString("release_date");
 
       Date releaseDate = dateFormat.parse(value);
@@ -99,20 +104,35 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
   }
 
   @Override
-  public void readIntoIntent(Intent intent, Context context) {
-
-    context.startActivity(intent);
+  public void readIntoIntent(Intent intent, Context context, Object id) {
+    db.collection(Constants.COL_MOVIES)
+        .document(String.valueOf(id))
+        .get()
+        .addOnSuccessListener(
+            documentSnapshot -> {
+              Movie movie = getMovieFromSnapshot(documentSnapshot);
+              String movieJson = new Gson().toJson(movie);
+              intent.putExtra("movieJson", movieJson);
+              context.startActivity(intent);
+            });
   }
 
-  public void readAll(RecyclerView.Adapter adapter) {}
+  public void readAll(RecyclerView.Adapter adapter) {
+    readIntoAdapter(adapter);
+  }
 
   @Override
   public boolean update(Movie movie) {
-    return false;
+    db.collection(Constants.COL_MOVIES)
+        .document(String.valueOf(movie.getId()))
+        .set(movie.storeToMap())
+        .addOnSuccessListener(aVoid -> Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Updated movie"));
+    return true;
   }
 
   @Override
   public boolean delete(Movie movie) {
-    return false;
+    db.collection(Constants.COL_MOVIES).document(String.valueOf(movie.getId())).delete();
+    return true;
   }
 }

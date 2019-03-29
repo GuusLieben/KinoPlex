@@ -31,14 +31,16 @@ public class MainActivity extends AppCompatActivity
     setContentView(R.layout.activity_main);
 
     // set the recyclerview in the mainactivity_layout to variable mainRecyclerView
-    mainRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_movie_filter);
+    mainRecyclerView = findViewById(R.id.recyclerview_movielist);
 
-    mainRecyclerView.setHasFixedSize(true);
+    //mainRecyclerView.setHasFixedSize(true);
 
     // Load the adapters with a blank dataset.
     // TODO : Replace blank ArrayLists with existing Datasets from Firestore (cache)
-    parentAdapter = new MainListAdapter(new ArrayList<>());
-    DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
+    parentAdapter = new MainListAdapter(new ArrayList<>(), this);
+
+    System.out.println(parentAdapter);
+    System.out.println(mainRecyclerView);
 
     // set the parentAdapter to the mainrecyclerview
     mainRecyclerView.setAdapter(parentAdapter);
@@ -65,3 +67,5 @@ public class MainActivity extends AppCompatActivity
 
   }
 }
+
+

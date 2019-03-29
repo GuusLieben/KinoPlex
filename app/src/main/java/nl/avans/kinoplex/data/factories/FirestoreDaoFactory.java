@@ -26,6 +26,11 @@ public class FirestoreDaoFactory implements DaoFactory {
     }
 
     @Override
+    public DaoObject<Movie> getMovieDao() {
+        return new FirestoreMovieDao();
+    }
+
+    @Override
     public DaoObject<MovieList> getListDao() {
         return new FirestoreListDao();
     }

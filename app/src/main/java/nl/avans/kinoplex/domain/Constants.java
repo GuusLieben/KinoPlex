@@ -1,6 +1,6 @@
 package nl.avans.kinoplex.domain;
 
-import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
+import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.business.taskloaders.ApiCollectorTaskLoader;
 import nl.avans.kinoplex.business.taskloaders.ApiSearchTaskLoader;
@@ -28,6 +28,8 @@ public class Constants {
     public static final String COL_LISTS = "lists";
     public static final String COL_MOVIES = "movies";
     public static final String COL_GENRES = "genres";
+    public static final String COL_REVIEWS = "reviews";
+    public static final String COL_USERS = "users";
 
     // Tags
     public static final String MOVIEDETAILCOLLECTOR_TAG = MovieDetailCollectorTaskLoader.class.getCanonicalName();

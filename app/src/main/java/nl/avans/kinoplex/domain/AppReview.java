@@ -17,6 +17,7 @@ public class AppReview extends DomainObject implements Review {
     this.rating = rating;
   }
 
+  @Override
   public String getId() {
     return id;
   }
