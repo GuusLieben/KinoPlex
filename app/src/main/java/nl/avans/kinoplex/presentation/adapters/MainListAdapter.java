@@ -12,12 +12,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.List;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.domain.DomainObject;
+import nl.avans.kinoplex.domain.Movie;
+import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.viewholders.AbstractViewHolder;
 import nl.avans.kinoplex.presentation.viewholders.MainListViewHolder;
 
 public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
 
-  public MainListAdapter(List<DocumentSnapshot> dataSet) {
+  public MainListAdapter(List<DomainObject> dataSet) {
     super(dataSet);
   }
 
@@ -35,13 +38,13 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
 
   @Override
   public void onBindViewHolder(@NonNull MainListViewHolder mainListViewHolder, int i) {
-    DocumentSnapshot documentSnapshot = getDataSet().get(i);
-    String name = documentSnapshot.getString("name");
-    Object[] movieIds = (Object[]) documentSnapshot.get("movies");
+    DomainObject object = (MovieList) getDataSet().get(i);
+    mainListViewHolder.bind(object);
   }
 
   @Override
   public int getItemCount() {
     return getDataSet().size();
   }
+
 }
