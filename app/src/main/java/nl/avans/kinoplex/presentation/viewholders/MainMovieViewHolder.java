@@ -64,10 +64,8 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
     public void onClick(View v) {
         Log.d(MAINMOVIEVH_TAG, "User clicked on MainMovieViewHolder");
 
-        int movieID = movie.getId();
-
         Intent detailIntent = new Intent();
-        detailIntent.putExtra(INTENT_EXTRA_MOVIEID, movieID);
+        detailIntent.putExtra(INTENT_EXTRA_MOVIEID, movie.getId());
         v.getContext().startActivity(detailIntent);
     }
 }

@@ -47,11 +47,6 @@ public class FirestoreUserDao implements DaoObject<Pair> {
   }
 
   @Override
-  public void readIntoIntent(Intent intent, Context context) {
-
-  }
-
-  @Override
   public void readAll(RecyclerView.Adapter adapter) {
     throw new UnsupportedOperationException();
   }

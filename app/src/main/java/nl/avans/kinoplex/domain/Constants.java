@@ -2,10 +2,6 @@ package nl.avans.kinoplex.domain;
 
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.business.JsonUtils;
-import nl.avans.kinoplex.business.taskloaders.ApiCollectorTaskLoader;
-import nl.avans.kinoplex.business.taskloaders.ApiSearchTaskLoader;
-import nl.avans.kinoplex.business.taskloaders.MovieDetailCollectorTaskLoader;
-import nl.avans.kinoplex.business.taskloaders.ReviewDetailCollectorTaskLoader;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreMovieDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
@@ -32,10 +28,6 @@ public class Constants {
     public static final String COL_USERS = "users";
 
     // Tags
-    public static final String MOVIEDETAILCOLLECTOR_TAG = MovieDetailCollectorTaskLoader.class.getCanonicalName();
-    public static final String REVIEWDETAILCOLLECTOR_TAG = ReviewDetailCollectorTaskLoader.class.getCanonicalName();
-    public static final String APICOLLECTOR_TAG = ApiCollectorTaskLoader.class.getCanonicalName();
-    public static final String APISEARCH_TAG = ApiSearchTaskLoader.class.getCanonicalName();
 
     public static final String FIRESTOREUTILS_TAG = FirestoreUtils.class.getCanonicalName();
     public static final String JSONUTILS_TAG = JsonUtils.class.getCanonicalName();

@@ -18,7 +18,6 @@ import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 
-import nl.avans.kinoplex.presentation.viewholders.AbstractViewHolder;
 
 import nl.avans.kinoplex.presentation.viewholders.MainListViewHolder;
 import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
