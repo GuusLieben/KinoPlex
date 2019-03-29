@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MovieList extends DomainObject {
-  private List<Movie> movieList;
+  private List<DomainObject> movieList;
   private static Set<MovieList> listSet = new LinkedHashSet<>();
   private String name;
   private String dbId;
@@ -28,14 +28,22 @@ public class MovieList extends DomainObject {
     this.dbId = dbId;
   }
 
-  public void addMovie(Movie movie) {
-    this.movieList.add(movie);
+  public void addMovie(DomainObject movie) {
+    this.movieList.add((Movie) movie);
   }
 
   public void removeMovie(int movieId) {}
 
-  public List<Movie> getMovieList() {
+  public List<DomainObject> getDomainMovieList() {
     return movieList;
+  }
+
+  public List<Movie> getMovieList() {
+    List<Movie> tempList = new ArrayList<>();
+    for ( DomainObject obj : movieList ) {
+      tempList.add((Movie) obj);
+    }
+    return tempList;
   }
 
   public static Set<MovieList> getListSet() {
@@ -50,7 +58,7 @@ public class MovieList extends DomainObject {
   public Map<String, Object> storeToMap() {
     return new HashMap<String, Object>() {
       {
-        Object[] movies = movieList.toArray(new Object[0]);
+        Object[] movies = getMovieList().toArray(new Object[0]);
         put("name", name);
         put("movies", movies);
         put("id", dbId);

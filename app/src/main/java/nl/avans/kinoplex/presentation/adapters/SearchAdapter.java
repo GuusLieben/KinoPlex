@@ -14,11 +14,13 @@ import java.util.List;
 import java.util.Objects;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.domain.DomainObject;
+import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
 
 public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements Filterable {
 
-  public SearchAdapter(List<DocumentSnapshot> dataSet) {
+  public SearchAdapter(List<DomainObject> dataSet) {
     super(dataSet);
   }
 
@@ -32,10 +34,10 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
 
   @Override
   public void onBindViewHolder(@NonNull MovieViewHolder viewHolder, int position) {
-    DocumentSnapshot currentMovie = getDataSet().get(position);
+    DomainObject currentMovie = (Movie) getDataSet().get(position);
 
     // viewHolder.moviePoster.setImageResource(currentMovie.getPosterPath()); // glide or picasso
-    viewHolder.getMovieTitle().setText(currentMovie.getString("title"));
+    viewHolder.getMovieTitle().setText(((Movie) currentMovie).getTitle());
   }
 
   @Override
@@ -52,18 +54,18 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
       new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-          List<DocumentSnapshot> filteredList = new ArrayList<>();
+          List<DomainObject> filteredList = new ArrayList<>();
 
           if (constraint == null || constraint.length() == 0) {
             filteredList.addAll(getDataSet());
           } else {
             String filterPattern = constraint.toString().toLowerCase().trim();
 
-            for (DocumentSnapshot snapshot : getDataSet()) {
-              if (Objects.requireNonNull(snapshot.getString("title"))
+            for (DomainObject object : getDataSet()) {
+              if (Objects.requireNonNull(((Movie) object).getTitle())
                   .toLowerCase()
                   .contains(filterPattern)) {
-                filteredList.add(snapshot);
+                filteredList.add(object);
               }
             }
           }
@@ -75,7 +77,7 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-          updateDataSet((List<DocumentSnapshot>) filterResults.values);
+          updateDataSet((List<DomainObject>) filterResults.values);
           notifyDataSetChanged();
         }
       };

@@ -43,6 +43,10 @@ public class Movie extends DomainObject {
     this.releaseDate = releaseDate;
   }
 
+  public int getRating() {
+    return 4;
+  }
+
   public String getTitle() {
     return title;
   }
