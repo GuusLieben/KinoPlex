@@ -1,23 +1,16 @@
 package nl.avans.kinoplex.presentation.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.dataaccessobjects.TMDbListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
-
-import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         try {
-            new TMDbListDao().readCollection("now_playing", 1);
+            ((TMDbListDao) DataMigration.getTMDbFactory().getListDao()).readCollection("now_playing", 1);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

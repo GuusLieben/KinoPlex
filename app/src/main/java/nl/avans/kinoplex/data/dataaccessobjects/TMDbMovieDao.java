@@ -18,6 +18,15 @@ import nl.avans.kinoplex.domain.Movie;
 
 public class TMDbMovieDao implements DaoObject {
 
+    private int movieId;
+
+    public TMDbMovieDao(int movieId) {
+        this.movieId = movieId;
+    }
+
+    public TMDbMovieDao() {
+    }
+
     @Override
     public boolean create(Object o) {
         throw new UnsupportedOperationException();
