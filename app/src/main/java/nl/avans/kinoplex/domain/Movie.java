@@ -83,6 +83,50 @@ public class Movie extends DomainObject {
         this.reviews.add(review);
     }
 
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public void setPosterPath(Uri posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public void setGenres(String[] genres) {
+        this.genres = genres;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
+    }
+
     public List<Review> getReviews() {
         return reviews;
     }

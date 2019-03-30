@@ -105,7 +105,9 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                             Movie movie = getMovieFromSnapshot(documentSnapshot);
                             String movieJson = new Gson().toJson(movie);
                             intent.putExtra("movieJson", movieJson);
-                            context.startActivity(intent);
+                            if (movie.getTag().equals("")) {
+                                new TMDbMovieDao().readIntoIntent(intent, context, movie);
+                            } else context.startActivity(intent);
                         });
     }
 
