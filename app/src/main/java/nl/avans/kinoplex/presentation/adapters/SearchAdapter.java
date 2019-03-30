@@ -31,7 +31,8 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
 
     public SearchAdapter(List<DomainObject> dataSet) {
         super(dataSet);
-        listFull = new ArrayList<>();
+        listFull = new ArrayList<>(getDataSet());
+
     }
 
     @NonNull
@@ -39,12 +40,12 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         View v =
                 LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_row, viewGroup, false);
+        listFull.addAll(getDataSet()); // fills a list with the original data
         return new MovieViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder viewHolder, int position) {
-        listFull.addAll(getDataSet()); // fills a list with the original data
         Movie movie = (Movie) listFull.get(position);
         ImageView imageView = viewHolder.itemView.findViewById(R.id.image_view_movie_poster);
         TextView releaseYear = viewHolder.itemView.findViewById(R.id.movie_year);
