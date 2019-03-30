@@ -27,7 +27,7 @@ import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
 
 public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements Filterable {
-    private  List<DomainObject> listFull;
+    private List<DomainObject> listFull;
 
     public SearchAdapter(List<DomainObject> dataSet) {
         super(dataSet);
