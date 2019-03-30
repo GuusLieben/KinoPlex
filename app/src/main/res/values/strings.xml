@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">KinoPlex</string>
     <string name="search">Search</string>
+    <string name="home" translatable="false">Home</string>
 
     <string name="contentDescription" translatable="false">Image</string>
     <string name="showReviews">Show Reviews</string>
@@ -8,4 +9,8 @@
     <string name="seeAll">SEE ALL</string>
 
     <string name="votes">voters</string>
+
+    <string name="now_playing">Now Playing</string>
+    <string name="Popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
 </resources>

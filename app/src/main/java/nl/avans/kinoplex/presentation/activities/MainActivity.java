@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -23,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private MainListAdapter parentAdapter;
-    RecyclerView.Adapter movieAdapter;
     RecyclerView mainRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle(getResources().getString(R.string.home));
 
         // set the recyclerview in the mainactivity_layout to variable mainRecyclerView
         mainRecyclerView = findViewById(R.id.recyclerview_movielist);
@@ -43,19 +44,19 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(parentAdapter);
         System.out.println(mainRecyclerView);
 
-
         // set the parentAdapter to the mainrecyclerview
         mainRecyclerView.setAdapter(parentAdapter);
         DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
+        mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         try {
-            new TMDbListDao().readCollection("popular", 1);
+            new TMDbListDao().readCollection("now_playing", 1);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+
 
         // TODO :: set in the parentAdapter.viewHolder the movieAdapter to the recyclerview of that list_item
     /*movieAdapter = new MovieAdapter(new ArrayList<>());

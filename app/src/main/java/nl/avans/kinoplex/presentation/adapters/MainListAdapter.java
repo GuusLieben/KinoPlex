@@ -1,7 +1,6 @@
 package nl.avans.kinoplex.presentation.adapters;
 
 
-import android.app.Activity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -48,16 +47,7 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
   @Override
   public void onBindViewHolder(@NonNull MainListViewHolder mainListViewHolder, int i) {
     MovieList list = (MovieList) getDataSet().get(i);
-    String name = list.getName();
-
-    List<Movie> movies = list.getMovieList();
-    List<DomainObject> domainMovies = new ArrayList<>(movies);
-
-    AbstractAdapter<MainMovieViewHolder> adapter = new MainMovieAdapter(domainMovies);
-    RecyclerView recyclerView = ((Activity) context).findViewById(R.id.recyclerview_movie_filter);
-
-    recyclerView.setAdapter(adapter);
-    // Adapter shit
+    mainListViewHolder.bind(list);
   }
 
   @Override

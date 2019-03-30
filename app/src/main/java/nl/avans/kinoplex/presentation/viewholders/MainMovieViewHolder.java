@@ -64,7 +64,7 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
         movieTitle.setText(movie.getTitle());
 
         //TODO Add rating to Movie Object
-        //movieRating.setNumStars(movie.getRating());
+        movieRating.setRating((float) 4);
         Glide.with(movieTitle)
                 .load(movie.getPosterPath())
                 .into(moviePoster);
