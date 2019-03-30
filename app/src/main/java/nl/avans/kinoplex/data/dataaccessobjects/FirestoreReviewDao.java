@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
+import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.domain.AppReview;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
@@ -29,7 +29,8 @@ public class FirestoreReviewDao implements DaoObject<Review> {
 
   @Override
   public boolean create(Review review) {
-    return false;
+    throw new UnsupportedOperationException();
+    // TODO : Make this work
   }
 
   @Override
@@ -64,6 +65,7 @@ public class FirestoreReviewDao implements DaoObject<Review> {
                   String author = documentSnapshot.getString("user_id");
                   String content = documentSnapshot.getString("content");
                   TMDbReview tmDbReview = new TMDbReview(id, author, content);
+                  ((AbstractAdapter) adapter).addToDataSet(tmDbReview);
                 }
               });
     }

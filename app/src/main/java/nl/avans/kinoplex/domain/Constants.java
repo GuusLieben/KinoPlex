@@ -1,27 +1,30 @@
 package nl.avans.kinoplex.domain;
 
-import nl.avans.kinoplex.business.firestoreutils.FirestoreUtils;
+import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.business.JsonUtils;
-import nl.avans.kinoplex.business.taskloaders.ApiCollectorTaskLoader;
-import nl.avans.kinoplex.business.taskloaders.ApiSearchTaskLoader;
-import nl.avans.kinoplex.business.taskloaders.MovieDetailCollectorTaskLoader;
-import nl.avans.kinoplex.business.taskloaders.ReviewDetailCollectorTaskLoader;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreMovieDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
+import nl.avans.kinoplex.presentation.activities.DetailActivity;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
 import nl.avans.kinoplex.presentation.activities.SearchActivity;
-import nl.avans.kinoplex.presentation.adapters.MovieAdapter;
+
+import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
+
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
+import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
+import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
 public class Constants {
 
     // Urls
-    public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+    public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+    public static final String API_KEY = "fe324f20d33c7b7991dbbd8bdb4b7413";
+    public static final String MOVIE_API_URL = "https://api.themoviedb.org/3/movie/";
 
     // Collections - Firestore
     public static final String COL_LISTS = "lists";
@@ -29,12 +32,6 @@ public class Constants {
     public static final String COL_GENRES = "genres";
     public static final String COL_REVIEWS = "reviews";
     public static final String COL_USERS = "users";
-
-    // Tags
-    public static final String MOVIEDETAILCOLLECTOR_TAG = MovieDetailCollectorTaskLoader.class.getCanonicalName();
-    public static final String REVIEWDETAILCOLLECTOR_TAG = ReviewDetailCollectorTaskLoader.class.getCanonicalName();
-    public static final String APICOLLECTOR_TAG = ApiCollectorTaskLoader.class.getCanonicalName();
-    public static final String APISEARCH_TAG = ApiSearchTaskLoader.class.getCanonicalName();
 
     public static final String FIRESTOREUTILS_TAG = FirestoreUtils.class.getCanonicalName();
     public static final String JSONUTILS_TAG = JsonUtils.class.getCanonicalName();
@@ -53,7 +50,7 @@ public class Constants {
     public static final String TMDBREVIEW_TAG = TMDbReview.class.getCanonicalName();
 
     //    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
-//    public static final String DETAILACT_TAG = DetailActivity.class.getCanonicalName();
+    public static final String DETAILACT_TAG = DetailActivity.class.getCanonicalName();
 //    public static final String LISTACT_TAG = ListActivity.class.getCanonicalName();
 //    public static final String LOGINACT_TAG = LoginActivity.class.getCanonicalName();
     public static final String MAINACT_TAG = MainActivity.class.getCanonicalName();
@@ -62,16 +59,35 @@ public class Constants {
     public static final String SEARCHACT_TAG = SearchActivity.class.getCanonicalName();
 
     //    public static final String LISTADAPT_TAG = ListActivity.class.getCanonicalName();
-    public static final String MOVIEADAPT_TAG = MovieAdapter.class.getCanonicalName();
+    public static final String MOVIEADAPT_TAG = MainMovieAdapter.class.getCanonicalName();
     public static final String PARENTADAPT_TAG = MainListAdapter.class.getCanonicalName();
     //    public static final String REVIEWADAPT_TAG = ReviewAdapter.class.getCanonicalName();
     public static final String SEARCHADAPT_TAG = SearchAdapter.class.getCanonicalName();
 
 //    public static final String LISTVH_TAG  = ListViewHolder.class.getCanonicalName();
-//    public static final String MOVIEVH_TAG= MovieViewHolder.class.getCanonicalName();
+    public static final String MAINMOVIEVH_TAG= MainMovieViewHolder.class.getCanonicalName();
 //    public static final String PARENTVH_TAG= ParentViewHolder.class.getCanonicalName();
 //    public static final String REVIEWVH_TAG = ReviewViewHolder.class.getCanonicalName();
 //    public static final String SEARCHVH_TAG = SearchViewHolder.class.getCanonicalName();
+
+
+    // Intent Extras
+    public static final String INTENT_EXTRA_MOVIEID = "MovieID";
+    public static final String INTENT_EXTRA_MOVIE_JSON = "movieJson";
+
+
+    // JSON keys Movie
+    public static final String MOVIE_TITLE = "title";
+    public static final String MOVIE_ID = "id";
+    public static final String MOVIE_RUNTIME = "runtime";
+    public static final String MOVIE_POSTERPATH = "posterPath";
+    public static final String MOVIE_URISTRING = "uriString";
+    public static final String MOVIE_ADULT = "adult";
+    public static final String MOVIE_GENRES = "genres";
+    public static final String MOVIE_TAG_STRING = "tag";
+    public static final String MOVIE_LANGUAGE = "language";
+    public static final String MOVIE_OVERVIEW = "overview";
+    public static final String MOVIE_RELEASEDATE = "releaseDate";
 
 
 }

@@ -8,7 +8,7 @@ import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.domain.Review;
 
 public class TMDbDaoFactory implements DaoFactory {
-  
+
   // It's a factory, what do you think it does?
 
   @Override
@@ -18,6 +18,11 @@ public class TMDbDaoFactory implements DaoFactory {
 
   @Override
   public DaoObject<Movie> getMovieDao(int movieId) {
+    return null;
+  }
+
+  @Override
+  public DaoObject<Movie> getMovieDao() {
     return null;
   }
 

@@ -1,0 +1,123 @@
+package nl.avans.kinoplex.data.dataaccessobjects;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.ExecutionException;
+
+import nl.avans.kinoplex.business.JsonUtils;
+import nl.avans.kinoplex.data.factories.DataMigration;
+import nl.avans.kinoplex.domain.Constants;
+import nl.avans.kinoplex.domain.DomainObject;
+import nl.avans.kinoplex.domain.Movie;
+import nl.avans.kinoplex.domain.MovieList;
+
+public class TMDbListDao implements DaoObject, TMDbDaoObject {
+
+    @Override
+    public boolean create(Object o) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void readIntoAdapter(RecyclerView.Adapter adapter) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void readIntoIntent(Intent intent, Context context, Object id) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void readAll(RecyclerView.Adapter adapter) {
+//      Uri movieUri = Uri.parse("").buildUpon().appendQueryParameter();
+    }
+
+    @Override
+    public boolean update(Object o) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean delete(Object o) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public DomainObject readCollection(String identifier, int page) throws ExecutionException, InterruptedException {
+        ReadFromTMDb task = new ReadFromTMDb();
+        task.execute(new Pair<String, Integer>(identifier, page));
+        return task.get();
+    }
+
+    private class ReadFromTMDb extends AsyncTask<Pair<String, Integer>, Void, DomainObject> {
+
+        @Override
+        protected DomainObject doInBackground(Pair<String, Integer>... pairs) {
+            String identifier = pairs[0].first;
+            int page = pairs[0].second;
+
+            Uri listUri = Uri.parse(Constants.MOVIE_API_URL + identifier)
+                    .buildUpon()
+                    .appendQueryParameter("api_key", "fe324f20d33c7b7991dbbd8bdb4b7413")
+                    .appendQueryParameter("page", String.valueOf(page))
+                    .build();
+            try {
+                JSONObject result = JsonUtils.getJSONObjectFromUrl(listUri);
+
+                MovieList list = new MovieList(identifier.substring(0, 1).toUpperCase() + identifier.substring(1), -1);
+                list.setDbId(identifier);
+
+                JSONArray movies = result.getJSONArray("results");
+
+                for (int i = 0; i < movies.length(); i++) {
+                    JSONObject movieObject = (JSONObject) movies.get(i);
+                    String title = movieObject.getString("title");
+                    int id = movieObject.getInt("id");
+                    int runtime = 0; // Fack
+                    String posterPath = Constants.IMAGE_URL + movieObject.getString("poster_path");
+                    String tag = ""; // Fack
+                    String language = ""; // Fack
+                    String overview = movieObject.getString("overview");
+                    @SuppressLint("SimpleDateFormat")
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String value = movieObject.getString("release_date");
+                    Date releaseDate = dateFormat.parse(value);
+                    //noinspection ConstantConditions
+                    boolean adult = movieObject.getBoolean("adult");
+                    JSONArray genres = movieObject.getJSONArray("genre_ids");
+                    String[] genreArray = new String[genres.length()];
+                    if (genres.length() != 0)
+                        for (int j = 0; j < genres.length(); j++) {
+                            String genre = genres.getString(j);
+                            genreArray[j] = genre;
+                        }
+
+                    Movie movie = new Movie(title, id, runtime, posterPath, adult,genreArray, tag, language, overview, releaseDate);
+                    DataMigration.getFactory().getMovieDao(id).create(movie);
+                    ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(id)).readIntoList(list);
+                }
+
+                return list;
+            } catch (JSONException | ParseException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+}
