@@ -11,7 +11,11 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.dataaccessobjects.TMDbListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
+import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
+import nl.avans.kinoplex.domain.Movie;
+import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
 
 public class SearchActivity extends TaskLoaderActivity {
@@ -28,7 +32,10 @@ public class SearchActivity extends TaskLoaderActivity {
 
     DataMigration.getFactory().getMovieDao(512196).readAll(adapter);
 
-    recyclerView.setLayoutManager(layoutManager);
+
+
+
+      recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
   }
 
