@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        Intent detailIntent = new Intent(this, DetailActivity.class);
+        DataMigration.getFactory().getMovieDao().readIntoIntent(detailIntent, this, "299537");
 
 
         // TODO :: set in the parentAdapter.viewHolder the movieAdapter to the recyclerview of that list_item

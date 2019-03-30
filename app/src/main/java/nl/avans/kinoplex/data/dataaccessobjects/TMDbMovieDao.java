@@ -11,7 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.ExecutionException;
+
 import nl.avans.kinoplex.business.JsonUtils;
+import nl.avans.kinoplex.business.JsonUtilsTask;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
@@ -46,7 +49,7 @@ public class TMDbMovieDao implements DaoObject {
                     .appendQueryParameter("language", "en-US")
                     .build();
             try {
-                JSONObject result = JsonUtils.getJSONObjectFromUrl(uri);
+                JSONObject result = new JsonUtilsTask().execute(uri).get();
                 String language = result.getString("original_language");
                 String tagline = result.getString("tagline");
                 int runtime = result.getInt("runtime");
@@ -72,6 +75,10 @@ public class TMDbMovieDao implements DaoObject {
 
             } catch (JSONException ex) {
                 ex.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
         } else {
             throw new UnsupportedOperationException();
