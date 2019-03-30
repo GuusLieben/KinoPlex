@@ -1,8 +1,11 @@
 package nl.avans.kinoplex.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        startActivity(new Intent(getApplicationContext(), SearchActivity.class));
 
         // TODO :: set in the parentAdapter.viewHolder the movieAdapter to the recyclerview of that list_item
     /*movieAdapter = new MovieAdapter(new ArrayList<>());
