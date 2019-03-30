@@ -62,7 +62,9 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
     public void bind(DomainObject obj) {
         movie = (Movie) obj;
         movieTitle.setText(movie.getTitle());
-        movieRating.setNumStars(movie.getRating());
+
+        //TODO Add rating to Movie Object
+        //movieRating.setNumStars(movie.getRating());
         Glide.with(movieTitle)
                 .load(movie.getPosterPath())
                 .into(moviePoster);
@@ -73,7 +75,7 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
         Log.d(MAINMOVIEVH_TAG, "User clicked on MainMovieViewHolder");
 
         Intent detailIntent = new Intent(context, DetailActivity.class);
-        DataMigration.getFactory().getMovieDao().readIntoIntent(detailIntent, context, "550");
+        DataMigration.getFactory().getMovieDao().readIntoIntent(detailIntent, context, movie.getId());
 
     }
 }

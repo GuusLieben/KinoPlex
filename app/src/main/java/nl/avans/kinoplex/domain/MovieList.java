@@ -38,6 +38,10 @@ public class MovieList extends DomainObject {
     public void removeMovie(int movieId) {
     }
 
+    public List<DomainObject> getDomainMovieList() {
+        return new ArrayList<>(movieList);
+    }
+
 
     public List<Movie> getMovieList() {
         return movieList;

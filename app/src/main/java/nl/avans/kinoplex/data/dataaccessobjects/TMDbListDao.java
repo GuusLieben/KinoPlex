@@ -89,8 +89,7 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                     String title = movieObject.getString("title");
                     int id = movieObject.getInt("id");
                     int runtime = 0; // Fack
-                    String uriString = Constants.IMAGE_URL + movieObject.getString("poster_path");
-                    Uri posterPath = Uri.parse(uriString);
+                    String posterPath = Constants.IMAGE_URL + movieObject.getString("poster_path");
                     String tag = ""; // Fack
                     String language = ""; // Fack
                     String overview = movieObject.getString("overview");
@@ -108,7 +107,7 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                             genreArray[j] = genre;
                         }
 
-                    Movie movie = new Movie(title, id, runtime, posterPath, adult, genreArray, tag, language, overview, releaseDate);
+                    Movie movie = new Movie(title, id, runtime, posterPath, adult,genreArray, tag, language, overview, releaseDate);
                     DataMigration.getFactory().getMovieDao(id).create(movie);
                     ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(id)).readIntoList(list);
                 }
