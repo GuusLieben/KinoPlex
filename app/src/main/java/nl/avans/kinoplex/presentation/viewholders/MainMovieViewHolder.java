@@ -2,7 +2,6 @@ package nl.avans.kinoplex.presentation.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Rating;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -17,9 +16,7 @@ import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.presentation.activities.DetailActivity;
-import nl.avans.kinoplex.presentation.activities.MainActivity;
 
-import static nl.avans.kinoplex.domain.Constants.INTENT_EXTRA_MOVIEID;
 import static nl.avans.kinoplex.domain.Constants.MAINMOVIEVH_TAG;
 
 public class MainMovieViewHolder extends AbstractViewHolder implements View.OnClickListener {
@@ -47,8 +44,6 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
 
         moviePoster = itemView.findViewById(R.id.image_view_movie_poster);
         movieTitle = itemView.findViewById(R.id.movie_title);
-        movieRating = itemView.findViewById(R.id.rating_bar_movie_poster);
-        movieRating.setIsIndicator(true);
     }
 
     public ImageView getMoviePoster() {
