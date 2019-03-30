@@ -3,8 +3,13 @@ package nl.avans.kinoplex.presentation.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -12,11 +17,11 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import nl.avans.kinoplex.R;
-import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity
+        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
     private ImageView movieBackdropImageView;
 
     private TextView movieTitleTextView;
@@ -68,6 +73,9 @@ public class DetailActivity extends AppCompatActivity {
         movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
         movieOptions = findViewById(R.id.btn_detail_options);
 
+        movieShowReviews.setOnClickListener(this);
+        movieOptions.setOnClickListener(this);
+
         Glide.with(this)
                 .load(movie.getPosterPath())
                 .into(movieBackdropImageView);
@@ -83,7 +91,53 @@ public class DetailActivity extends AppCompatActivity {
 
         movieRatingBar.setRating((float) 8.2 / 2);
 
+        setTitle(movie.getTitle());
 
 
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.btn_detail_options :
+                Log.d(Constants.DETAILACT_TAG, "User clicked on the options button");
+
+                PopupMenu pm = new PopupMenu(this, movieOptions);
+                pm.getMenuInflater().inflate(R.menu.detail_options_popup , pm.getMenu());
+                pm.setOnMenuItemClickListener(this);
+                pm.show();
+                break;
+
+            case R.id.btn_detail_show_reviews :
+                Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Show Reviews' button");
+
+                
+                break;
+        }
+    }
+
+    // Triggered when the user clicks on an item inside the PopupMenu
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.detail_options_addtolist :
+                Log.d(Constants.DETAILACT_TAG, "User wants to add the movie to a list...");
+
+                break;
+
+            case R.id.detail_options_addReview :
+                Log.d(Constants.DETAILACT_TAG, "User wants to add a review to this movie...");
+
+                break;
+
+            case R.id.detail_options_share :
+                Log.d(Constants.DETAILACT_TAG, "User wants to share this movie...");
+
+                break;
+        }
+
+
+        return false;
     }
 }
