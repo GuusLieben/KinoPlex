@@ -74,20 +74,4 @@ public class Constants {
     // Intent Extras
     public static final String INTENT_EXTRA_MOVIEID = "MovieID";
     public static final String INTENT_EXTRA_MOVIE_JSON = "movieJson";
-
-
-    // JSON keys Movie
-    public static final String MOVIE_TITLE = "title";
-    public static final String MOVIE_ID = "id";
-    public static final String MOVIE_RUNTIME = "runtime";
-    public static final String MOVIE_POSTERPATH = "posterPath";
-    public static final String MOVIE_URISTRING = "uriString";
-    public static final String MOVIE_ADULT = "adult";
-    public static final String MOVIE_GENRES = "genres";
-    public static final String MOVIE_TAG_STRING = "tag";
-    public static final String MOVIE_LANGUAGE = "language";
-    public static final String MOVIE_OVERVIEW = "overview";
-    public static final String MOVIE_RELEASEDATE = "releaseDate";
-
-
 }

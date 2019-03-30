@@ -5,4 +5,7 @@
     <string name="showReviews">Toon Reviews</string>
     <string name="seeAll">BEKIJK ALLES</string>
     <string name="votes">stemmen</string>
+    <string name="now_playing">Speelt nu</string>
+    <string name="Popular">Populair</string>
+    <string name="top_rated">Hoogst Scorend</string>
 </resources>
