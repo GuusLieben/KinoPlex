@@ -3,7 +3,6 @@ package nl.avans.kinoplex.domain;
 import android.net.Uri;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -97,28 +96,6 @@ public class Movie extends DomainObject {
         this.reviews.add(review);
     }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    @Override
-    public Map<String, Object> storeToMap() {
-        return new HashMap<String, Object>() {
-            {
-                put("id", id);
-                put("title", title);
-                put("adult", adult);
-                put("language", language);
-                put("release_date", releaseDate);
-                put("runtime", runtime);
-                put("overview", overview);
-                put("poster", posterPath.toString());
-                put("tagline", tag);
-                put("genre", "1");
-            }
-        };
-    }
-
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
@@ -161,5 +138,27 @@ public class Movie extends DomainObject {
 
     public void setAdult(boolean adult) {
         this.adult = adult;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    @Override
+    public Map<String, Object> storeToMap() {
+        return new HashMap<String, Object>() {
+            {
+                put("id", id);
+                put("title", title);
+                put("adult", adult);
+                put("language", language);
+                put("release_date", releaseDate);
+                put("runtime", runtime);
+                put("overview", overview);
+                put("poster", posterPath.toString());
+                put("tagline", tag);
+                put("genre", "1");
+            }
+        };
     }
 }

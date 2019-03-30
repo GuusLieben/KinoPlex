@@ -3,7 +3,6 @@ package nl.avans.kinoplex.data.dataaccessobjects;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -61,8 +60,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
         String title = documentSnapshot.getString("title");
         int id = Integer.parseInt(documentSnapshot.getId());
         int runtime = Integer.parseInt(String.valueOf(documentSnapshot.get("runtime")));
-        String posterPath = documentSnapshot.getString("poster");
-
+        String uriString = documentSnapshot.getString("poster");
         String tag = documentSnapshot.getString("tagline");
         String language = documentSnapshot.getString("language");
         String overview = documentSnapshot.getString("overview");
@@ -75,7 +73,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 title,
                 id,
                 runtime,
-                posterPath,
+                uriString,
                 adult,
                 new String[]{},
                 tag,
@@ -104,8 +102,10 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                         documentSnapshot -> {
                             Movie movie = getMovieFromSnapshot(documentSnapshot);
                             String movieJson = new Gson().toJson(movie);
-                            intent.putExtra(Constants.INTENT_EXTRA_MOVIE_JSON, movieJson);
-                            context.startActivity(intent);
+                            intent.putExtra("movieJson", movieJson);
+                            if (movie.getTag().equals("")) {
+                                new TMDbMovieDao().readIntoIntent(intent, context, movie);
+                            } else context.startActivity(intent);
                         });
     }
 

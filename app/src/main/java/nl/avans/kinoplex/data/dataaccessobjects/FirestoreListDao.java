@@ -74,7 +74,6 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     public void addMovieToList(MovieList list, int movieId) {
         Map<String, Object> listMap = list.storeToMap();
         ArrayList<Object> movies = (ArrayList<Object>) listMap.get("movies");
-        System.out.println(movies);
         if (movies == null) {
             movies = new ArrayList<>();
             movies.add(String.valueOf(movieId));
