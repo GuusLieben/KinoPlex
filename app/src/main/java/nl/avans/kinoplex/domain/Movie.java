@@ -3,7 +3,6 @@ package nl.avans.kinoplex.domain;
 import android.net.Uri;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -113,7 +112,7 @@ public class Movie extends DomainObject {
         this.runtime = runtime;
     }
 
-    public void setPosterPath(Uri posterPath) {
+    public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
 
@@ -161,49 +160,5 @@ public class Movie extends DomainObject {
                 put("genre", "1");
             }
         };
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setRuntime(int runtime) {
-        this.runtime = runtime;
-    }
-
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
-
-    public void setGenres(String[] genres) {
-        this.genres = genres;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public void setAdult(boolean adult) {
-        this.adult = adult;
     }
 }
