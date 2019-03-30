@@ -61,8 +61,8 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
         String title = documentSnapshot.getString("title");
         int id = Integer.parseInt(documentSnapshot.getId());
         int runtime = Integer.parseInt(String.valueOf(documentSnapshot.get("runtime")));
-        String uriString = documentSnapshot.getString("poster");
-        Uri posterPath = Uri.parse(uriString);
+        String posterPath = documentSnapshot.getString("poster");
+
         String tag = documentSnapshot.getString("tagline");
         String language = documentSnapshot.getString("language");
         String overview = documentSnapshot.getString("overview");
@@ -104,7 +104,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                         documentSnapshot -> {
                             Movie movie = getMovieFromSnapshot(documentSnapshot);
                             String movieJson = new Gson().toJson(movie);
-                            intent.putExtra("movieJson", movieJson);
+                            intent.putExtra(Constants.INTENT_EXTRA_MOVIE_JSON, movieJson);
                             context.startActivity(intent);
                         });
     }
