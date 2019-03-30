@@ -2,6 +2,7 @@ package nl.avans.kinoplex.presentation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,12 +11,16 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.dataaccessobjects.TMDbListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
+
+import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 
 public class MainActivity extends AppCompatActivity {
+
 
     private MainListAdapter parentAdapter;
     RecyclerView.Adapter movieAdapter;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(parentAdapter);
         System.out.println(mainRecyclerView);
 
+
         // set the parentAdapter to the mainrecyclerview
         mainRecyclerView.setAdapter(parentAdapter);
         DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
@@ -55,5 +61,5 @@ public class MainActivity extends AppCompatActivity {
     /*movieAdapter = new MovieAdapter(new ArrayList<>());
     DataMigration.getFactory().getMovieDao(550).readIntoAdapter(movieAdapter); // Async*/
     }
-
 }
+

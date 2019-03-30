@@ -14,6 +14,7 @@ public class MovieList extends DomainObject {
     private String dbId;
     private int userId;
 
+
     public MovieList(String name, int userId) {
         this.name = name;
         this.userId = userId;
@@ -28,12 +29,19 @@ public class MovieList extends DomainObject {
         this.dbId = dbId;
     }
 
+
     public void addMovie(Movie movie) {
         this.movieList.add(movie);
     }
 
+
     public void removeMovie(int movieId) {
     }
+
+    public List<DomainObject> getDomainMovieList() {
+        return new ArrayList<>(movieList);
+    }
+
 
     public List<Movie> getMovieList() {
         return movieList;
@@ -43,6 +51,7 @@ public class MovieList extends DomainObject {
         return listSet;
     }
 
+
     public String getName() {
         return name;
     }
@@ -51,6 +60,7 @@ public class MovieList extends DomainObject {
     public String getId() {
         return dbId;
     }
+
 
     @Override
     public Map<String, Object> storeToMap() {
@@ -65,4 +75,5 @@ public class MovieList extends DomainObject {
             }
         };
     }
+
 }
