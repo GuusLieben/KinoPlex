@@ -1,8 +1,6 @@
 package nl.avans.kinoplex.presentation.adapters;
 
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.protobuf.StringValue;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,7 +52,7 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
         //genre.setText(movie.getGenres()[0]);
         viewHolder.getMovieTitle().setText(movie.getTitle()); // sets the title of the movie in the recyclerview
         releaseYear.setText(String.valueOf(getYear(movie.getReleaseDate()))); // sets the releaseyear of the movie in the recyclerview
-        ratingBar.setRating(5); // sets rating of the movie
+        ratingBar.setRating(movie.getRating().floatValue()); // sets rating of the movie
 
 
     }

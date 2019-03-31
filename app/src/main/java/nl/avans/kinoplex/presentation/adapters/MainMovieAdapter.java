@@ -32,7 +32,7 @@ public class MainMovieAdapter extends AbstractAdapter<MainMovieViewHolder> {
     context = viewGroup.getContext();
 
 //    int layoutID = R.layout.main_movie_item;
-    int layoutID = R.layout.movie_row;
+    int layoutID = R.layout.main_movie_item;
     LayoutInflater inflater = LayoutInflater.from(context);
 
     View view = inflater.inflate(layoutID, viewGroup, false);
