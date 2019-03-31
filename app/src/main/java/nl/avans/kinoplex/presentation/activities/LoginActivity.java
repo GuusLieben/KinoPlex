@@ -17,7 +17,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 
+import java.util.Random;
+
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.PosterPicker;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
@@ -38,8 +41,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         ImageView background = findViewById(R.id.iv_login_background);
-        Glide.with(this).load(R.drawable.login_background_poster).into(background);
+        Glide.with(this).load(PosterPicker.getRandomPosterID()).into(background);
 
         usernameEditText = findViewById(R.id.et_login_username);
         passwordEditText = findViewById(R.id.et_login_password);

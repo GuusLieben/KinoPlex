@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.PosterPicker;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 
@@ -32,7 +33,7 @@ public class RegisterActivity extends Activity implements
         setContentView(R.layout.activity_register);
 
         ImageView background = findViewById(R.id.iv_login_background);
-        Glide.with(this).load(R.drawable.login_background_poster).into(background);
+        Glide.with(this).load(PosterPicker.getRandomPosterID()).into(background);
 
         registerButton = findViewById(R.id.btn_register_register);
         registerButton.setOnClickListener(this);
