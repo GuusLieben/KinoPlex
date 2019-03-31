@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import nl.avans.kinoplex.business.JsonUtilsTask;
@@ -54,13 +56,12 @@ public class TMDbMovieDao implements DaoObject {
                 int runtime = result.getInt("runtime");
                 JSONArray genres = result.getJSONArray("genres");
                 double rating = result.getDouble("vote_average");
-                String[] genreIds = new String[genres.length()];
+                List<String> genreIds = new ArrayList<>();
 
-                if (genreIds.length > 0)
-                    for (int i = 0; i < genres.length(); i++) {
-                        JSONObject genre = (JSONObject) genres.get(i);
-                        genreIds[i] = String.valueOf(genre.getInt("id"));
-                    }
+                for (int i = 0; i < genres.length(); i++) {
+                    JSONObject genre = (JSONObject) genres.get(i);
+                    genreIds.add(String.valueOf(genre.get("id")));
+                }
                 Movie movie = (Movie) id;
                 movie.setLanguage(language);
                 movie.setTag(tagline);
