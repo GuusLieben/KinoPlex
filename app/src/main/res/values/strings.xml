@@ -2,6 +2,7 @@
     <string name="app_name">KinoPlex</string>
     <string name="search">Search</string>
     <string name="home" translatable="false">Home</string>
+    <string name="account" translatable="false">Account</string>
 
     <string name="contentDescription" translatable="false">Image</string>
 
@@ -26,6 +27,8 @@
     <string name="register">Register</string>
     <string name="invalidLogin">Invalid credentials!</string>
     <string name="fullName">Full name&#8230;</string>
+    <string name="rememberme">Remember me</string>
+    <string name="logout">Log Out</string>
 
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>

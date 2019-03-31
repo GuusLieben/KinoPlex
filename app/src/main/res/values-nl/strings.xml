@@ -21,4 +21,6 @@
 
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
+    <string name="rememberme">Wachtwoord onthouden</string>
+    <string name="logout">Uitloggen</string>
 </resources>

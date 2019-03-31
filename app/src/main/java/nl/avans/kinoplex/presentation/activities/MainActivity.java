@@ -21,7 +21,8 @@ import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener {
 
 
     private MainListAdapter parentAdapter;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
+        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_search, menu);
 
+
         MenuItem searchItem = menu.findItem(R.id.home_search);
         searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -87,9 +90,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         return true;
-
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home_account_logout :
+                LoginManager.
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
