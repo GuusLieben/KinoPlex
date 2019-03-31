@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.business;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -63,5 +64,9 @@ public class LoginManager {
 
         Log.d(Constants.LOGINMANGER_TAG, "Could not start user login");
         return null;
+    }
+
+    public static void Logout(Context context, Activity activity) {
+        
     }
 }
