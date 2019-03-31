@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 
 public class RegisterActivity extends Activity implements
@@ -54,7 +56,16 @@ public class RegisterActivity extends Activity implements
             return;
         }
 
+        Pair<String, String> credentials = new Pair<>(fullname, password);
 
+        if(DataMigration.getFactory().getUserDao().create(credentials)) {
+            finish();
+        } else {
+            passwordEditText.setText("");
+            repeatPasswordEditText.setText("");
+            passwordEditText.setBackground(getResources().getDrawable(R.drawable.login_edittext_errorcolor));
+            repeatPasswordEditText.setBackground(getResources().getDrawable(R.drawable.login_edittext_errorcolor));
+        }
     }
 
     //Listener methods to check if the confirmed password and the normal password are the same
@@ -65,7 +76,14 @@ public class RegisterActivity extends Activity implements
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        
+        String password = passwordEditText.getText().toString();
+        String repeatPassword = repeatPasswordEditText.getText().toString();
+
+        if(!password.equals(repeatPassword)) {
+            repeatPasswordEditText.setBackground(getResources().getDrawable(R.drawable.login_edittext_errorcolor));
+        } else {
+            repeatPasswordEditText.setBackground(getResources().getDrawable(R.drawable.login_edittext_color));
+        }
     }
 
     @Override
