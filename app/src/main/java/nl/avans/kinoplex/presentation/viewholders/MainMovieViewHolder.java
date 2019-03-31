@@ -60,7 +60,7 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
         System.out.println(movie.getTitle());
         movieTitle.setText(movie.getTitle());
 
-        movieRating.setRating((float) 4);
+        movieRating.setRating(movie.getRating().floatValue() / 2);
         Glide.with(movieTitle)
                 .load(movie.getPosterPath())
                 .into(moviePoster);

@@ -100,6 +100,8 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                     //noinspection ConstantConditions
                     boolean adult = movieObject.getBoolean("adult");
                     JSONArray genres = movieObject.getJSONArray("genre_ids");
+                    Double rating = movieObject.getDouble("vote_average");
+
                     String[] genreArray = new String[genres.length()];
                     if (genres.length() != 0)
                         for (int j = 0; j < genres.length(); j++) {
@@ -108,6 +110,8 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                         }
 
                     Movie movie = new Movie(title, id, runtime, posterPath, adult, genreArray, tag, language, overview, releaseDate);
+                    movie.setRating(rating);
+
                     DataMigration.getFactory().getMovieDao(id).create(movie);
                     ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(id)).readIntoList(list);
                     DataMigration.getFactory().getMovieDao(id).readIntoAdapter((RecyclerView.Adapter) pairs[2]);

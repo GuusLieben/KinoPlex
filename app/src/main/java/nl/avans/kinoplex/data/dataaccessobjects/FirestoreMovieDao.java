@@ -68,8 +68,9 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
         Date releaseDate = documentSnapshot.getDate("release_date");
         //noinspection ConstantConditions
         boolean adult = documentSnapshot.getBoolean("adult");
+        Double rating = documentSnapshot.getDouble("rating_avg");
 
-        return new Movie(
+        Movie movie = new Movie(
                 title,
                 id,
                 runtime,
@@ -80,6 +81,10 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 language,
                 overview,
                 releaseDate);
+        movie.setRating(rating);
+
+        return
+                movie;
     }
 
     public void readIntoList(MovieList movieList) {
