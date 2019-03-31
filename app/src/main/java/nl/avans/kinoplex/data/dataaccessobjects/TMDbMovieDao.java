@@ -76,9 +76,10 @@ public class TMDbMovieDao implements DaoObject {
                 List<String> genreList = new ArrayList<>();
                 if (genres.length() != 0)
                     for (int j = 0; j < genres.length(); j++) {
-                        String genre = genres.getString(j);
-                        genreList.add(genre);
+                        JSONObject genre = genres.getJSONObject(j);
+                        genreList.add(String.valueOf(genre.getInt("id")));
                     }
+
                 Movie movie = new Movie(title, id, runtime, posterPath, adult, genreList, tag, language, overview, releaseDate);
                 movie.setRating(rating);
                 if (integers[1] != null) {
