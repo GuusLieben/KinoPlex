@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.data.dataaccessobjects;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -112,7 +113,26 @@ public class FirestoreUserDao implements DaoObject<Pair> {
         });
     }
 
-    private final String md5(final String s) {
+    public void startIntentOnSavedCredentials(Pair<String, String> credentials, Context context, Intent intent, Activity activity) {
+        Log.d(Constants.LOGINMANGER_TAG, "Attempting to log the user in on saved credentials...");
+        String username = credentials.first;
+        String password = credentials.second;
+
+        FirebaseFirestore db = FirestoreUtils.getInstance();
+        db.collection(Constants.COL_USERS).document(username).get().addOnSuccessListener(documentSnapshot -> {
+            final String hashedDocPass = documentSnapshot.getString("password");
+            if (password.equalsIgnoreCase(hashedDocPass)) {
+                Log.d(Constants.LOGINMANGER_TAG, "Logging the user in...");
+                context.startActivity(intent);
+                activity.finish();
+            } else {
+                Intent loginIntent = new Intent(context, LoginActivity.class);
+                context.startActivity(loginIntent);
+            }
+        });
+    }
+
+    public static final String md5(final String s) {
         final String MD5 = "MD5";
         try {
             // Create MD5 Hash

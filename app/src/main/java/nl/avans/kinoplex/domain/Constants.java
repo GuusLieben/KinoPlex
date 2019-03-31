@@ -2,6 +2,7 @@ package nl.avans.kinoplex.domain;
 
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.business.JsonUtils;
+import nl.avans.kinoplex.business.LoginManager;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreMovieDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
@@ -34,6 +35,7 @@ public class Constants {
 
     public static final String FIRESTOREUTILS_TAG = FirestoreUtils.class.getCanonicalName();
     public static final String JSONUTILS_TAG = JsonUtils.class.getCanonicalName();
+    public static final String LOGINMANGER_TAG = LoginManager.class.getCanonicalName();
 
     public static final String FIRESTORELISTDAO_TAG = FirestoreListDao.class.getCanonicalName();
     public static final String FIRESTOREMOVIEDAO_TAG = FirestoreMovieDao.class.getCanonicalName();
@@ -80,4 +82,11 @@ public class Constants {
     public static final String INTENT_EXTRA_MOVIEID = "MovieID";
     public static final String INTENT_EXTRA_MOVIE_JSON = "movieJson";
     public static final String INTENT_EXTRA_LOGIN_VALIDATED = "lastLoginWasValid";
+
+
+    //Shared Preferences
+    public static final String PREF_LOGIN = "loginPreferences";
+    public static final String PREF_USERNAME = "username";
+    public static final String PREF_HASHEDPASS = "usernameHash";
+    public static final String PREF_AUTOLOGIN = "autoLogin";
 }

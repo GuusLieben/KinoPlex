@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,10 +17,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-
-import java.util.Random;
-
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.LoginManager;
 import nl.avans.kinoplex.business.PosterPicker;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
@@ -36,12 +35,23 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private LinearLayout loginScreen;
     private ProgressBar progressBar;
 
+    private CheckBox rememberMeCheckBox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Pair<String, String> credentials = LoginManager.getLoginCredentials(this);
+        if(credentials != null) {
+            if(credentials.first != null && credentials.second != null) {
+                Intent mainIntent = new Intent(this, MainActivity.class);
+                ((FirestoreUserDao) DataMigration.getFactory().getUserDao())
+                        .startIntentOnSavedCredentials(credentials, this, mainIntent, this);
+                return;
+            }
+        }
+
         setContentView(R.layout.activity_login);
-
-
         ImageView background = findViewById(R.id.iv_login_background);
         Glide.with(this).load(PosterPicker.getRandomPosterID()).into(background);
 
@@ -57,6 +67,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         loginScreen = findViewById(R.id.ll_login_screen);
         progressBar = findViewById(R.id.pb_login_loading);
+
+        rememberMeCheckBox = findViewById(R.id.cb_remember_me);
     }
 
 
@@ -70,6 +82,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 String password = passwordEditText.getText().toString();
 
                 Pair<String, String> credentials = new Pair<>(username, password);
+
+                if(rememberMeCheckBox.isChecked()) {
+                    Log.d(Constants.LOGINACT_TAG, "User wants to save password");
+
+                    LoginManager.saveLoginCredentials(this, credentials);
+                }
 
                 Intent mainIntent = new Intent(this, MainActivity.class);
                 ((FirestoreUserDao) DataMigration.getFactory().getUserDao())
