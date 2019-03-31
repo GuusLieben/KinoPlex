@@ -96,4 +96,6 @@ public class Constants {
     public static final String PREF_USERNAME = "username";
     public static final String PREF_HASHEDPASS = "usernameHash";
     public static final String PREF_AUTOLOGIN = "autoLogin";
+
+    public static final String INTENT_EXTRA_MOVIELIST = "movieListObject";
 }
