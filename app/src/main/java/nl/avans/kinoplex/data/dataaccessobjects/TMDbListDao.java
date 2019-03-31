@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +14,9 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import nl.avans.kinoplex.business.JsonUtils;
@@ -58,24 +59,25 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
     }
 
     @Override
-    public DomainObject readCollection(String identifier, int page) throws ExecutionException, InterruptedException {
+    public DomainObject readCollectionToAdapter(String identifier, int page, RecyclerView.Adapter adapter) throws ExecutionException, InterruptedException {
         ReadFromTMDb task = new ReadFromTMDb();
-        task.execute(new Pair<String, Integer>(identifier, page));
+        task.execute(identifier, page, adapter);
         return task.get();
     }
 
-    private class ReadFromTMDb extends AsyncTask<Pair<String, Integer>, Void, DomainObject> {
+    private class ReadFromTMDb extends AsyncTask<Object, Void, DomainObject> {
 
         @Override
-        protected DomainObject doInBackground(Pair<String, Integer>... pairs) {
-            String identifier = pairs[0].first;
-            int page = pairs[0].second;
+        protected DomainObject doInBackground(Object... pairs) {
+            String identifier = (String) pairs[0];
+            int page = (int) pairs[1];
 
             Uri listUri = Uri.parse(Constants.MOVIE_API_URL + identifier)
                     .buildUpon()
-                    .appendQueryParameter("api_key", "fe324f20d33c7b7991dbbd8bdb4b7413")
+                    .appendQueryParameter("api_key", Constants.API_KEY)
                     .appendQueryParameter("page", String.valueOf(page))
                     .build();
+
             try {
                 JSONObject result = JsonUtils.getJSONObjectFromUrl(listUri);
 
@@ -88,10 +90,10 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                     JSONObject movieObject = (JSONObject) movies.get(i);
                     String title = movieObject.getString("title");
                     int id = movieObject.getInt("id");
-                    int runtime = 0; // Fack
+                    int runtime = 0;
                     String posterPath = Constants.IMAGE_URL + movieObject.getString("poster_path");
-                    String tag = ""; // Fack
-                    String language = ""; // Fack
+                    String tag = "";
+                    String language = "";
                     String overview = movieObject.getString("overview");
                     @SuppressLint("SimpleDateFormat")
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -100,16 +102,21 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                     //noinspection ConstantConditions
                     boolean adult = movieObject.getBoolean("adult");
                     JSONArray genres = movieObject.getJSONArray("genre_ids");
-                    String[] genreArray = new String[genres.length()];
+                    Double rating = movieObject.getDouble("vote_average");
+
+                    List<String> genreList = new ArrayList<>();
                     if (genres.length() != 0)
                         for (int j = 0; j < genres.length(); j++) {
                             String genre = genres.getString(j);
-                            genreArray[j] = genre;
+                            genreList.add(genre);
                         }
 
-                    Movie movie = new Movie(title, id, runtime, posterPath, adult,genreArray, tag, language, overview, releaseDate);
+                    Movie movie = new Movie(title, id, runtime, posterPath, adult, genreList, tag, language, overview, releaseDate);
+                    movie.setRating(rating);
+
                     DataMigration.getFactory().getMovieDao(id).create(movie);
                     ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(id)).readIntoList(list);
+                    DataMigration.getFactory().getMovieDao(id).readIntoAdapter((RecyclerView.Adapter) pairs[2]);
                 }
 
                 return list;

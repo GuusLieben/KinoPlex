@@ -4,23 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".presentation.activities.DetailActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="4">
+        android:layout_height="300dp">
 
         <ImageView
             android:id="@+id/iv_detail_movie_backdrop"
             android:contentDescription="@string/contentDescription"
-            android:scaleType="centerCrop"
+            android:scaleType="matrix"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <ImageView
+            android:contentDescription="@string/contentDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/gradient"/>
 
         <LinearLayout
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -35,7 +42,10 @@
 
                 <TextView
                     android:id="@+id/tv_detail_movie_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:textColor="@color/textColor"
+                    android:layout_weight="1"
+                    android:text="Default"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"/>
 
@@ -44,8 +54,10 @@
                     android:id="@+id/btn_detail_options"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/actionColor"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:text="@string/vertical_ellipsis"
+                    android:textSize="30sp"/>
 
             </LinearLayout>
 
@@ -56,6 +68,7 @@
 
                 <TextView
                     android:id="@+id/tv_detail_movie_year"
+                    android:textColor="@color/textColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -66,6 +79,7 @@
 
                 <TextView
                     android:id="@+id/tv_detail_movie_runtime"
+                    android:textColor="@color/textColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -76,6 +90,7 @@
 
                 <TextView
                     android:id="@+id/tv_detail_movie_genre"
+                    android:textColor="@color/textColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -85,14 +100,10 @@
 
     </FrameLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_weight=".2"
-        android:background="?android:attr/listDivider" />
 
     <TextView
         android:id="@+id/tv_detail_movie_status"
+        android:textColor="@color/textColor"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_weight=".2"
@@ -103,12 +114,15 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_weight=".2"
         android:background="?android:attr/listDivider" />
 
     <TextView
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+
+        android:textColor="@color/textColor"
         android:id="@+id/tv_detail_movie_description"
         android:layout_weight="5"
         android:layout_width="match_parent"
@@ -122,50 +136,42 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:orientation="horizontal">
 
         <RatingBar
             android:id="@+id/rb_detail_movie_rating"
             android:numStars="5"
             android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
+            android:progressTint="@color/starColor"
             android:isIndicator="true"
             android:rating="3.6"
             style="?android:attr/ratingBarStyleIndicator"/>
 
+        <TextView
+            android:id="@+id/tv_detail_movie_avg_rating"
+            android:textColor="@color/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp" />
+
         <Button
             android:id="@+id/btn_detail_show_reviews"
             android:layout_width="wrap_content"
+            android:textColor="@color/actionColor"
             android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:text="@string/showReviews"
             android:textSize="12sp"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_detail_movie_avg_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" - "/>
-
-        <TextView
-            android:id="@+id/tv_detail_movie_vote_nmb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/votes"/>
-    </LinearLayout>
 
 
 </LinearLayout>

@@ -1,11 +1,35 @@
 <resources>
     <string name="app_name">KinoPlex</string>
     <string name="search">Search</string>
+    <string name="home" translatable="false">Home</string>
+    <string name="account" translatable="false">Account</string>
 
     <string name="contentDescription" translatable="false">Image</string>
-    <string name="showReviews">Show Reviews</string>
 
+    <string name="showReviews">Show Reviews</string>
     <string name="seeAll">SEE ALL</string>
+    <string name="vertical_ellipsis" translatable="false">&#8942;</string>
 
     <string name="votes">voters</string>
+
+    <string name="now_playing">Now Playing</string>
+    <string name="Popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+
+    <string name="addToList">Add to list</string>
+    <string name="AddReview">Add Review</string>
+    <string name="Share">Share</string>
+
+    <string name="username">Username&#8230;</string>
+    <string name="password">Password&#8230;</string>
+    <string name="repeatPassword">Confirm Password&#8230;</string>
+    <string name="login">Log in</string>
+    <string name="register">Register</string>
+    <string name="invalidLogin">Invalid credentials!</string>
+    <string name="fullName">Full name&#8230;</string>
+    <string name="rememberme">Remember me</string>
+    <string name="logout">Log Out</string>
+
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 </resources>

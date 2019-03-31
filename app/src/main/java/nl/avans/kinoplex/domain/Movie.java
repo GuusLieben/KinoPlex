@@ -9,17 +9,18 @@ import java.util.List;
 import java.util.Map;
 
 public class Movie extends DomainObject {
-    List<Review> reviews;
+    List<TMDbReview> reviews;
     String title;
     int id;
     int runtime;
     String posterPath;
-    String[] genres;
+    List<String> genres;
     String tag;
     String language;
     String overview;
     Date releaseDate;
     boolean adult;
+    Double rating;
 
     public Movie(
             String title,
@@ -27,7 +28,7 @@ public class Movie extends DomainObject {
             int runtime,
             String posterPath,
             boolean adult,
-            String[] genres,
+            List<String> genres,
             String tag,
             String language,
             String overview,
@@ -42,6 +43,18 @@ public class Movie extends DomainObject {
         this.language = language;
         this.overview = overview;
         this.releaseDate = releaseDate;
+    }
+
+    public boolean isAdult() {
+        return adult;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public String getTitle() {
@@ -67,7 +80,7 @@ public class Movie extends DomainObject {
         return Uri.parse(posterPath);
     }
 
-    public String[] getGenres() {
+    public List<String> getGenres() {
         return genres;
     }
 
@@ -92,11 +105,11 @@ public class Movie extends DomainObject {
         return formatYear.format(releaseDate);
     }
 
-    public void addReview(Review review) {
+    public void addReview(TMDbReview review) {
         this.reviews.add(review);
     }
 
-    public void setReviews(List<Review> reviews) {
+    public void setReviews(List<TMDbReview> reviews) {
         this.reviews = reviews;
     }
 
@@ -116,7 +129,7 @@ public class Movie extends DomainObject {
         this.posterPath = posterPath;
     }
 
-    public void setGenres(String[] genres) {
+    public void setGenres(List<String> genres) {
         this.genres = genres;
     }
 
@@ -140,7 +153,7 @@ public class Movie extends DomainObject {
         this.adult = adult;
     }
 
-    public List<Review> getReviews() {
+    public List<TMDbReview> getReviews() {
         return reviews;
     }
 
@@ -155,9 +168,10 @@ public class Movie extends DomainObject {
                 put("release_date", releaseDate);
                 put("runtime", runtime);
                 put("overview", overview);
-                put("poster", posterPath.toString());
+                put("poster", posterPath);
                 put("tagline", tag);
-                put("genre", "1");
+                put("genres", genres);
+                put("rating_avg", rating);
             }
         };
     }

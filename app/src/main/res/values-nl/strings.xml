@@ -5,4 +5,22 @@
     <string name="showReviews">Toon Reviews</string>
     <string name="seeAll">BEKIJK ALLES</string>
     <string name="votes">stemmen</string>
+    <string name="now_playing">Speelt nu</string>
+    <string name="Popular">Populair</string>
+    <string name="top_rated">Hoogst Scorend</string>
+    <string name="addToList">Aan lijst toevoegen</string>
+    <string name="AddReview">Review Toevoegen</string>
+    <string name="Share">Delen</string>
+    <string name="username">Gebruikersnaam&#8230;</string>
+    <string name="password">Wachtwoord&#8230;</string>
+    <string name="login">Inloggen</string>
+    <string name="register">Registreren</string>
+    <string name="invalidLogin">Ongeldige inloggegevens!</string>
+    <string name="repeatPassword">Herhaal Wachtwoord&#8230;</string>
+    <string name="fullName">Volledige naam&#8230;</string>
+
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="rememberme">Wachtwoord onthouden</string>
+    <string name="logout">Uitloggen</string>
 </resources>

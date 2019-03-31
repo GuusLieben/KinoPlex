@@ -1,26 +1,19 @@
 package nl.avans.kinoplex.presentation.adapters;
 
 
-import android.app.Activity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.domain.DomainObject;
-import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
-
-
 import nl.avans.kinoplex.presentation.viewholders.MainListViewHolder;
-import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
 
 public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
@@ -48,16 +41,8 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
   @Override
   public void onBindViewHolder(@NonNull MainListViewHolder mainListViewHolder, int i) {
     MovieList list = (MovieList) getDataSet().get(i);
-    String name = list.getName();
+    mainListViewHolder.bind(list);
 
-    List<Movie> movies = list.getMovieList();
-    List<DomainObject> domainMovies = new ArrayList<>(movies);
-
-    AbstractAdapter<MainMovieViewHolder> adapter = new MainMovieAdapter(domainMovies);
-    RecyclerView recyclerView = ((Activity) context).findViewById(R.id.recyclerview_movie_filter);
-
-    recyclerView.setAdapter(adapter);
-    // Adapter shit
   }
 
   @Override

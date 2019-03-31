@@ -10,7 +10,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.data.factories.DataMigration;
@@ -56,7 +58,6 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
     }
 
     private Movie getMovieFromSnapshot(DocumentSnapshot documentSnapshot) {
-        System.out.println(documentSnapshot);
         String title = documentSnapshot.getString("title");
         int id = Integer.parseInt(documentSnapshot.getId());
         int runtime = Integer.parseInt(String.valueOf(documentSnapshot.get("runtime")));
@@ -68,18 +69,24 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
         Date releaseDate = documentSnapshot.getDate("release_date");
         //noinspection ConstantConditions
         boolean adult = documentSnapshot.getBoolean("adult");
+        Double rating = documentSnapshot.getDouble("rating_avg");
+        List<String> genres = (List<String>) documentSnapshot.get("genres");
+        if (genres == null) genres = new ArrayList<>();
 
-        return new Movie(
+        Movie movie = new Movie(
                 title,
                 id,
                 runtime,
                 uriString,
                 adult,
-                new String[]{},
+                genres,
                 tag,
                 language,
                 overview,
                 releaseDate);
+        movie.setRating(rating);
+
+        return movie;
     }
 
     public void readIntoList(MovieList movieList) {
@@ -88,8 +95,12 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 .get()
                 .addOnSuccessListener(
                         documentSnapshot -> {
-                            movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
-                            ((FirestoreListDao) DataMigration.getFactory().getListDao()).addMovieToList(movieList, movieId);
+                            if (documentSnapshot.getData() == null || documentSnapshot.getData().isEmpty()) {
+                                ((TMDbMovieDao) DataMigration.getTMDbFactory().getMovieDao(movieId)).readIntoFirebase(movieId, movieList);
+                            } else {
+                                movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
+                                ((FirestoreListDao) DataMigration.getFactory().getListDao()).addMovieToList(movieList, movieId);
+                            }
                         });
     }
 
@@ -104,13 +115,25 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                             String movieJson = new Gson().toJson(movie);
                             intent.putExtra("movieJson", movieJson);
                             if (movie.getTag().equals("")) {
-                                new TMDbMovieDao().readIntoIntent(intent, context, movie);
+                                DataMigration.getTMDbFactory().getMovieDao().readIntoIntent(intent, context, movie);
                             } else context.startActivity(intent);
                         });
     }
 
     public void readAll(RecyclerView.Adapter adapter) {
-        readIntoAdapter(adapter);
+        db.collection(Constants.COL_MOVIES).get().addOnSuccessListener(
+                queryDocumentSnapshots -> {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                        if (documentSnapshot.getData() == null || documentSnapshot.getData().isEmpty() || documentSnapshot.get("runtime") == null) {
+                            System.out.println("FILL ME UP DADDY");
+                            ((TMDbMovieDao) DataMigration.getTMDbFactory().getMovieDao(movieId)).readIntoFirebase(movieId, null);
+                        } else {
+                            Movie movie = getMovieFromSnapshot(documentSnapshot);
+                            ((AbstractAdapter) adapter).addToDataSet(movie);
+                        }
+                    }
+                }
+        );
     }
 
     @Override
