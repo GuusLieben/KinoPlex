@@ -110,7 +110,14 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
     }
 
     public void readAll(RecyclerView.Adapter adapter) {
-        readIntoAdapter(adapter);
+        db.collection(Constants.COL_MOVIES).get().addOnSuccessListener(
+                queryDocumentSnapshots -> {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                        Movie movie = getMovieFromSnapshot(documentSnapshot);
+                        ((AbstractAdapter) adapter).addToDataSet(movie);
+                    }
+                }
+        );
     }
 
     @Override
