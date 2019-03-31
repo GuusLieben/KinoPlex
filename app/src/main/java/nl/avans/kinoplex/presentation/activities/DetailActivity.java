@@ -147,6 +147,7 @@ public class DetailActivity extends AppCompatActivity
 
             case R.id.detail_options_share:
                 Log.d(Constants.DETAILACT_TAG, "User wants to share this movie...");
+
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, movie.getPosterPath().toString());
