@@ -24,18 +24,16 @@ public class FirestoreUserDao implements DaoObject<Pair> {
 
     @Override
     public boolean create(Pair pair) {
-        String id = db.collection(Constants.COL_USERS).document().getId();
         // TODO : Add a line to store UserID to shared preferences
         HashMap<String, Object> userData =
                 new HashMap<String, Object>() {
                     {
                         put("fullname", pair.first);
-                        put("username", pair.first.toString().replace(" ", "").toLowerCase());
                         String password = md5(String.valueOf(pair.second));
                         put("password", password);
                     }
                 };
-        db.collection(Constants.COL_USERS).document(id).set(userData);
+        db.collection(Constants.COL_USERS).document(pair.first.toString().replace(" ", "").toLowerCase()).set(userData);
         return true;
     }
 
@@ -61,7 +59,7 @@ public class FirestoreUserDao implements DaoObject<Pair> {
         FirebaseFirestore db = FirestoreUtils.getInstance();
         db.collection(Constants.COL_USERS).document(username).get().addOnSuccessListener(documentSnapshot -> {
             final String hashedDocPass = documentSnapshot.getString("password");
-            if (password.equals(hashedDocPass)) {
+            if (password.equalsIgnoreCase(hashedDocPass)) {
                 context.startActivity(intent);
             }
         });

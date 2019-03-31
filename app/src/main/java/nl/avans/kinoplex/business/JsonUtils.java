@@ -17,13 +17,12 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import nl.avans.kinoplex.domain.Constants;
-import nl.avans.kinoplex.domain.Movie;
 
 public class JsonUtils<T> {
 
   public T parseToObject(String json) {
     // Use Gson to parse a JSON string into an object, don't touch this or I'll stab you -GL
-    Type t = new TypeToken<T>() {}.getType();
+    Type t = new TypeToken<JsonUtils<T>>() {}.getType();
     return new Gson().fromJson(json, t);
   }
 
