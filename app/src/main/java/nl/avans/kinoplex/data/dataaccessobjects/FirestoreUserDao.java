@@ -26,6 +26,19 @@ public class FirestoreUserDao implements DaoObject<Pair> {
 
     @Override
     public boolean create(Pair pair) {
+        if(pair == null) {
+            return false;
+        }
+
+        if(pair.first == null || pair.second == null) {
+            return false;
+        }
+
+        if(pair.first.equals("") || pair.second.equals("")) {
+            return false;
+        }
+
+
         // TODO : Add a line to store UserID to shared preferences
         HashMap<String, Object> userData =
                 new HashMap<String, Object>() {
@@ -58,14 +71,17 @@ public class FirestoreUserDao implements DaoObject<Pair> {
         activity.showLoadingScreen();
 
         if(credentials == null) {
+            activity.showLoginError();
             return;
         }
 
         if(context == null) {
+            activity.showLoginError();
             return;
         }
 
         if(intent == null) {
+            activity.showLoginError();
             return;
         }
 
@@ -74,10 +90,12 @@ public class FirestoreUserDao implements DaoObject<Pair> {
         final String password = md5(String.valueOf(credentials.second));
 
         if(username == null || password == null) {
+            activity.showLoginError();
             return;
         }
 
         if(username.equals("") || password.equals("")) {
+            activity.showLoginError();
             return;
         }
 

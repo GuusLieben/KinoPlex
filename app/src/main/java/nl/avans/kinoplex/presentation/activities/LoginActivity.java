@@ -82,6 +82,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     public void showLoginError() {
+        Log.d(Constants.LOGINACT_TAG, "Login failed, showing error...");
+
         showLoginScreen();
 
         passwordEditText.setText("");
@@ -92,11 +94,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     public void showLoadingScreen() {
+        Log.d(Constants.LOGINACT_TAG, "Now showing progress bar...");
+
         loginScreen.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     private void showLoginScreen() {
+        Log.d(Constants.LOGINACT_TAG, "Now showing login screen...");
+
         progressBar.setVisibility(View.INVISIBLE);
         loginScreen.setVisibility(View.VISIBLE);
     }
