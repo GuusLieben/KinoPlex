@@ -9,4 +9,6 @@
     <color name="actionColor">#128bb5</color>
     <color name="starColor">#deb522</color>
     <color name="loginButtonColor">#deb522</color>
+    <color name="loginButtonErrorColor">#de5021</color>
+    <color name="loginHintColor">#999999</color>
 </resources>

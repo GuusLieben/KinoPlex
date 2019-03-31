@@ -15,4 +15,7 @@
     <string name="password">Wachtwoord&#8230;</string>
     <string name="login">Inloggen</string>
     <string name="register">Registreren</string>
+    <string name="invalidLogin">Ongeldige inloggegevens!</string>
+    <string name="repeatPassword">Herhaal Wachtwoord&#8230;</string>
+    <string name="fullName">Volledige naam&#8230;</string>
 </resources>
