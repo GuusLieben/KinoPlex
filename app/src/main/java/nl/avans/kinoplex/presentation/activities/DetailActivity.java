@@ -88,7 +88,7 @@ public class DetailActivity extends AppCompatActivity
         movieAvgRatingTextView.setText("8.2");
         movieVoteNmbTextView.setText("10594 ");
 
-        movieRatingBar.setRating((float) 8.2 / 2);
+        movieRatingBar.setRating((float) movie.getRating().floatValue() / 2);
 
         setTitle(movie.getTitle());
 

@@ -53,6 +53,7 @@ public class TMDbMovieDao implements DaoObject {
                 String tagline = result.getString("tagline");
                 int runtime = result.getInt("runtime");
                 JSONArray genres = result.getJSONArray("genres");
+                double rating = result.getDouble("vote_average");
                 String[] genreIds = new String[genres.length()];
 
                 if (genreIds.length > 0)
@@ -65,6 +66,7 @@ public class TMDbMovieDao implements DaoObject {
                 movie.setTag(tagline);
                 movie.setRuntime(runtime);
                 movie.setGenres(genreIds);
+                movie.setRating(rating);
 
                 DataMigration.getFactory().getMovieDao().create(movie);
 

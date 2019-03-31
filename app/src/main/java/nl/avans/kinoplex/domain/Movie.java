@@ -20,6 +20,7 @@ public class Movie extends DomainObject {
     String overview;
     Date releaseDate;
     boolean adult;
+    Double rating;
 
     public Movie(
             String title,
@@ -42,6 +43,18 @@ public class Movie extends DomainObject {
         this.language = language;
         this.overview = overview;
         this.releaseDate = releaseDate;
+    }
+
+    public boolean isAdult() {
+        return adult;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public String getTitle() {
@@ -155,9 +168,10 @@ public class Movie extends DomainObject {
                 put("release_date", releaseDate);
                 put("runtime", runtime);
                 put("overview", overview);
-                put("poster", posterPath.toString());
+                put("poster", posterPath);
                 put("tagline", tag);
                 put("genre", "1");
+                put("rating_avg", rating);
             }
         };
     }
