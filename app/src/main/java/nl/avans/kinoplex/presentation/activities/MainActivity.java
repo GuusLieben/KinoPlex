@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.LoginManager;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home_account_logout :
-                LoginManager.
+                LoginManager.Logout(this, this);
         }
 
 
