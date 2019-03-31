@@ -14,7 +14,7 @@ public class Movie extends DomainObject {
     int id;
     int runtime;
     String posterPath;
-    String[] genres;
+    List<String> genres;
     String tag;
     String language;
     String overview;
@@ -28,7 +28,7 @@ public class Movie extends DomainObject {
             int runtime,
             String posterPath,
             boolean adult,
-            String[] genres,
+            List<String> genres,
             String tag,
             String language,
             String overview,
@@ -80,7 +80,7 @@ public class Movie extends DomainObject {
         return Uri.parse(posterPath);
     }
 
-    public String[] getGenres() {
+    public List<String> getGenres() {
         return genres;
     }
 
@@ -129,7 +129,7 @@ public class Movie extends DomainObject {
         this.posterPath = posterPath;
     }
 
-    public void setGenres(String[] genres) {
+    public void setGenres(List<String> genres) {
         this.genres = genres;
     }
 
@@ -170,7 +170,7 @@ public class Movie extends DomainObject {
                 put("overview", overview);
                 put("poster", posterPath);
                 put("tagline", tag);
-                put("genre", "1");
+                put("genres", genres);
                 put("rating_avg", rating);
             }
         };

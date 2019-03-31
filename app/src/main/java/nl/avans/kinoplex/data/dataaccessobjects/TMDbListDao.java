@@ -14,7 +14,9 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import nl.avans.kinoplex.business.JsonUtils;
@@ -102,14 +104,14 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                     JSONArray genres = movieObject.getJSONArray("genre_ids");
                     Double rating = movieObject.getDouble("vote_average");
 
-                    String[] genreArray = new String[genres.length()];
+                    List<String> genreList = new ArrayList<>();
                     if (genres.length() != 0)
                         for (int j = 0; j < genres.length(); j++) {
                             String genre = genres.getString(j);
-                            genreArray[j] = genre;
+                            genreList.add(genre);
                         }
 
-                    Movie movie = new Movie(title, id, runtime, posterPath, adult, genreArray, tag, language, overview, releaseDate);
+                    Movie movie = new Movie(title, id, runtime, posterPath, adult, genreList, tag, language, overview, releaseDate);
                     movie.setRating(rating);
 
                     DataMigration.getFactory().getMovieDao(id).create(movie);
