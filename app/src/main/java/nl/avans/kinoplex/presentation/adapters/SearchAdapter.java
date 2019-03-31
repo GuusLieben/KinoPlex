@@ -56,6 +56,7 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
             ratingBar.setRating(movie.getRating().floatValue()); // sets rating of the movie
         else ratingBar.setVisibility(View.INVISIBLE);
 
+
     }
 
     @Override

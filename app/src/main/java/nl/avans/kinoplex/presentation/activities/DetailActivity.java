@@ -1,6 +1,7 @@
 package nl.avans.kinoplex.presentation.activities;
 
 import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -34,12 +35,12 @@ public class DetailActivity extends AppCompatActivity
     private TextView movieStatusTextView;
     private TextView movieDescriptionTextView;
     private TextView movieAvgRatingTextView;
-    private TextView movieVoteNmbTextView;
 
     private RatingBar movieRatingBar;
 
     private Button movieShowReviews;
     private Button movieOptions;
+    private Movie movie;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -60,6 +61,7 @@ public class DetailActivity extends AppCompatActivity
 
         //Create a movie object  from JSON, logging the object information
         Movie movie = new Gson().fromJson(JSON, Movie.class);
+        this.movie = movie;
 
         movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 
@@ -70,7 +72,6 @@ public class DetailActivity extends AppCompatActivity
         movieStatusTextView = findViewById(R.id.tv_detail_movie_status);
         movieDescriptionTextView = findViewById(R.id.tv_detail_movie_description);
         movieAvgRatingTextView = findViewById(R.id.tv_detail_movie_avg_rating);
-        movieVoteNmbTextView = findViewById(R.id.tv_detail_movie_vote_nmb);
 
         movieRatingBar = findViewById(R.id.rb_detail_movie_rating);
 
@@ -83,6 +84,9 @@ public class DetailActivity extends AppCompatActivity
         Glide.with(this)
                 .load(movie.getPosterPath())
                 .into(movieBackdropImageView);
+
+        String ratingString = String.valueOf(movie.getRating());
+        float rating = Float.parseFloat(ratingString);
 
         movieTitleTextView.setText(movie.getTitle());
         movieYearTextView.setText(movie.getReleaseyear());
@@ -101,14 +105,10 @@ public class DetailActivity extends AppCompatActivity
         movieGenreTextView.setText(genres);
         movieStatusTextView.setText("Released");
         movieDescriptionTextView.setText(movie.getOverview());
-        movieAvgRatingTextView.setText("8.2");
-        movieVoteNmbTextView.setText("10594 ");
-
-        movieRatingBar.setRating((float) movie.getRating().floatValue() / 2);
+        movieAvgRatingTextView.setText(ratingString);
+        movieRatingBar.setRating(rating / 2);
 
         setTitle(movie.getTitle());
-
-
     }
 
     @Override
@@ -147,11 +147,20 @@ public class DetailActivity extends AppCompatActivity
 
             case R.id.detail_options_share:
                 Log.d(Constants.DETAILACT_TAG, "User wants to share this movie...");
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, movie.getPosterPath().toString());
 
-                break;
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+
+                return super.onOptionsItemSelected(item);
+
         }
 
 
         return false;
     }
+
 }

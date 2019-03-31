@@ -66,7 +66,9 @@
             android:layout_marginStart="-1dp"
             android:layout_marginTop="47dp"
             android:layout_toEndOf="@+id/image_view_movie_poster"
-            android:isIndicator="true" />
+            android:isIndicator="true"
+            android:progressTint="@color/starColor"
+            style="?android:attr/ratingBarStyleIndicator"/>
 
     </RelativeLayout>
 
