@@ -30,7 +30,7 @@ public class SearchActivity extends TaskLoaderActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new SearchAdapter(new ArrayList<>());
 
-        //DataMigration.getFactory().getMovieDao(512196).readAll(adapter);
+
         DataMigration.getFactory().getMovieDao().readAll(adapter);
 
 

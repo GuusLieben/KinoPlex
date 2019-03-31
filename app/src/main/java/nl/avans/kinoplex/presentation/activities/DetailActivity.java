@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class DetailActivity extends AppCompatActivity
 
     private Button movieShowReviews;
     private Button movieOptions;
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class DetailActivity extends AppCompatActivity
 
         //Create a movie object  from JSON, logging the object information
         Movie movie = new Gson().fromJson(JSON, Movie.class);
+        this.movie = movie;
 
         movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 
@@ -128,11 +131,20 @@ public class DetailActivity extends AppCompatActivity
 
             case R.id.detail_options_share:
                 Log.d(Constants.DETAILACT_TAG, "User wants to share this movie...");
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, movie.getPosterPath().toString());
 
-                break;
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+
+                return super.onOptionsItemSelected(item);
+
         }
 
 
         return false;
     }
+
 }
