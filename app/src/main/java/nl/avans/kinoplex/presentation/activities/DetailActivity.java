@@ -1,7 +1,7 @@
 package nl.avans.kinoplex.presentation.activities;
 
-import android.os.Build;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
+import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 
@@ -109,6 +111,17 @@ public class DetailActivity extends AppCompatActivity
         movieRatingBar.setRating(rating / 2);
 
         setTitle(movie.getTitle());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Asynchronously loads reviews into the movie
+        ((FirestoreReviewDao) DataMigration.getFactory().getReviewDao(Integer.parseInt(movie.getId()))).getList(movie, this);
+    }
+
+    public void setReviewText(String text) {
+        movieShowReviews.setText("Show reviews (" + text + ')');
     }
 
     @Override
