@@ -55,19 +55,19 @@ public class FirestoreUserDao implements DaoObject<Pair> {
     }
 
     public void startIntentIfLoginValid(Pair<String, String> credentials, Context context, Intent intent) {
-        String username = credentials.first;
-        String password = md5(String.valueOf(credentials.second));
+        final String username = credentials.first;
+        final String password = md5(String.valueOf(credentials.second));
 
         FirebaseFirestore db = FirestoreUtils.getInstance();
         db.collection(Constants.COL_USERS).document(username).get().addOnSuccessListener(documentSnapshot -> {
-            String hashedDocPass = documentSnapshot.getString("password");
+            final String hashedDocPass = documentSnapshot.getString("password");
             if (password.equals(hashedDocPass)) {
                 context.startActivity(intent);
             }
         });
     }
 
-    public static final String md5(final String s) {
+    private final String md5(final String s) {
         final String MD5 = "MD5";
         try {
             // Create MD5 Hash
