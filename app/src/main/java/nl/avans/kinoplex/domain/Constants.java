@@ -9,7 +9,9 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
 import nl.avans.kinoplex.presentation.activities.DetailActivity;
+import nl.avans.kinoplex.presentation.activities.LoginActivity;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
+import nl.avans.kinoplex.presentation.activities.RegisterActivity;
 import nl.avans.kinoplex.presentation.activities.SearchActivity;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
@@ -48,11 +50,17 @@ public class Constants {
 
     //    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
     public static final String DETAILACT_TAG = DetailActivity.class.getCanonicalName();
+
     //    public static final String LISTACT_TAG = ListActivity.class.getCanonicalName();
-//    public static final String LOGINACT_TAG = LoginActivity.class.getCanonicalName();
+    public static final String LOGINACT_TAG = LoginActivity.class.getCanonicalName();
+    public static final String REGISTERACT_TAG = RegisterActivity.class.getCanonicalName();
+
+    //    public static final String LISTACT_TAG = ListActivity.class.getCanonicalName();
+    //    public static final String LOGINACT_TAG = LoginActivity.class.getCanonicalName();
+
     public static final String MAINACT_TAG = MainActivity.class.getCanonicalName();
     //    public static final String REGISTERACT_TAG = RegisterActivity.class.getCanonicalName();
-//    public static final String REVIEWSACT_TAG = ReviewsActivity.class.getCanonicalName();
+    //    public static final String REVIEWSACT_TAG = ReviewsActivity.class.getCanonicalName();
     public static final String SEARCHACT_TAG = SearchActivity.class.getCanonicalName();
 
     //    public static final String LISTADAPT_TAG = ListActivity.class.getCanonicalName();
@@ -71,4 +79,5 @@ public class Constants {
     // Intent Extras
     public static final String INTENT_EXTRA_MOVIEID = "MovieID";
     public static final String INTENT_EXTRA_MOVIE_JSON = "movieJson";
+    public static final String INTENT_EXTRA_LOGIN_VALIDATED = "lastLoginWasValid";
 }

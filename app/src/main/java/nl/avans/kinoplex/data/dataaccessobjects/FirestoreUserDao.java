@@ -3,6 +3,7 @@ package nl.avans.kinoplex.data.dataaccessobjects;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.domain.Constants;
+import nl.avans.kinoplex.presentation.activities.LoginActivity;
 
 public class FirestoreUserDao implements DaoObject<Pair> {
 
@@ -52,15 +54,42 @@ public class FirestoreUserDao implements DaoObject<Pair> {
         throw new UnsupportedOperationException();
     }
 
-    public void startIntentIfLoginValid(Pair<String, String> credentials, Context context, Intent intent) {
+    public void startIntentIfLoginValid(Pair<String, String> credentials, Context context, Intent intent, LoginActivity activity) {
+        activity.showLoadingScreen();
+
+        if(credentials == null) {
+            return;
+        }
+
+        if(context == null) {
+            return;
+        }
+
+        if(intent == null) {
+            return;
+        }
+
+
         final String username = credentials.first;
         final String password = md5(String.valueOf(credentials.second));
+
+        if(username == null || password == null) {
+            return;
+        }
+
+        if(username.equals("") || password.equals("")) {
+            return;
+        }
 
         FirebaseFirestore db = FirestoreUtils.getInstance();
         db.collection(Constants.COL_USERS).document(username).get().addOnSuccessListener(documentSnapshot -> {
             final String hashedDocPass = documentSnapshot.getString("password");
+
             if (password.equalsIgnoreCase(hashedDocPass)) {
                 context.startActivity(intent);
+                activity.finish();
+            } else {
+                activity.showLoginError();
             }
         });
     }
