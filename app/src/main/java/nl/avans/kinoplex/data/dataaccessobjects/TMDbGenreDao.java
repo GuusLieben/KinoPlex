@@ -10,8 +10,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
+import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
@@ -56,6 +58,10 @@ public class TMDbGenreDao implements TMDbDaoObject {
                 for (int i = 0; i < genres.length(); i++) {
                     JSONObject genre = genres.getJSONObject(i);
                     Constants.GENRES.put(genre.getInt("id"), genre.getString("name"));
+                    HashMap<String, String> value = new HashMap<String, String>() {{
+                        put("name", genre.getString("name"));
+                    }};
+                    FirestoreUtils.getInstance().collection(Constants.COL_GENRES).document(String.valueOf(genre.getInt("id"))).set(value);
                 }
             } catch (JSONException ex) {
                 ex.printStackTrace();

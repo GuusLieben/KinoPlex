@@ -31,6 +31,7 @@ public class Constants {
     public static final String API_KEY = "fe324f20d33c7b7991dbbd8bdb4b7413";
     public static final String MOVIE_API_URL = "https://api.themoviedb.org/3/movie/";
     public static final String GENRE_API_URL = "https://api.themoviedb.org/3/genre/movie/list";
+    public static final String REVIEW_API_URL = "https://api.themoviedb.org/3/movie/{movie_id}/reviews";
 
     // Collections - Firestore
     public static final String COL_LISTS = "lists";
