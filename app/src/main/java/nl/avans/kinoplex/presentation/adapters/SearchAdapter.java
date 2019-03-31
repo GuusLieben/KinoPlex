@@ -49,7 +49,7 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
         TextView genre = viewHolder.itemView.findViewById(R.id.movie_genre);
         RatingBar ratingBar = viewHolder.itemView.findViewById(R.id.movie_rating);
         Glide.with(viewHolder.itemView.getContext()).load(movie.getPosterPath()).into(imageView); // sets the poster of the current movie in the recyclerview
-        //genre.setText(movie.getGenres()[0]);
+        //genre.setText(movie.getGenres().get(0));
         viewHolder.getMovieTitle().setText(movie.getTitle()); // sets the title of the movie in the recyclerview
         releaseYear.setText(String.valueOf(getYear(movie.getReleaseDate()))); // sets the releaseyear of the movie in the recyclerview
         if (movie.getRating() != null)
