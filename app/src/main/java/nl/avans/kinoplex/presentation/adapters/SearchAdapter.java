@@ -57,6 +57,7 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
         releaseYear.setText(String.valueOf(getYear(movie.getReleaseDate()))); // sets the releaseyear of the movie in the recyclerview
         ratingBar.setRating(5); // sets rating of the movie
 
+
     }
 
     @Override
