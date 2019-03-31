@@ -96,8 +96,13 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 .get()
                 .addOnSuccessListener(
                         documentSnapshot -> {
-                            movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
-                            ((FirestoreListDao) DataMigration.getFactory().getListDao()).addMovieToList(movieList, movieId);
+                            if (documentSnapshot.getData() == null || documentSnapshot.getData().isEmpty()) {
+                                System.out.println("FILL ME UP DADDY");
+                                ((TMDbMovieDao) DataMigration.getTMDbFactory().getMovieDao(movieId)).readIntoFirebase(movieId, movieList);
+                            } else {
+                                movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
+                                ((FirestoreListDao) DataMigration.getFactory().getListDao()).addMovieToList(movieList, movieId);
+                            }
                         });
     }
 
@@ -121,8 +126,13 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
         db.collection(Constants.COL_MOVIES).get().addOnSuccessListener(
                 queryDocumentSnapshots -> {
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                        Movie movie = getMovieFromSnapshot(documentSnapshot);
-                        ((AbstractAdapter) adapter).addToDataSet(movie);
+                        if (documentSnapshot.getData() == null || documentSnapshot.getData().isEmpty() || documentSnapshot.get("runtime") == null) {
+                            System.out.println("FILL ME UP DADDY");
+                            ((TMDbMovieDao) DataMigration.getTMDbFactory().getMovieDao(movieId)).readIntoFirebase(movieId, null);
+                        } else {
+                            Movie movie = getMovieFromSnapshot(documentSnapshot);
+                            ((AbstractAdapter) adapter).addToDataSet(movie);
+                        }
                     }
                 }
         );
