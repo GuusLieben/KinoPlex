@@ -18,14 +18,16 @@ import java.util.ArrayList;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.factories.DataMigration;
+import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private MainListAdapter parentAdapter;
     RecyclerView mainRecyclerView;
     private DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Load the adapters with a blank dataset.
         // TODO : Replace blank ArrayLists with existing Datasets from Firestore (cache)
         parentAdapter = new MainListAdapter(new ArrayList<>(), this);
+
+        ((TMDbDaoFactory) DataMigration.getTMDbFactory()).getGenreDao().readAll(null);
 
         System.out.println(parentAdapter);
         System.out.println(mainRecyclerView);

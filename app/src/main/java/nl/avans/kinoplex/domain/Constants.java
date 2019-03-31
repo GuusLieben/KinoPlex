@@ -1,5 +1,7 @@
 package nl.avans.kinoplex.domain;
 
+import android.util.SparseArray;
+
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
@@ -20,10 +22,14 @@ import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
 public class Constants {
 
+    // Domain
+    public static SparseArray<String> GENRES = new SparseArray<>();
+
     // Urls
     public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
     public static final String API_KEY = "fe324f20d33c7b7991dbbd8bdb4b7413";
     public static final String MOVIE_API_URL = "https://api.themoviedb.org/3/movie/";
+    public static final String GENRE_API_URL = "https://api.themoviedb.org/3/genre/movie/list";
 
     // Collections - Firestore
     public static final String COL_LISTS = "lists";

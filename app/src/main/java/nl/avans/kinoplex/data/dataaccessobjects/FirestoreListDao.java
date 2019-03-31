@@ -94,7 +94,6 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     @Override
     public void readIntoIntent(Intent intent, Context context, Object id) {
         throw new UnsupportedOperationException();
-        // TODO : Make this work
     }
 
     @Override

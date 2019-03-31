@@ -1,6 +1,8 @@
 package nl.avans.kinoplex.presentation.activities;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,8 +16,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nl.avans.kinoplex.R;
-import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 
@@ -37,6 +41,7 @@ public class DetailActivity extends AppCompatActivity
     private Button movieShowReviews;
     private Button movieOptions;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +87,18 @@ public class DetailActivity extends AppCompatActivity
         movieTitleTextView.setText(movie.getTitle());
         movieYearTextView.setText(movie.getReleaseyear());
         movieRuntimeTextView.setText(movie.getFormattedRuntime());
-        movieGenreTextView.setText("Action");
+
+
+        List<String> genreNames = new ArrayList<>();
+        for (String genre : movie.getGenres()) {
+            int id = Integer.parseInt(genre);
+            String genreName = Constants.GENRES.get(id);
+            genreNames.add(genreName);
+        }
+
+        String genres = String.join(", ", genreNames);
+
+        movieGenreTextView.setText(genres);
         movieStatusTextView.setText("Released");
         movieDescriptionTextView.setText(movie.getOverview());
         movieAvgRatingTextView.setText("8.2");
