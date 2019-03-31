@@ -44,6 +44,7 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
 
         moviePoster = itemView.findViewById(R.id.image_view_movie_poster);
         movieTitle = itemView.findViewById(R.id.movie_title);
+        movieRating = itemView.findViewById(R.id.movie_rating);
     }
 
     public ImageView getMoviePoster() {
@@ -56,6 +57,7 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
 
     public void bind(DomainObject obj) {
         movie = (Movie) obj;
+        System.out.println(movie.getTitle());
         movieTitle.setText(movie.getTitle());
 
         movieRating.setRating((float) 4);
