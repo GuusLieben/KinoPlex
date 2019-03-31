@@ -1,9 +1,5 @@
 package nl.avans.kinoplex.domain;
 
-import android.support.v7.widget.RecyclerView;
-
-import java.util.HashMap;
-
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
@@ -21,9 +17,6 @@ import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
 import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
 public class Constants {
-
-    // Hash
-    public static HashMap<String, RecyclerView.Adapter> adapterHashes = new HashMap<>();
 
     // Urls
     public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
