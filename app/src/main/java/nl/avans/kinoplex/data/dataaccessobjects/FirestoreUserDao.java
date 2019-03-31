@@ -85,7 +85,6 @@ public class FirestoreUserDao implements DaoObject<Pair> {
         db.collection(Constants.COL_USERS).document(username).get().addOnSuccessListener(documentSnapshot -> {
             final String hashedDocPass = documentSnapshot.getString("password");
 
-
             if (password.equalsIgnoreCase(hashedDocPass)) {
                 context.startActivity(intent);
                 activity.finish();

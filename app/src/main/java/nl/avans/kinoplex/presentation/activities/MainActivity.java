@@ -1,9 +1,15 @@
 package nl.avans.kinoplex.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -48,5 +54,24 @@ public class MainActivity extends AppCompatActivity {
     /*movieAdapter = new MovieAdapter(new ArrayList<>());
     DataMigration.getFactory().getMovieDao(550).readIntoAdapter(movieAdapter); // Async*/
     }
-}
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_search, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.home_search);
+        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+                return false;
+            }
+        });
+
+        return true;
+
+    }
+
+
+}

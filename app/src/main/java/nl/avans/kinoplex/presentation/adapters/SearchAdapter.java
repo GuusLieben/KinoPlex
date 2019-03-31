@@ -28,10 +28,10 @@ import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
 
 public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements Filterable {
     private List<DomainObject> listFull;
+    private List<DomainObject> list;
 
     public SearchAdapter(List<DomainObject> dataSet) {
         super(dataSet);
-        listFull = new ArrayList<>();
     }
 
     @NonNull
@@ -39,13 +39,14 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         View v =
                 LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_row, viewGroup, false);
+        this.list = new ArrayList<>(getDataSet());
+        listFull = new ArrayList<>(list);
         return new MovieViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder viewHolder, int position) {
-        listFull.addAll(getDataSet()); // fills a list with the original data
-        Movie movie = (Movie) listFull.get(position);
+        Movie movie = (Movie) list.get(position);
         ImageView imageView = viewHolder.itemView.findViewById(R.id.image_view_movie_poster);
         TextView releaseYear = viewHolder.itemView.findViewById(R.id.movie_year);
         TextView genre = viewHolder.itemView.findViewById(R.id.movie_genre);
@@ -80,7 +81,7 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
                     } else {
                         String filterPattern = constraint.toString().toLowerCase().trim(); // otherwise the chosen filter will be applied
 
-                        for (DomainObject movie : getDataSet()) {
+                        for (DomainObject movie : listFull) {
                             if (Objects.requireNonNull(((Movie) movie).getTitle())
                                     .toLowerCase()
                                     .contains(filterPattern)) {
@@ -96,6 +97,8 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
 
                 @Override
                 protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                    list.clear();
+                    list.addAll((List) filterResults.values);
                     updateDataSet((List<DomainObject>) filterResults.values); // update the data with the filteredresults
                     notifyDataSetChanged();
                 }

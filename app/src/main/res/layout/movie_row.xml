@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@color/common_google_signin_btn_text_dark_focused">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:orientation="vertical"
+        android:background="@color/common_google_signin_btn_text_dark_focused"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/image_view_movie_poster"
@@ -25,7 +33,7 @@
             android:layout_toEndOf="@+id/image_view_movie_poster"
             android:paddingLeft="5dp"
             android:text="Line 1"
-            android:textColor="@android:color/black"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -36,6 +44,7 @@
             android:layout_below="@id/movie_title"
             android:layout_toEndOf="@+id/image_view_movie_poster"
             android:maxLines="6"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:paddingLeft="5dp"
             android:text="Line 2" />
 
@@ -43,9 +52,10 @@
             android:id="@+id/movie_genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
             android:layout_below="@id/movie_title"
             android:layout_toEndOf="@+id/movie_year"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:paddingLeft="5dp"
             android:text="line 3" />
 
         <RatingBar
