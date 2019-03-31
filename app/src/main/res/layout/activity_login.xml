@@ -16,14 +16,66 @@
 
     <LinearLayout
         android:layout_margin="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_gravity="center_horizontal"
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
+        <EditText
+            android:id="@+id/et_login_username"
+            android:layout_width="250dp"
+            android:layout_marginBottom="15dp"
+            android:layout_height="40dp"
+            android:textColor="@color/textColor"
+            android:background="@drawable/login_edittext_color"
+            android:hint="@string/username"/>
+
+        <EditText
+            android:id="@+id/et_login_password"
+            android:layout_width="250dp"
+            android:textColor="@color/textColor"
+            android:inputType="textPassword"
+            android:layout_height="40dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/login_edittext_color"
+            android:hint="@string/password"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_login_register"
+                android:layout_margin="5dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/register"
+                android:background="@drawable/login_button_color"/>
+
+            <Button
+                android:id="@+id/btn_login_login"
+                android:layout_margin="5dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:background="@drawable/login_button_color"/>
+
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 

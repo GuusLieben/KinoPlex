@@ -8,4 +8,5 @@
     <color name="textColor"> #d5d3bc</color>
     <color name="actionColor">#128bb5</color>
     <color name="starColor">#deb522</color>
+    <color name="loginButtonColor">#deb522</color>
 </resources>
