@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".presentation.activities.DetailActivity"></activity>
         <activity android:name=".presentation.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.activities.ReviewsActivity" />
-        <activity android:name=".presentation.activities.DetailActivity" />
         <activity android:name=".presentation.activities.SearchActivity" />
         <activity android:name=".presentation.activities.ListActivity" />
         <activity android:name=".presentation.activities.AddReviewActivity" />

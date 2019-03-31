@@ -31,7 +31,7 @@
             android:layout_toEndOf="@+id/image_view_movie_poster"
             android:paddingLeft="5dp"
             android:text="Line 1"
-            android:textColor="@android:color/black"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -42,6 +42,7 @@
             android:layout_below="@id/movie_title"
             android:layout_toEndOf="@+id/image_view_movie_poster"
             android:maxLines="6"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:paddingLeft="5dp"
             android:text="Line 2" />
 
@@ -51,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/movie_title"
             android:layout_toEndOf="@+id/movie_year"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:paddingLeft="5dp"
             android:text="line 3" />
 

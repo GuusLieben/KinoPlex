@@ -2,6 +2,7 @@ package nl.avans.kinoplex.domain;
 
 import android.net.Uri;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,7 @@ public class Movie extends DomainObject {
     String title;
     int id;
     int runtime;
-    Uri posterPath;
+    String posterPath;
     String[] genres;
     String tag;
     String language;
@@ -24,7 +25,7 @@ public class Movie extends DomainObject {
             String title,
             int id,
             int runtime,
-            Uri posterPath,
+            String posterPath,
             boolean adult,
             String[] genres,
             String tag,
@@ -55,8 +56,15 @@ public class Movie extends DomainObject {
         return runtime;
     }
 
+    public String getFormattedRuntime() {
+        int hours = runtime / 60;
+        int minutes = runtime % 60;
+
+        return hours + "h " + minutes + "m";
+    }
+
     public Uri getPosterPath() {
-        return posterPath;
+        return Uri.parse(posterPath);
     }
 
     public String[] getGenres() {
@@ -79,8 +87,57 @@ public class Movie extends DomainObject {
         return releaseDate;
     }
 
+    public String getReleaseyear() {
+        SimpleDateFormat formatYear = new SimpleDateFormat("yyyy");
+        return formatYear.format(releaseDate);
+    }
+
     public void addReview(Review review) {
         this.reviews.add(review);
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public void setGenres(String[] genres) {
+        this.genres = genres;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
     }
 
     public List<Review> getReviews() {
