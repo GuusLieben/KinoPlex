@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.business.JsonUtilsTask;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
@@ -55,6 +54,7 @@ public class TMDbMovieDao implements DaoObject {
                 int runtime = result.getInt("runtime");
                 JSONArray genres = result.getJSONArray("genres");
                 String[] genreIds = new String[genres.length()];
+
                 if (genreIds.length > 0)
                     for (int i = 0; i < genres.length(); i++) {
                         JSONObject genre = (JSONObject) genres.get(i);

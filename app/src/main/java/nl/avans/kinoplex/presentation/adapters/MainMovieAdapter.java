@@ -31,7 +31,8 @@ public class MainMovieAdapter extends AbstractAdapter<MainMovieViewHolder> {
     Log.d(Constants.MOVIEADAPT_TAG, "Creating a new MainMovieViewHolder...");
     context = viewGroup.getContext();
 
-    int layoutID = R.layout.main_movie_item;
+//    int layoutID = R.layout.main_movie_item;
+    int layoutID = R.layout.movie_row;
     LayoutInflater inflater = LayoutInflater.from(context);
 
     View view = inflater.inflate(layoutID, viewGroup, false);

@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.dataaccessobjects.TMDbListDao;
+import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
@@ -55,6 +58,14 @@ public class MainListViewHolder extends AbstractViewHolder {
         movieListRecylerview.setLayoutManager(
                 new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
         movieListRecylerview.setAdapter(adapter);
+
+        try {
+            ((TMDbListDao) DataMigration.getTMDbFactory().getListDao()).readCollectionToAdapter("now_playing", 1, adapter);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // set see all btn on click listener to open list activity with the Domainobject movieList as parameter
         /*seeAllBtn.setOnClickListener();*/
