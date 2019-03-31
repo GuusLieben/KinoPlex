@@ -2,12 +2,14 @@ package nl.avans.kinoplex.business;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.Pair;
 
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.domain.Constants;
+import nl.avans.kinoplex.presentation.activities.LoginActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -67,6 +69,19 @@ public class LoginManager {
     }
 
     public static void Logout(Context context, Activity activity) {
-        
+        SharedPreferences pref = context.getApplicationContext().getSharedPreferences(Constants.PREF_LOGIN, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.remove(Constants.PREF_USERNAME);
+        editor.remove(Constants.PREF_HASHEDPASS);
+        editor.remove(Constants.PREF_AUTOLOGIN);
+
+        //Leave on commit to avoid problems with Async
+        editor.commit();
+
+        Intent loginIntent = new Intent(context, LoginActivity.class);
+        activity.finish();
+
+        context.startActivity(loginIntent);
     }
 }
