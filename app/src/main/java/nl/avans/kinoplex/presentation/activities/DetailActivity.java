@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.business.JsonUtils;
@@ -53,7 +54,7 @@ public class DetailActivity extends AppCompatActivity
         Log.d(Constants.DETAILACT_TAG, JSON);
 
         //Create a movie object  from JSON, logging the object information
-        Movie movie = new JsonUtils<Movie>().parseToObject(JSON);
+        Movie movie = new Gson().fromJson(JSON, Movie.class);
 
         movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 

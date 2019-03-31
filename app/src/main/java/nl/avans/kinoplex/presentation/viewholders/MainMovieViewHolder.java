@@ -37,14 +37,16 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
 
     public MainMovieViewHolder(@NonNull View itemView) {
         super(itemView);
+        itemView.setOnClickListener(this);
+
 
         this.context = itemView.getContext();
 
         Log.d(MAINMOVIEVH_TAG, "MainMovieViewHolder was created");
 
-        moviePoster = itemView.findViewById(R.id.image_view_movie_poster);
-        movieTitle = itemView.findViewById(R.id.movie_title);
-        movieRating = itemView.findViewById(R.id.movie_rating);
+        moviePoster = itemView.findViewById(R.id.iv_main_movie_poster);
+        movieTitle = itemView.findViewById(R.id.tv_main_movie_title);
+        movieRating = itemView.findViewById(R.id.tb_main_movie_rating);
     }
 
     public ImageView getMoviePoster() {
