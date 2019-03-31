@@ -58,7 +58,6 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
     }
 
     private Movie getMovieFromSnapshot(DocumentSnapshot documentSnapshot) {
-        System.out.println(documentSnapshot);
         String title = documentSnapshot.getString("title");
         int id = Integer.parseInt(documentSnapshot.getId());
         int runtime = Integer.parseInt(String.valueOf(documentSnapshot.get("runtime")));
@@ -97,7 +96,6 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 .addOnSuccessListener(
                         documentSnapshot -> {
                             if (documentSnapshot.getData() == null || documentSnapshot.getData().isEmpty()) {
-                                System.out.println("FILL ME UP DADDY");
                                 ((TMDbMovieDao) DataMigration.getTMDbFactory().getMovieDao(movieId)).readIntoFirebase(movieId, movieList);
                             } else {
                                 movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
