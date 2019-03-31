@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Movie extends DomainObject {
-    List<Review> reviews;
+    List<TMDbReview> reviews;
     String title;
     int id;
     int runtime;
@@ -105,11 +105,11 @@ public class Movie extends DomainObject {
         return formatYear.format(releaseDate);
     }
 
-    public void addReview(Review review) {
+    public void addReview(TMDbReview review) {
         this.reviews.add(review);
     }
 
-    public void setReviews(List<Review> reviews) {
+    public void setReviews(List<TMDbReview> reviews) {
         this.reviews = reviews;
     }
 
@@ -153,7 +153,7 @@ public class Movie extends DomainObject {
         this.adult = adult;
     }
 
-    public List<Review> getReviews() {
+    public List<TMDbReview> getReviews() {
         return reviews;
     }
 

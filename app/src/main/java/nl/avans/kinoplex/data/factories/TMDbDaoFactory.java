@@ -17,7 +17,7 @@ public class TMDbDaoFactory implements DaoFactory {
 
     @Override
     public DaoObject<Review> getReviewDao(int movieId) {
-        return new TMDbReviewDao();
+        return new TMDbReviewDao(movieId);
     }
 
     @Override
