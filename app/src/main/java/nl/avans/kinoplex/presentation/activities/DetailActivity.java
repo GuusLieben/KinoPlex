@@ -1,10 +1,8 @@
 package nl.avans.kinoplex.presentation.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +12,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 
@@ -46,7 +44,7 @@ public class DetailActivity extends AppCompatActivity
         setTitle("DetailActivity");
 
         // Check if any information was provided
-        if(getIntent().getExtras() == null) {
+        if (getIntent().getExtras() == null) {
             return;
         }
 
@@ -55,7 +53,7 @@ public class DetailActivity extends AppCompatActivity
         Log.d(Constants.DETAILACT_TAG, JSON);
 
         //Create a movie object  from JSON, logging the object information
-        Movie movie = new Gson().fromJson(JSON, Movie.class);
+        Movie movie = new JsonUtils<Movie>().parseToObject(JSON);
 
         movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 
@@ -94,25 +92,24 @@ public class DetailActivity extends AppCompatActivity
         setTitle(movie.getTitle());
 
 
-
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
-            case R.id.btn_detail_options :
+        switch (v.getId()) {
+            case R.id.btn_detail_options:
                 Log.d(Constants.DETAILACT_TAG, "User clicked on the options button");
 
                 PopupMenu pm = new PopupMenu(this, movieOptions);
-                pm.getMenuInflater().inflate(R.menu.detail_options_popup , pm.getMenu());
+                pm.getMenuInflater().inflate(R.menu.detail_options_popup, pm.getMenu());
                 pm.setOnMenuItemClickListener(this);
                 pm.show();
                 break;
 
-            case R.id.btn_detail_show_reviews :
+            case R.id.btn_detail_show_reviews:
                 Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Show Reviews' button");
 
-                
+
                 break;
         }
     }
@@ -121,17 +118,17 @@ public class DetailActivity extends AppCompatActivity
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.detail_options_addtolist :
+            case R.id.detail_options_addtolist:
                 Log.d(Constants.DETAILACT_TAG, "User wants to add the movie to a list...");
 
                 break;
 
-            case R.id.detail_options_addReview :
+            case R.id.detail_options_addReview:
                 Log.d(Constants.DETAILACT_TAG, "User wants to add a review to this movie...");
 
                 break;
 
-            case R.id.detail_options_share :
+            case R.id.detail_options_share:
                 Log.d(Constants.DETAILACT_TAG, "User wants to share this movie...");
 
                 break;
