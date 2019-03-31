@@ -52,7 +52,9 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
         //genre.setText(movie.getGenres()[0]);
         viewHolder.getMovieTitle().setText(movie.getTitle()); // sets the title of the movie in the recyclerview
         releaseYear.setText(String.valueOf(getYear(movie.getReleaseDate()))); // sets the releaseyear of the movie in the recyclerview
-        ratingBar.setRating(movie.getRating().floatValue()); // sets rating of the movie
+        if (movie.getRating() != null)
+            ratingBar.setRating(movie.getRating().floatValue()); // sets rating of the movie
+        else ratingBar.setVisibility(View.INVISIBLE);
 
 
     }

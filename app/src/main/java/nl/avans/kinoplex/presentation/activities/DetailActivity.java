@@ -30,7 +30,6 @@ public class DetailActivity extends AppCompatActivity
     private TextView movieStatusTextView;
     private TextView movieDescriptionTextView;
     private TextView movieAvgRatingTextView;
-    private TextView movieVoteNmbTextView;
 
     private RatingBar movieRatingBar;
 
@@ -65,7 +64,6 @@ public class DetailActivity extends AppCompatActivity
         movieStatusTextView = findViewById(R.id.tv_detail_movie_status);
         movieDescriptionTextView = findViewById(R.id.tv_detail_movie_description);
         movieAvgRatingTextView = findViewById(R.id.tv_detail_movie_avg_rating);
-        movieVoteNmbTextView = findViewById(R.id.tv_detail_movie_vote_nmb);
 
         movieRatingBar = findViewById(R.id.rb_detail_movie_rating);
 
@@ -79,20 +77,19 @@ public class DetailActivity extends AppCompatActivity
                 .load(movie.getPosterPath())
                 .into(movieBackdropImageView);
 
+        String ratingString = String.valueOf(movie.getRating());
+        float rating = Float.parseFloat(ratingString);
+
         movieTitleTextView.setText(movie.getTitle());
         movieYearTextView.setText(movie.getReleaseyear());
         movieRuntimeTextView.setText(movie.getFormattedRuntime());
         movieGenreTextView.setText("Action");
         movieStatusTextView.setText("Released");
         movieDescriptionTextView.setText(movie.getOverview());
-        movieAvgRatingTextView.setText("8.2");
-        movieVoteNmbTextView.setText("10594 ");
-
-        movieRatingBar.setRating((float) movie.getRating().floatValue() / 2);
+        movieAvgRatingTextView.setText(ratingString);
+        movieRatingBar.setRating(rating / 2);
 
         setTitle(movie.getTitle());
-
-
     }
 
     @Override
