@@ -35,8 +35,14 @@ public class FirestoreReviewDao implements DaoObject<Review> {
 
   @Override
   public boolean create(Review review) {
-    String id = db.collection(Constants.COL_REVIEWS).document().getId();
-    db.collection(Constants.COL_REVIEWS).document(id).set(((DomainObject) review).storeToMap());
+    String id = "$NE";
+    if (review instanceof AppReview) {
+      if (((AppReview) review).getId() == null)
+        id = db.collection(Constants.COL_REVIEWS).document().getId();
+      else id = ((AppReview) review).getId();
+    }
+    if (!id.equals("$NE"))
+      db.collection(Constants.COL_REVIEWS).document(id).set(((DomainObject) review).storeToMap());
     return true;
   }
 
