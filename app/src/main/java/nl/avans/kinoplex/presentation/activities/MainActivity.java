@@ -114,6 +114,14 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_item_add_list:
+                Intent intent = new Intent(this, ManageListsActivity.class);
+                startActivity(intent);
+        }
+
+
+
         return false;
     }
 }
