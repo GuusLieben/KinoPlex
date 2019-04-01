@@ -57,7 +57,7 @@ public class Constants {
     public static final String FIRESTOREDAOFACTORY_TAG = FirestoreDaoFactory.class.getCanonicalName();
     public static final String TMDBDAOFACTORY_TAG = TMDbDaoFactory.class.getCanonicalName();
 
-    public static final String APPREVIEW_TAG = AppReview.class.getCanonicalName();
+    public static final String APPREVIEW_TAG = FireReview.class.getCanonicalName();
     public static final String MOVIE_TAG = Movie.class.getCanonicalName();
     public static final String MOVIELIST_TAG = MovieList.class.getCanonicalName();
     public static final String TMDBREVIEW_TAG = TMDbReview.class.getCanonicalName();
