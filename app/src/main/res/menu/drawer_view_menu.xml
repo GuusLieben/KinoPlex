@@ -4,7 +4,8 @@
     tools:showIn="navigation_view">
     <group
         android:id="@+id/drawer_menu_default_lists"
-        android:checkableBehavior="single">
+        android:checkableBehavior="single"
+        >
 
         <item
             android:id="@+id/nav_item_top_rated"
@@ -30,5 +31,16 @@
             android:id="@+id/nav_item_add_list"
 
             android:title="@string/manageLists" />
+    </group>
+
+    <group
+        android:id="@+id/drawer_Genres"
+        android:checkableBehavior="single">
+
+
+
+        <item
+            android:id="@+id/nav_Genres"
+            android:title="@string/Genres" />
     </group>
 </menu>
