@@ -82,6 +82,8 @@ public class SearchActivity extends TaskLoaderActivity implements
                         return false;
                     }
                 });
+
+        searchView.setIconified(false);
         return true;
     }
 
