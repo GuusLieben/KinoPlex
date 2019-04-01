@@ -79,13 +79,6 @@ public class MainActivity extends AppCompatActivity implements
         DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-//        Intent detailIntent = new Intent(this, DetailActivity.class);
-//        DataMigration.getFactory().getMovieDao().readIntoIntent(detailIntent, this, "299537");
-
-
-        // TODO :: set in the parentAdapter.viewHolder the movieAdapter to the recyclerview of that list_item
-    /*movieAdapter = new MovieAdapter(new ArrayList<>());
-    DataMigration.getFactory().getMovieDao(550).readIntoAdapter(movieAdapter); // Async*/
     }
 
     @Override
