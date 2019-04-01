@@ -61,10 +61,10 @@ public class FirestoreListDao implements DaoObject<MovieList> {
 
     @Override
     public boolean create(MovieList movieList) {
-        DocumentReference ref = db.collection(Constants.COL_LISTS).document();
+//        DocumentReference ref = db.collection(Constants.COL_LISTS).document();
         Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore with id " + movieList.getDbId() + " / " + movieList.getId());
         db.collection(Constants.COL_LISTS)
-                .document(ref.getId())
+                .document(movieList.getDbId())
                 .set(movieList.storeToMap())
                 .addOnSuccessListener(aVoid -> Log.d(FIRESTORELISTDAO_TAG, "Successfully wrote List to Firestore"))
                 .addOnFailureListener(e -> Log.w(FIRESTORELISTDAO_TAG, "Error writing document", e));
@@ -86,8 +86,8 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                         String userId = Objects.requireNonNull(documentSnapshot.get("user_id")).toString();
                         if (userId.equalsIgnoreCase("-1") || userId.equalsIgnoreCase(Constants.pref.getString("userId", "-1"))) {
                             MovieList list = new MovieList(name, userId);
-
                             list.setDbId(documentSnapshot.getId());
+
                             List<Object> movieIds = (List<Object>) documentSnapshot.get("movies");
 
                             ArrayList<String> registeredIds = new ArrayList<>();
