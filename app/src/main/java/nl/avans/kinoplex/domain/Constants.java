@@ -38,7 +38,7 @@ public class Constants {
     public static final String COL_LISTS = "lists";
     public static final String COL_MOVIES = "movies";
     public static final String COL_GENRES = "genres";
-    public static final String COL_REVIEWS = "reviews";
+    public static final String COL_REVIEWS = "reviews2";
     public static final String COL_USERS = "users";
 
     public static final String FIRESTOREUTILS_TAG = FirestoreUtils.class.getCanonicalName();
