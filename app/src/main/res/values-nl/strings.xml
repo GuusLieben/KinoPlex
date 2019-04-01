@@ -19,6 +19,7 @@
     <string name="repeatPassword">Herhaal Wachtwoord&#8230;</string>
     <string name="fullName">Volledige naam&#8230;</string>
 
+    <string name="Genres">Genres ▶</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="rememberme">Wachtwoord onthouden</string>
@@ -26,6 +27,7 @@
     <string name="now_playing_arrow">Speelt nu ▶</string>
     <string name="top_rated_arrow">Hoogst Scorend ▶</string>
     <string name="popular_arrow">Populair ▶</string>
+
     <string name="manageLists">⚙ lijsten beheren</string>
     <string name="yourLists">Jouw Lijsten</string>
     <string name="enterTitle">Voer Titel in</string>
