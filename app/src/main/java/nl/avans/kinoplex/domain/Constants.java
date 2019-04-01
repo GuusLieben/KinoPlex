@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.domain;
 
+import android.content.SharedPreferences;
 import android.util.SparseArray;
 
 import nl.avans.kinoplex.business.FirestoreUtils;
@@ -26,6 +27,8 @@ public class Constants {
 
     // Domain
     public static SparseArray<String> GENRES = new SparseArray<>();
+    public static SharedPreferences pref;
+    public static SharedPreferences.Editor editor;
 
     // Urls
     public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
