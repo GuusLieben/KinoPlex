@@ -47,5 +47,5 @@
 
     <string name="Genres">Genres ▶</string>
     <string name="plusSign" translatable="false">+</string>
-
+    <string name="addedToList">Added to the list</string>
 </resources>
