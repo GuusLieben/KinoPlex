@@ -125,7 +125,6 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 queryDocumentSnapshots -> {
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                         if (documentSnapshot.getData() == null || documentSnapshot.getData().isEmpty() || documentSnapshot.get("runtime") == null) {
-                            System.out.println("FILL ME UP DADDY");
                             ((TMDbMovieDao) DataMigration.getTMDbFactory().getMovieDao(movieId)).readIntoFirebase(movieId, null);
                         } else {
                             Movie movie = getMovieFromSnapshot(documentSnapshot);

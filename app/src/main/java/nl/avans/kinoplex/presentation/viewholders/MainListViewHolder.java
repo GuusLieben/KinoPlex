@@ -65,7 +65,7 @@ public class MainListViewHolder extends AbstractViewHolder {
         movieListRecylerview.setAdapter(adapter);
 
         try {
-            ((TMDbListDao) DataMigration.getTMDbFactory().getListDao()).readCollectionToAdapter("now_playing", 1, adapter);
+            ((TMDbListDao) DataMigration.getTMDbFactory().getListDao()).readCollectionToAdapter(name.toLowerCase(), 1, adapter);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
