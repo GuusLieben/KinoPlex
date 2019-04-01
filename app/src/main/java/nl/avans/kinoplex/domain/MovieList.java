@@ -1,5 +1,8 @@
 package nl.avans.kinoplex.domain;
 
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -14,10 +17,21 @@ public class MovieList extends DomainObject {
     private String dbId;
     private String userId;
 
+    //Adapter which uses this MovieList
+    private RecyclerView.Adapter adapter;
+
     public MovieList(String name, String userId) {
         this.name = name;
         this.userId = userId;
         movieList = new ArrayList<>();
+    }
+
+    public void setAdapter(RecyclerView.Adapter adapter) {
+        this.adapter = adapter;
+    }
+
+    public void notifyAdapterOfNewData() {
+        Log.d(Constants.MOVIELIST_TAG, "Size of movie list: " + movieList.size());
     }
 
     public String getDbId() {

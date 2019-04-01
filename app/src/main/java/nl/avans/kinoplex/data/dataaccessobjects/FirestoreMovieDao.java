@@ -102,6 +102,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                                 ((TMDbMovieDao) DataMigration.getTMDbFactory().getMovieDao(movieId)).readIntoFirebase(movieId, movieList);
                             } else {
                                 movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
+                                movieList.notifyAdapterOfNewData();
                                 ((FirestoreListDao) DataMigration.getFactory().getListDao()).addMovieToList(movieList, movieId);
                             }
                         });
