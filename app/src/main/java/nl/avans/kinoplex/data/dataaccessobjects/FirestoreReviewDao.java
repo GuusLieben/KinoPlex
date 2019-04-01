@@ -93,7 +93,7 @@ public class FirestoreReviewDao implements DaoObject<Review> {
                                 } else { // API Review
                                     Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Detected TMDb Review");
                                     String id = documentSnapshot.getId();
-                                    String author = documentSnapshot.getString("user_id");
+                                    String author = documentSnapshot.getString("author");
                                     String content = documentSnapshot.getString("content");
                                     TMDbReview tmDbReview = new TMDbReview(id, author, content);
                                     ((AbstractAdapter) adapter).addToDataSet(tmDbReview);
