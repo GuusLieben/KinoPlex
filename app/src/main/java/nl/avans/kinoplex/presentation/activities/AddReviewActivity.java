@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.presentation.activities;
 
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +13,10 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.factories.DataMigration;
+import nl.avans.kinoplex.domain.AppReview;
 import nl.avans.kinoplex.domain.Constants;
+import nl.avans.kinoplex.domain.Review;
 
 public class AddReviewActivity extends AppCompatActivity {
     private RatingBar ratingBar;
@@ -24,10 +28,10 @@ public class AddReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_review);
 
-        /*ratingBar = findViewById(R.id.rating_bar_add_review);
+        ratingBar = findViewById(R.id.rating_bar_add_review);
         contextView = findViewById(R.id.edit_text_add_review);
         addReviewBtn = findViewById(R.id.btn_add_review);
-        movieTitle = findViewById(R.id.movie_title_add_review);*/
+        movieTitle = findViewById(R.id.movie_title_add_review);
 
         if ( getIntent().getExtras() == null ) {
             return;
@@ -41,7 +45,12 @@ public class AddReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(Constants.ADDREVIEWACT_TAG, "User wants to add the Review for the movie " + movieId);
-
+                String userId = Constants.pref.getString("userId", "-1");
+                String content = contextView.getText().toString();
+                int ratingValue = ratingBar.getNumStars() * 2;
+                Review review = new AppReview(null, userId, content, ratingValue);
+                DataMigration.getFactory().getReviewDao(Integer.parseInt(movieId)).create(review);
+                finish();
             }
         });
     }
