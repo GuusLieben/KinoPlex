@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.MovieList;
@@ -42,7 +43,7 @@ public class DialogBuilder {
 
 
     /**
-     * @param context The context in which the dialog box should be shown
+     * @param activity The activity in which the dialog should be shown
      * @param title The title of the dialog box
      * @param type The type of input that should be shown. Uses inner-Enum Input
      */
@@ -64,7 +65,8 @@ public class DialogBuilder {
                 String userId = Constants.pref.getString("userId", "-1");
                 MovieList newList = new MovieList(input, userId);
 
-                DataMigration.getFactory().getListDao().create(newList);
+                ((FirestoreListDao) DataMigration.getFactory().getListDao())
+                        .createListForUser(newList);
 
                 dialog.dismiss();
             }

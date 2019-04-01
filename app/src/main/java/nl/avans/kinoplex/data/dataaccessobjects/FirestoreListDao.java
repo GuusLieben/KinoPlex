@@ -33,7 +33,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
         db = FirestoreUtils.getInstance();
     }
 
-    public MovieList createListForUser(String userId, MovieList movieList) {
+    public MovieList createListForUser(MovieList movieList) {
         String collectionId = db.collection(Constants.COL_LISTS).document().getId();
         movieList.setDbId(collectionId);
         db.collection(Constants.COL_LISTS).document(collectionId).set(movieList.storeToMap());

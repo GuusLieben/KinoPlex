@@ -62,6 +62,7 @@ public class MainListViewHolder extends AbstractViewHolder {
         }
 
         List<Movie> movies = ((MovieList) movieList).getMovieList();
+
         List<DomainObject> domainMovies = new ArrayList<>(movies);
 
         AbstractAdapter<MainMovieViewHolder> adapter = new MainMovieAdapter(domainMovies);
@@ -78,8 +79,10 @@ public class MainListViewHolder extends AbstractViewHolder {
             }
         } else {
             Log.d(Constants.MAINMOVIEVH_TAG, "Fire List collection for " + name);
-            for (Movie movie : ((MovieList) movieList).getMovieList())
+
+            for (Movie movie : ((MovieList) movieList).getMovieList()) {
                 DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId())).readIntoAdapter(adapter);
+            }
         }
 
         // set see all btn on click listener to open list activity with the Domainobject movieList as parameter
