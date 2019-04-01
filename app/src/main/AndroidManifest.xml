@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.activities.ReviewsActivity" />
+        <activity android:name=".presentation.activities.ReviewActivity" />
         <activity android:name=".presentation.activities.SearchActivity" />
         <activity android:name=".presentation.activities.ListActivity" />
         <activity android:name=".presentation.activities.AddReviewActivity" />
