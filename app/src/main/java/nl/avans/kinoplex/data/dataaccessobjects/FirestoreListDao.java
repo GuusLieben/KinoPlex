@@ -48,6 +48,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                     String userId = documentSnapshot.getString("user_id");
                     String name = documentSnapshot.getString("name");
                     MovieList list = new MovieList(name, userId);
+                    list.setDbId(documentSnapshot.getId());
                     for (Object movie : (List<Object>) documentSnapshot.get("movies")) {
                         int movieId = Integer.parseInt(String.valueOf(movie));
                         ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(movieId)).readIntoList(list);
@@ -61,7 +62,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     @Override
     public boolean create(MovieList movieList) {
         DocumentReference ref = db.collection(Constants.COL_LISTS).document();
-        Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore");
+        Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore with id " + movieList.getDbId() + " / " + movieList.getId());
         db.collection(Constants.COL_LISTS)
                 .document(ref.getId())
                 .set(movieList.storeToMap())
@@ -124,7 +125,8 @@ public class FirestoreListDao implements DaoObject<MovieList> {
             id = db.collection(Constants.COL_LISTS).document().getId();
             list.setDbId(id);
         }
-        Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore");
+
+        Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore with id " + list.getId() + " / " + list.getDbId());
         db.collection(Constants.COL_LISTS).document(list.getDbId()).set(listMap);
     }
 

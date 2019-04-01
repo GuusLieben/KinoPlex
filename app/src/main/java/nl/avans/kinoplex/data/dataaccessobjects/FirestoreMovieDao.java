@@ -37,7 +37,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
 
     @Override
     public boolean create(Movie movie) {
-        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Attempting to write to Firestore");
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Attempting to write movie to Firestore");
         db.collection(Constants.COL_MOVIES)
                 .document(String.valueOf(movie.getId()))
                 .set(movie.storeToMap())
@@ -135,7 +135,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
     }
 
     public void readAll(RecyclerView.Adapter adapter) {
-        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Attempting to read from Firestore");
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Attempting to read movies from Firestore");
         db.collection(Constants.COL_MOVIES).get().addOnSuccessListener(
                 queryDocumentSnapshots -> {
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
