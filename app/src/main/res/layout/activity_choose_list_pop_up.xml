@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:foreground="@android:color/transparent"
-    android:backgroundTint="@android:color/transparent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".presentation.activities.ChooseListPopUp">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/popup_bg"
-        android:scaleType="centerCrop">
+        android:layout_height="150dp"
+        android:layout_gravity="top">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="matrix"
+            android:id="@+id/popup_image_bg"/>
+
+        <ImageView
+            android:contentDescription="@string/contentDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/gradient"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:layout_gravity="center_horizontal|top">
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal|bottom">
 
             <TextView
                 android:textSize="24sp"
@@ -27,29 +38,15 @@
                 android:id="@+id/tv_add_movie_to_list"
                 android:text="@string/addToList"
                 android:textColor="@android:color/white"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_gravity="center_horizontal|center_vertical">
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/recyclerview_available_lists_popup"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="120dp">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_add_to_list"
-                android:text="@string/addToList" />
         </LinearLayout>
     </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="bottom">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerview_available_lists_popup"/>
+    </FrameLayout>
+</LinearLayout>
