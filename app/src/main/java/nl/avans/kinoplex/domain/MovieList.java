@@ -10,12 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nl.avans.kinoplex.data.factories.DataMigration;
+
 public class MovieList extends DomainObject {
     private List<Movie> movieList;
     private static Set<MovieList> listSet = new LinkedHashSet<>();
     private String name;
     private String dbId;
     private String userId;
+
+    private boolean adapterIsSet;
+    private boolean dataIsNew;
 
     //Adapter which uses this MovieList
     private RecyclerView.Adapter adapter;
@@ -28,10 +33,24 @@ public class MovieList extends DomainObject {
 
     public void setAdapter(RecyclerView.Adapter adapter) {
         this.adapter = adapter;
+        adapterIsSet = true;
+
+        if(movieList.size() > 0 && dataIsNew) {
+            for (Movie movie : movieList) {
+                DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId())).readIntoAdapter(adapter);
+            }
+        }
     }
 
     public void notifyAdapterOfNewData() {
         Log.d(Constants.MOVIELIST_TAG, "Size of movie list: " + movieList.size());
+        dataIsNew = true;
+
+        if(movieList.size() > 0 && adapterIsSet) {
+            for (Movie movie : movieList) {
+                DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId())).readIntoAdapter(adapter);
+            }
+        }
     }
 
     public String getDbId() {

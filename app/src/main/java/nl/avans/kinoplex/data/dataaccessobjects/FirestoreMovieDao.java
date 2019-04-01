@@ -49,6 +49,9 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
     @Override
     public void readIntoAdapter(RecyclerView.Adapter adapter) {
         Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Attempting to read movie into adapter");
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Movie ID: " + movieId);
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Adapter: " + adapter);
+
         db.collection(Constants.COL_MOVIES)
                 .document(String.valueOf(movieId))
                 .get()
@@ -86,8 +89,11 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 language,
                 overview,
                 releaseDate);
+
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Setting the rating");
         movie.setRating(rating);
 
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Returning movie with title " + movie.getTitle());
         return movie;
     }
 
@@ -103,6 +109,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                             } else {
                                 movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
                                 movieList.notifyAdapterOfNewData();
+
                                 ((FirestoreListDao) DataMigration.getFactory().getListDao()).addMovieToList(movieList, movieId);
                             }
                         });
