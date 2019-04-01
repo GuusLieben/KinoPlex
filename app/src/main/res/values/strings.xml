@@ -36,5 +36,14 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="top_rated_arrow">Top Rated ▶</string>
     <string name="popular_arrow">Popular ▶</string>
+
     <string name="manageLists">⚙ manage lists</string>
+    <string name="yourLists">Your Lists</string>
+    <string name="enterTitle">Enter Title</string>
+
+    <string name="cancel">Cancel</string>
+
+
+    <string name="plusSign" translatable="false">+</string>
+
 </resources>
