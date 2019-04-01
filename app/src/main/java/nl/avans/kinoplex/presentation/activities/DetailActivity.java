@@ -174,6 +174,8 @@ public class DetailActivity extends AppCompatActivity
             case R.id.detail_options_addtolist:
                 Log.d(Constants.DETAILACT_TAG, "User wants to add the movie to a list...");
                 Intent chooseListPopup = new Intent(getApplicationContext(), ChooseListPopUp.class);
+                String json = new Gson().toJson(movie);
+                chooseListPopup.putExtra(Constants.MOVIE_TAG, json);
                 startActivity(chooseListPopup);
                 break;
 
