@@ -29,6 +29,7 @@ public class ChooseListPopUp extends Activity {
     private RecyclerView recyclerView;
     private Button addToListButton;
     private Movie movie;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class ChooseListPopUp extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.8), (int)(height*.6));
+        getWindow().setLayout((int) (width * .8), (int) (height * .6));
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
@@ -49,7 +50,7 @@ public class ChooseListPopUp extends Activity {
 
         getWindow().setAttributes(params);
 
-        if (getIntent().getExtras() == null ) {
+        if (getIntent().getExtras() == null) {
             return;
         }
 
@@ -59,7 +60,7 @@ public class ChooseListPopUp extends Activity {
         movieTitleView = findViewById(R.id.tv_add_movie_to_list);
         recyclerView = findViewById(R.id.recyclerview_available_lists_popup);
 
-        movieTitleView.setText("Add '"+ movie.getTitle() + "' to list");
+        movieTitleView.setText("Add '" + movie.getTitle() + "' to list");
         AbstractAdapter adapter = new AddToListAdapter(getTempList(), movie);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -68,8 +69,8 @@ public class ChooseListPopUp extends Activity {
 
     private List<DomainObject> getTempList() {
         List<DomainObject> list = new ArrayList<DomainObject>();
-        for ( int i = 0; i < 5; i++ ) {
-            list.add(new MovieList("Watched"+i, 1));
+        for (int i = 0; i < 5; i++) {
+            list.add(new MovieList("Watched" + i, Constants.pref.getString("userId", "-1")));
         }
         return list;
     }
