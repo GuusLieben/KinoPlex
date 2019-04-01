@@ -16,6 +16,8 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".presentation.activities.ReviewActivity"></activity>
+        <activity android:name=".presentation.activities.ChooseListPopUp"
+            android:theme="@style/AppTheme.Popup"></activity>
         <activity android:name=".presentation.activities.RegisterActivity" />
         <activity
             android:name=".presentation.activities.LoginActivity"
