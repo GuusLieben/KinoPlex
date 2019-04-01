@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -33,11 +34,28 @@ public class FirestoreListDao implements DaoObject<MovieList> {
         db = FirestoreUtils.getInstance();
     }
 
-    public MovieList createListForUser(String userId, MovieList movieList) {
+    public MovieList createListForUser(MovieList movieList) {
         String collectionId = db.collection(Constants.COL_LISTS).document().getId();
         movieList.setDbId(collectionId);
         db.collection(Constants.COL_LISTS).document(collectionId).set(movieList.storeToMap());
         return movieList;
+    }
+
+    public void readCollectionsForCurrentUserToAdapter(RecyclerView.Adapter adapter) {
+        db.collection(Constants.COL_LISTS).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                if (documentSnapshot.getString("user_id").equalsIgnoreCase(Constants.pref.getString("userId", "-1")) || documentSnapshot.getString("user_id").equals("-1")) {
+                    String userId = documentSnapshot.getString("user_id");
+                    String name = documentSnapshot.getString("name");
+                    MovieList list = new MovieList(name, userId);
+                    for (Object movie : (List<Object>) documentSnapshot.get("movies")) {
+                        int movieId = Integer.parseInt(String.valueOf(movie));
+                        ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(movieId)).readIntoList(list);
+                    }
+                    ((AbstractAdapter) adapter).addToDataSet(list);
+                }
+            }
+        });
     }
 
     @Override
@@ -71,10 +89,14 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                             list.setDbId(documentSnapshot.getId());
                             List<Object> movieIds = (List<Object>) documentSnapshot.get("movies");
 
+                            ArrayList<String> registeredIds = new ArrayList<>();
                             for (Object movieId : Objects.requireNonNull(movieIds)) {
-                                ((FirestoreMovieDao)
-                                        DataMigration.getFactory().getMovieDao(Integer.parseInt(String.valueOf(movieId))))
-                                        .readIntoList(list);
+                                if (!registeredIds.contains(String.valueOf(movieId))) {
+                                    ((FirestoreMovieDao)
+                                            DataMigration.getFactory().getMovieDao(Integer.parseInt(String.valueOf(movieId))))
+                                            .readIntoList(list);
+                                    registeredIds.add(String.valueOf(movieId));
+                                }
                             }
                             movieLists.add(list);
                         }
