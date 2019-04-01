@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,7 +54,11 @@ public class MainActivity extends AppCompatActivity implements
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        //mainRecyclerView.setHasFixedSize(true);
+
+        MenuItem manageListItem = navigationView.getMenu().findItem(R.id.nav_item_add_list);
+        SpannableString s = new SpannableString(manageListItem.getTitle());
+        s.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.softTextColor)), 0, s.length(), 0);
+        manageListItem.setTitle(s);
 
         // Load the adapters with a blank dataset.
         // TODO : Replace blank ArrayLists with existing Datasets from Firestore (cache)
@@ -107,6 +114,14 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_item_add_list:
+                Intent intent = new Intent(this, ManageListsActivity.class);
+                startActivity(intent);
+        }
+
+
+
         return false;
     }
 }
