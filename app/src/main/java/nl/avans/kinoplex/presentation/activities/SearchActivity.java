@@ -14,10 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.PosterPicker;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
 
@@ -29,6 +33,10 @@ public class SearchActivity extends TaskLoaderActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.searchactivity_layout);
+        setTitle(getResources().getString(R.string.search));
+
+        ImageView background = findViewById(R.id.iv_background_poster);
+        Glide.with(this).load(PosterPicker.getRandomPosterID()).into(background);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview_movie_filter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

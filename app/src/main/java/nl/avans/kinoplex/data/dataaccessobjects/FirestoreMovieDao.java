@@ -58,7 +58,6 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
     }
 
     private Movie getMovieFromSnapshot(DocumentSnapshot documentSnapshot) {
-        System.out.println(documentSnapshot);
         String title = documentSnapshot.getString("title");
         int id = Integer.parseInt(documentSnapshot.getId());
         int runtime = Integer.parseInt(String.valueOf(documentSnapshot.get("runtime")));
@@ -96,8 +95,12 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 .get()
                 .addOnSuccessListener(
                         documentSnapshot -> {
-                            movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
-                            ((FirestoreListDao) DataMigration.getFactory().getListDao()).addMovieToList(movieList, movieId);
+                            if (documentSnapshot.getData() == null || documentSnapshot.getData().isEmpty()) {
+                                ((TMDbMovieDao) DataMigration.getTMDbFactory().getMovieDao(movieId)).readIntoFirebase(movieId, movieList);
+                            } else {
+                                movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
+                                ((FirestoreListDao) DataMigration.getFactory().getListDao()).addMovieToList(movieList, movieId);
+                            }
                         });
     }
 
@@ -121,8 +124,13 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
         db.collection(Constants.COL_MOVIES).get().addOnSuccessListener(
                 queryDocumentSnapshots -> {
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                        Movie movie = getMovieFromSnapshot(documentSnapshot);
-                        ((AbstractAdapter) adapter).addToDataSet(movie);
+                        if (documentSnapshot.getData() == null || documentSnapshot.getData().isEmpty() || documentSnapshot.get("runtime") == null) {
+                            System.out.println("FILL ME UP DADDY");
+                            ((TMDbMovieDao) DataMigration.getTMDbFactory().getMovieDao(movieId)).readIntoFirebase(movieId, null);
+                        } else {
+                            Movie movie = getMovieFromSnapshot(documentSnapshot);
+                            ((AbstractAdapter) adapter).addToDataSet(movie);
+                        }
                     }
                 }
         );

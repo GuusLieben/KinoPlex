@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/search_drawerlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/common_google_signin_btn_text_dark_focused">
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/search_drawerlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_background_poster"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -33,7 +42,7 @@
             android:id="@+id/recyclerview_movie_filter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50sp" />
+            android:layout_marginTop="65sp" />
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -48,5 +57,7 @@
         app:headerLayout="@layout/drawer_header_layout"
         app:itemTextColor="@android:color/white"
         app:menu="@menu/drawer_view_menu" />
-</android.support.v4.widget.DrawerLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+</FrameLayout>
 
