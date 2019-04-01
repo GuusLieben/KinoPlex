@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.factories.DataMigration;
+import nl.avans.kinoplex.domain.Constants;
+import nl.avans.kinoplex.domain.MovieList;
 
 
     /*
@@ -58,6 +61,10 @@ public class DialogBuilder {
                 EditText edit = ((AlertDialog) dialog).findViewById(R.id.dialog_single_input);
                 String input = edit.getText().toString();
 
+                String userId = Constants.pref.getString("userId", "-1");
+                MovieList newList = new MovieList(input, userId);
+
+                DataMigration.getFactory().getListDao().create(newList);
 
                 dialog.dismiss();
             }
