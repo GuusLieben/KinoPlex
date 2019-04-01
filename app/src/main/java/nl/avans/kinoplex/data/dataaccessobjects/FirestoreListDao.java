@@ -71,10 +71,14 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                             list.setDbId(documentSnapshot.getId());
                             List<Object> movieIds = (List<Object>) documentSnapshot.get("movies");
 
+                            ArrayList<String> registeredIds = new ArrayList<>();
                             for (Object movieId : Objects.requireNonNull(movieIds)) {
-                                ((FirestoreMovieDao)
-                                        DataMigration.getFactory().getMovieDao(Integer.parseInt(String.valueOf(movieId))))
-                                        .readIntoList(list);
+                                if (!registeredIds.contains(String.valueOf(movieId))) {
+                                    ((FirestoreMovieDao)
+                                            DataMigration.getFactory().getMovieDao(Integer.parseInt(String.valueOf(movieId))))
+                                            .readIntoList(list);
+                                    registeredIds.add(String.valueOf(movieId));
+                                }
                             }
                             movieLists.add(list);
                         }

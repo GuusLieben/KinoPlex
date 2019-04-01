@@ -107,4 +107,5 @@ public class Constants {
 
     public static final String MOVIE_ID = "movieId";
     public static final String MOVIE_TITLE = "movieTitle";
+
 }
