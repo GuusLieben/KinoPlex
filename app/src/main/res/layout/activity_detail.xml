@@ -24,6 +24,13 @@
             android:layout_height="match_parent"
             android:src="@drawable/gradient"/>
 
+        <Button
+            android:id="@+id/view_detail_backbutton"
+            android:layout_margin="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_arrow_back_black_24dp" />
+
         <LinearLayout
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"

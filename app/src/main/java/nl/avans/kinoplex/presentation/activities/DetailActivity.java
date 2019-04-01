@@ -45,7 +45,9 @@ public class DetailActivity extends AppCompatActivity
 
     private Button movieShowReviews;
     private Button movieOptions;
+    private Button backButton;
     private Movie movie;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -82,9 +84,11 @@ public class DetailActivity extends AppCompatActivity
 
         movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
         movieOptions = findViewById(R.id.btn_detail_options);
+        backButton = findViewById(R.id.view_detail_backbutton);
 
         movieShowReviews.setOnClickListener(this);
         movieOptions.setOnClickListener(this);
+        backButton.setOnClickListener(this);
 
         Glide.with(this)
                 .load(movie.getPosterPath())
@@ -153,6 +157,11 @@ public class DetailActivity extends AppCompatActivity
                 String movieJson = new Gson().toJson(movie);
                 reviews.putExtra("movieJson", movieJson);
                 startActivity(reviews);
+
+                break;
+
+            case R.id.view_detail_backbutton:
+                finish();
 
                 break;
         }
