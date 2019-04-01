@@ -33,6 +33,13 @@ public class FirestoreListDao implements DaoObject<MovieList> {
         db = FirestoreUtils.getInstance();
     }
 
+    public MovieList createListForUser(String userId, MovieList movieList) {
+        String collectionId = db.collection(Constants.COL_LISTS).document().getId();
+        movieList.setDbId(collectionId);
+        db.collection(Constants.COL_LISTS).document(collectionId).set(movieList.storeToMap());
+        return movieList;
+    }
+
     @Override
     public boolean create(MovieList movieList) {
         DocumentReference ref = db.collection(Constants.COL_LISTS).document();
@@ -58,17 +65,19 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                         String name = documentSnapshot.getString("name");
                         Log.d(FIRESTORELISTDAO_TAG, "Collected list with name " + name);
                         String userId = Objects.requireNonNull(documentSnapshot.get("user_id")).toString();
-                        MovieList list = new MovieList(name, Integer.parseInt(userId));
+                        if (userId.equalsIgnoreCase("-1") || userId.equalsIgnoreCase(Constants.pref.getString("userId", "-1"))) {
+                            MovieList list = new MovieList(name, userId);
 
-                        list.setDbId(documentSnapshot.getId());
-                        List<Object> movieIds = (List<Object>) documentSnapshot.get("movies");
+                            list.setDbId(documentSnapshot.getId());
+                            List<Object> movieIds = (List<Object>) documentSnapshot.get("movies");
 
-                        for (Object movieId : Objects.requireNonNull(movieIds)) {
-                            ((FirestoreMovieDao)
-                                    DataMigration.getFactory().getMovieDao(Integer.parseInt(String.valueOf(movieId))))
-                                    .readIntoList(list);
+                            for (Object movieId : Objects.requireNonNull(movieIds)) {
+                                ((FirestoreMovieDao)
+                                        DataMigration.getFactory().getMovieDao(Integer.parseInt(String.valueOf(movieId))))
+                                        .readIntoList(list);
+                            }
+                            movieLists.add(list);
                         }
-                        movieLists.add(list);
                     }
                     Log.d(FIRESTORELISTDAO_TAG, "Updating DataSet");
                     ((AbstractAdapter) adapter).updateDataSet(movieLists);
