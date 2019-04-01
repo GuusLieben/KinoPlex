@@ -23,7 +23,7 @@ import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 
-import static android.content.ContentValues.TAG;
+import static nl.avans.kinoplex.domain.Constants.FIRESTORELISTDAO_TAG;
 
 public class FirestoreListDao implements DaoObject<MovieList> {
 
@@ -36,23 +36,27 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     @Override
     public boolean create(MovieList movieList) {
         DocumentReference ref = db.collection(Constants.COL_LISTS).document();
+        Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore");
         db.collection(Constants.COL_LISTS)
                 .document(ref.getId())
                 .set(movieList.storeToMap())
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
-                .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+                .addOnSuccessListener(aVoid -> Log.d(FIRESTORELISTDAO_TAG, "Successfully wrote List to Firestore"))
+                .addOnFailureListener(e -> Log.w(FIRESTORELISTDAO_TAG, "Error writing document", e));
         return true;
     }
 
     @Override
     public void readIntoAdapter(RecyclerView.Adapter adapter) {
         Task<QuerySnapshot> task = db.collection(Constants.COL_LISTS).get();
+        Log.d(FIRESTORELISTDAO_TAG, "Attempting to read from Firebase");
         task.addOnCompleteListener(
                 querySnapshotTask -> {
+                    Log.d(FIRESTORELISTDAO_TAG, "Successfully read lists from Firebase");
                     QuerySnapshot snapshot = querySnapshotTask.getResult();
                     List<DomainObject> movieLists = new ArrayList<>();
                     for (QueryDocumentSnapshot documentSnapshot : snapshot) {
                         String name = documentSnapshot.getString("name");
+                        Log.d(FIRESTORELISTDAO_TAG, "Collected list with name " + name);
                         String userId = Objects.requireNonNull(documentSnapshot.get("user_id")).toString();
                         MovieList list = new MovieList(name, Integer.parseInt(userId));
 
@@ -63,10 +67,10 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                             ((FirestoreMovieDao)
                                     DataMigration.getFactory().getMovieDao(Integer.parseInt(String.valueOf(movieId))))
                                     .readIntoList(list);
-                            System.out.println(movieId);
                         }
                         movieLists.add(list);
                     }
+                    Log.d(FIRESTORELISTDAO_TAG, "Updating DataSet");
                     ((AbstractAdapter) adapter).updateDataSet(movieLists);
                 });
     }
@@ -74,6 +78,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     public void addMovieToList(MovieList list, int movieId) {
         Map<String, Object> listMap = list.storeToMap();
         ArrayList<Object> movies = (ArrayList<Object>) listMap.get("movies");
+        Log.d(FIRESTORELISTDAO_TAG, "Storing movies to list");
         if (movies == null) {
             movies = new ArrayList<>();
             movies.add(String.valueOf(movieId));
@@ -88,6 +93,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
             id = db.collection(Constants.COL_LISTS).document().getId();
             list.setDbId(id);
         }
+        Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore");
         db.collection(Constants.COL_LISTS).document(list.getDbId()).set(listMap);
     }
 
@@ -107,11 +113,12 @@ public class FirestoreListDao implements DaoObject<MovieList> {
             DocumentReference ref = db.collection(Constants.COL_LISTS).document();
             movieList.setDbId(ref.getId());
         }
+        Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore");
         db.collection(Constants.COL_LISTS)
                 .document(movieList.getDbId())
                 .set(movieList.storeToMap())
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
-                .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+                .addOnSuccessListener(aVoid -> Log.d(FIRESTORELISTDAO_TAG, "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w(FIRESTORELISTDAO_TAG, "Error writing document", e));
         return true;
     }
 
@@ -121,11 +128,12 @@ public class FirestoreListDao implements DaoObject<MovieList> {
             DocumentReference ref = db.collection(Constants.COL_LISTS).document();
             movieList.setDbId(ref.getId());
         }
+        Log.d(FIRESTORELISTDAO_TAG, "Attempting to delete list from Firestore");
         db.collection(Constants.COL_LISTS)
                 .document(movieList.getDbId())
                 .delete()
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
-                .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+                .addOnSuccessListener(aVoid -> Log.d(FIRESTORELISTDAO_TAG, "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w(FIRESTORELISTDAO_TAG, "Error writing document", e));
         return true;
     }
 }
