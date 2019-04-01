@@ -1,5 +1,6 @@
 package nl.avans.kinoplex.domain;
 
+import android.content.SharedPreferences;
 import android.util.SparseArray;
 
 import nl.avans.kinoplex.business.FirestoreUtils;
@@ -11,10 +12,12 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
+import nl.avans.kinoplex.presentation.activities.AddReviewActivity;
 import nl.avans.kinoplex.presentation.activities.DetailActivity;
 import nl.avans.kinoplex.presentation.activities.LoginActivity;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
 import nl.avans.kinoplex.presentation.activities.RegisterActivity;
+import nl.avans.kinoplex.presentation.activities.ReviewActivity;
 import nl.avans.kinoplex.presentation.activities.SearchActivity;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
@@ -25,6 +28,8 @@ public class Constants {
 
     // Domain
     public static SparseArray<String> GENRES = new SparseArray<>();
+    public static SharedPreferences pref;
+    public static SharedPreferences.Editor editor;
 
     // Urls
     public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
@@ -52,13 +57,14 @@ public class Constants {
     public static final String FIRESTOREDAOFACTORY_TAG = FirestoreDaoFactory.class.getCanonicalName();
     public static final String TMDBDAOFACTORY_TAG = TMDbDaoFactory.class.getCanonicalName();
 
-    public static final String APPREVIEW_TAG = AppReview.class.getCanonicalName();
+    public static final String APPREVIEW_TAG = FireReview.class.getCanonicalName();
     public static final String MOVIE_TAG = Movie.class.getCanonicalName();
     public static final String MOVIELIST_TAG = MovieList.class.getCanonicalName();
     public static final String TMDBREVIEW_TAG = TMDbReview.class.getCanonicalName();
 
-    //    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
+    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
     public static final String DETAILACT_TAG = DetailActivity.class.getCanonicalName();
+    public static final String REVIEWACT_TAG = ReviewActivity.class.getCanonicalName();
 
     //    public static final String LISTACT_TAG = ListActivity.class.getCanonicalName();
     public static final String LOGINACT_TAG = LoginActivity.class.getCanonicalName();
@@ -98,4 +104,7 @@ public class Constants {
     public static final String PREF_AUTOLOGIN = "autoLogin";
 
     public static final String INTENT_EXTRA_MOVIELIST = "movieListObject";
+
+    public static final String MOVIE_ID = "movieId";
+    public static final String MOVIE_TITLE = "movieTitle";
 }

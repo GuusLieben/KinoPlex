@@ -24,108 +24,109 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 
-
 public class LoginActivity extends Activity implements View.OnClickListener {
-    private EditText usernameEditText;
-    private EditText passwordEditText;
+  private EditText usernameEditText;
+  private EditText passwordEditText;
 
-    private Button registerButton;
-    private Button loginButton;
+  private Button registerButton;
+  private Button loginButton;
 
-    private LinearLayout loginScreen;
-    private ProgressBar progressBar;
+  private LinearLayout loginScreen;
+  private ProgressBar progressBar;
 
-    private CheckBox rememberMeCheckBox;
+  private CheckBox rememberMeCheckBox;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-        Pair<String, String> credentials = LoginManager.getLoginCredentials(this);
-        if(credentials != null) {
-            if(credentials.first != null && credentials.second != null) {
-                Intent mainIntent = new Intent(this, MainActivity.class);
-                ((FirestoreUserDao) DataMigration.getFactory().getUserDao())
-                        .startIntentOnSavedCredentials(credentials, this, mainIntent, this);
-                return;
-            }
+    Constants.pref =
+        getApplicationContext().getSharedPreferences(Constants.PREF_LOGIN, MODE_PRIVATE);
+    Constants.editor = Constants.pref.edit();
+
+    Pair<String, String> credentials = LoginManager.getLoginCredentials(this);
+    if (credentials != null) {
+      if (credentials.first != null && credentials.second != null) {
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        ((FirestoreUserDao) DataMigration.getFactory().getUserDao())
+            .startIntentOnSavedCredentials(credentials, this, mainIntent, this);
+        return;
+      }
+    }
+
+    setContentView(R.layout.activity_login);
+    ImageView background = findViewById(R.id.iv_login_background);
+    Glide.with(this).load(PosterPicker.getRandomPosterID()).into(background);
+
+    usernameEditText = findViewById(R.id.et_login_username);
+    passwordEditText = findViewById(R.id.et_login_password);
+
+    registerButton = findViewById(R.id.btn_login_register);
+    registerButton.setOnClickListener(this);
+
+    loginButton = findViewById(R.id.btn_login_login);
+    loginButton.setOnClickListener(this);
+
+    loginScreen = findViewById(R.id.ll_login_screen);
+    progressBar = findViewById(R.id.pb_login_loading);
+
+    rememberMeCheckBox = findViewById(R.id.cb_remember_me);
+  }
+
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.btn_login_login:
+        Log.d(Constants.LOGINACT_TAG, "User wants to log in...");
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+
+        Pair<String, String> credentials = new Pair<>(username, password);
+
+        if (rememberMeCheckBox.isChecked()) {
+          Log.d(Constants.LOGINACT_TAG, "User wants to save password");
+
+          LoginManager.saveLoginCredentials(this, credentials);
         }
 
-        setContentView(R.layout.activity_login);
-        ImageView background = findViewById(R.id.iv_login_background);
-        Glide.with(this).load(PosterPicker.getRandomPosterID()).into(background);
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        ((FirestoreUserDao) DataMigration.getFactory().getUserDao())
+            .startIntentIfLoginValid(credentials, this, mainIntent, this);
 
-        usernameEditText = findViewById(R.id.et_login_username);
-        passwordEditText = findViewById(R.id.et_login_password);
+        break;
 
-
-        registerButton = findViewById(R.id.btn_login_register);
-        registerButton.setOnClickListener(this);
-
-        loginButton = findViewById(R.id.btn_login_login);
-        loginButton.setOnClickListener(this);
-
-        loginScreen = findViewById(R.id.ll_login_screen);
-        progressBar = findViewById(R.id.pb_login_loading);
-
-        rememberMeCheckBox = findViewById(R.id.cb_remember_me);
+      case R.id.btn_login_register:
+        Log.d(Constants.LOGINACT_TAG, "User wants to register...");
+        Intent registerIntent = new Intent(this, RegisterActivity.class);
+        startActivity(registerIntent);
+        break;
     }
+  }
 
+  public void showLoginError() {
+    Log.d(Constants.LOGINACT_TAG, "Login failed, showing error...");
 
+    showLoginScreen();
 
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()) {
-            case R.id.btn_login_login:
-                Log.d(Constants.LOGINACT_TAG, "User wants to log in...");
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+    passwordEditText.setText("");
+    passwordEditText.setHint("");
+    passwordEditText.setBackground(
+        getResources().getDrawable(R.drawable.login_edittext_errorcolor));
 
-                Pair<String, String> credentials = new Pair<>(username, password);
+    Toast.makeText(this, getResources().getString(R.string.invalidLogin), Toast.LENGTH_LONG).show();
+  }
 
-                if(rememberMeCheckBox.isChecked()) {
-                    Log.d(Constants.LOGINACT_TAG, "User wants to save password");
+  public void showLoadingScreen() {
+    Log.d(Constants.LOGINACT_TAG, "Now showing progress bar...");
 
-                    LoginManager.saveLoginCredentials(this, credentials);
-                }
+    loginScreen.setVisibility(View.INVISIBLE);
+    progressBar.setVisibility(View.VISIBLE);
+  }
 
-                Intent mainIntent = new Intent(this, MainActivity.class);
-                ((FirestoreUserDao) DataMigration.getFactory().getUserDao())
-                        .startIntentIfLoginValid(credentials, this, mainIntent, this);
+  private void showLoginScreen() {
+    Log.d(Constants.LOGINACT_TAG, "Now showing login screen...");
 
-                break;
-
-            case R.id.btn_login_register:
-                Log.d(Constants.LOGINACT_TAG, "User wants to register...");
-                Intent registerIntent = new Intent(this, RegisterActivity.class);
-                startActivity(registerIntent);
-                break;
-        }
-    }
-
-    public void showLoginError() {
-        Log.d(Constants.LOGINACT_TAG, "Login failed, showing error...");
-
-        showLoginScreen();
-
-        passwordEditText.setText("");
-        passwordEditText.setHint("");
-        passwordEditText.setBackground(getResources().getDrawable(R.drawable.login_edittext_errorcolor));
-
-        Toast.makeText(this, getResources().getString(R.string.invalidLogin), Toast.LENGTH_LONG).show();
-    }
-
-    public void showLoadingScreen() {
-        Log.d(Constants.LOGINACT_TAG, "Now showing progress bar...");
-
-        loginScreen.setVisibility(View.INVISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void showLoginScreen() {
-        Log.d(Constants.LOGINACT_TAG, "Now showing login screen...");
-
-        progressBar.setVisibility(View.INVISIBLE);
-        loginScreen.setVisibility(View.VISIBLE);
-    }
+    progressBar.setVisibility(View.INVISIBLE);
+    loginScreen.setVisibility(View.VISIBLE);
+  }
 }

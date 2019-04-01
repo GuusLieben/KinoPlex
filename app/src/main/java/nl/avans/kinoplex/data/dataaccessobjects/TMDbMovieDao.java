@@ -114,7 +114,9 @@ public class TMDbMovieDao implements DaoObject {
                 JSONObject result = new JsonUtilsTask().execute(uri).get();
                 String language = result.getString("original_language");
                 String tagline = result.getString("tagline");
-                int runtime = result.getInt("runtime");
+                Object runtimeObj = result.get("runtime");
+                int runtime = 0;
+                if (runtimeObj != null) runtime = (int) runtimeObj;
                 JSONArray genres = result.getJSONArray("genres");
                 double rating = result.getDouble("vote_average");
                 List<String> genreIds = new ArrayList<>();

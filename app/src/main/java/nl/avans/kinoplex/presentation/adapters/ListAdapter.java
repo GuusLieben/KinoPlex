@@ -21,44 +21,52 @@ import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
 import static nl.avans.kinoplex.presentation.adapters.SearchAdapter.getYear;
 
 public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
-    private Context context;
-    public ListAdapter(List<DomainObject> dataSet) {
-        super(dataSet);
-    }
+  private Context context;
 
-    @NonNull
-    @Override
-    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+  public ListAdapter(List<DomainObject> dataSet) {
+    super(dataSet);
+  }
 
-        context = viewGroup.getContext();
+  @NonNull
+  @Override
+  public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        int layoutID = R.layout.movie_row;
-        LayoutInflater inflater = LayoutInflater.from(context);
+    context = viewGroup.getContext();
 
-        View view = inflater.inflate(layoutID, viewGroup, false);
+    int layoutID = R.layout.movie_row;
+    LayoutInflater inflater = LayoutInflater.from(context);
 
-        return new MovieViewHolder(view);
-    }
+    View view = inflater.inflate(layoutID, viewGroup, false);
 
-    @Override
-    public void onBindViewHolder(@NonNull MovieViewHolder viewHolder, int i) {
-        Movie movie = (Movie) getDataSet().get(i);
-        ImageView imageView = viewHolder.itemView.findViewById(R.id.image_view_movie_poster);
-        TextView releaseYear = viewHolder.itemView.findViewById(R.id.movie_year);
-        TextView genre = viewHolder.itemView.findViewById(R.id.movie_genre);
-        RatingBar ratingBar = viewHolder.itemView.findViewById(R.id.movie_rating);
-        Glide.with(viewHolder.itemView.getContext()).load(movie.getPosterPath()).into(imageView); // sets the poster of the current movie in the recyclerview
-        //genre.setText(movie.getGenres()[0]);
-        viewHolder.setMovie(movie);
-        viewHolder.getMovieTitle().setText(movie.getTitle()); // sets the title of the movie in the recyclerview
-        releaseYear.setText(String.valueOf(getYear(movie.getReleaseDate()))); // sets the releaseyear of the movie in the recyclerview
-        if (movie.getRating() != null)
-            ratingBar.setRating(movie.getRating().floatValue()); // sets rating of the movie
-        else ratingBar.setVisibility(View.INVISIBLE);
-    }
+    return new MovieViewHolder(view);
+  }
 
-    @Override
-    public int getItemCount() {
-        return getDataSet().size();
-    }
+  @Override
+  public void onBindViewHolder(@NonNull MovieViewHolder viewHolder, int i) {
+    Movie movie = (Movie) getDataSet().get(i);
+    ImageView imageView = viewHolder.itemView.findViewById(R.id.image_view_movie_poster);
+    TextView releaseYear = viewHolder.itemView.findViewById(R.id.movie_year);
+    TextView genre = viewHolder.itemView.findViewById(R.id.movie_genre);
+    RatingBar ratingBar = viewHolder.itemView.findViewById(R.id.movie_rating);
+    Glide.with(viewHolder.itemView.getContext())
+        .load(movie.getPosterPath())
+        .into(imageView); // sets the poster of the current movie in the recyclerview
+    // genre.setText(movie.getGenres()[0]);
+    viewHolder.setMovie(movie);
+    viewHolder
+        .getMovieTitle()
+        .setText(movie.getTitle()); // sets the title of the movie in the recyclerview
+    releaseYear.setText(
+        String.valueOf(
+            getYear(
+                movie.getReleaseDate()))); // sets the releaseyear of the movie in the recyclerview
+    if (movie.getRating() != null)
+      ratingBar.setRating(movie.getRating().floatValue() / 2); // sets rating of the movie
+    else ratingBar.setVisibility(View.INVISIBLE);
+  }
+
+  @Override
+  public int getItemCount() {
+    return getDataSet().size();
+  }
 }

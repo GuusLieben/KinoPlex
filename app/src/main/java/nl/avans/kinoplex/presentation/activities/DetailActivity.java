@@ -17,6 +17,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +45,9 @@ public class DetailActivity extends AppCompatActivity
 
     private Button movieShowReviews;
     private Button movieOptions;
+    private Button backButton;
     private Movie movie;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -79,9 +84,11 @@ public class DetailActivity extends AppCompatActivity
 
         movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
         movieOptions = findViewById(R.id.btn_detail_options);
+        backButton = findViewById(R.id.view_detail_backbutton);
 
         movieShowReviews.setOnClickListener(this);
         movieOptions.setOnClickListener(this);
+        backButton.setOnClickListener(this);
 
         Glide.with(this)
                 .load(movie.getPosterPath())
@@ -94,10 +101,18 @@ public class DetailActivity extends AppCompatActivity
         movieYearTextView.setText(movie.getReleaseyear());
         movieRuntimeTextView.setText(movie.getFormattedRuntime());
 
-
         List<String> genreNames = new ArrayList<>();
-        for (String genre : movie.getGenres()) {
-            int id = Integer.parseInt(genre);
+        for (String g1 : movie.getGenres()) {
+            System.out.println(g1);
+            int id = 0;
+            if (g1.contains("\"id\"")) {
+                try {
+                    JSONObject object = new JSONObject(g1);
+                    id = object.getInt("id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else id = Integer.parseInt(g1);
             String genreName = Constants.GENRES.get(id);
             genreNames.add(genreName);
         }
@@ -138,7 +153,15 @@ public class DetailActivity extends AppCompatActivity
 
             case R.id.btn_detail_show_reviews:
                 Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Show Reviews' button");
+                Intent reviews = new Intent(this, ReviewActivity.class);
+                String movieJson = new Gson().toJson(movie);
+                reviews.putExtra("movieJson", movieJson);
+                startActivity(reviews);
 
+                break;
+
+            case R.id.view_detail_backbutton:
+                finish();
 
                 break;
         }
@@ -155,7 +178,10 @@ public class DetailActivity extends AppCompatActivity
 
             case R.id.detail_options_addReview:
                 Log.d(Constants.DETAILACT_TAG, "User wants to add a review to this movie...");
-
+                Intent addReviewIntent = new Intent(this, AddReviewActivity.class);
+                addReviewIntent.putExtra(Constants.MOVIE_ID, movie.getId());
+                addReviewIntent.putExtra(Constants.MOVIE_TITLE, movie.getTitle());
+                startActivity(addReviewIntent);
                 break;
 
             case R.id.detail_options_share:
