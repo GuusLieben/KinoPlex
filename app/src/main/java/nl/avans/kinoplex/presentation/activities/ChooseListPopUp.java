@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
+import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
@@ -32,6 +34,7 @@ public class ChooseListPopUp extends Activity {
     private Button addToListButton;
     private ImageView imageViewBg;
     private Movie movie;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +55,7 @@ public class ChooseListPopUp extends Activity {
 
         getWindow().setAttributes(params);
 
-        if (getIntent().getExtras() == null ) {
+        if (getIntent().getExtras() == null) {
             return;
         }
 
@@ -67,18 +70,11 @@ public class ChooseListPopUp extends Activity {
                 .load(movie.getPosterPath())
                 .into(imageViewBg);
 
-        movieTitleView.setText("Add '"+ movie.getTitle() + "' to list");
-        AbstractAdapter adapter = new AddToListAdapter(getTempList(), movie);
+        movieTitleView.setText("Add '" + movie.getTitle() + "' to list");
+        AbstractAdapter adapter = new AddToListAdapter(new ArrayList<>(), movie);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-    }
-
-    private List<DomainObject> getTempList() {
-        List<DomainObject> list = new ArrayList<DomainObject>();
-        for ( int i = 0; i < 5; i++ ) {
-            list.add(new MovieList("Watched"+i, "user" + i));
-        }
-        return list;
+        ((FirestoreListDao) DataMigration.getFactory().getListDao()).readCollectionsForCurrentUserToAdapter(adapter);
     }
 }
