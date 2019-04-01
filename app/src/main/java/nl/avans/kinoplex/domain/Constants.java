@@ -15,6 +15,7 @@ import nl.avans.kinoplex.presentation.activities.DetailActivity;
 import nl.avans.kinoplex.presentation.activities.LoginActivity;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
 import nl.avans.kinoplex.presentation.activities.RegisterActivity;
+import nl.avans.kinoplex.presentation.activities.ReviewActivity;
 import nl.avans.kinoplex.presentation.activities.SearchActivity;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
@@ -37,7 +38,7 @@ public class Constants {
     public static final String COL_LISTS = "lists";
     public static final String COL_MOVIES = "movies";
     public static final String COL_GENRES = "genres";
-    public static final String COL_REVIEWS = "reviews";
+    public static final String COL_REVIEWS = "reviews2";
     public static final String COL_USERS = "users";
 
     public static final String FIRESTOREUTILS_TAG = FirestoreUtils.class.getCanonicalName();
@@ -59,6 +60,7 @@ public class Constants {
 
     //    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
     public static final String DETAILACT_TAG = DetailActivity.class.getCanonicalName();
+    public static final String REVIEWACT_TAG = ReviewActivity.class.getCanonicalName();
 
     //    public static final String LISTACT_TAG = ListActivity.class.getCanonicalName();
     public static final String LOGINACT_TAG = LoginActivity.class.getCanonicalName();

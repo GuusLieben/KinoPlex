@@ -17,6 +17,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,10 +97,18 @@ public class DetailActivity extends AppCompatActivity
         movieYearTextView.setText(movie.getReleaseyear());
         movieRuntimeTextView.setText(movie.getFormattedRuntime());
 
-
         List<String> genreNames = new ArrayList<>();
-        for (String genre : movie.getGenres()) {
-            int id = Integer.parseInt(genre);
+        for (String g1 : movie.getGenres()) {
+            System.out.println(g1);
+            int id = 0;
+            if (g1.contains("\"id\"")) {
+                try {
+                    JSONObject object = new JSONObject(g1);
+                    id = object.getInt("id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else id = Integer.parseInt(g1);
             String genreName = Constants.GENRES.get(id);
             genreNames.add(genreName);
         }
@@ -138,7 +149,10 @@ public class DetailActivity extends AppCompatActivity
 
             case R.id.btn_detail_show_reviews:
                 Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Show Reviews' button");
-
+                Intent reviews = new Intent(this, ReviewActivity.class);
+                String movieJson = new Gson().toJson(movie);
+                reviews.putExtra("movieJson", movieJson);
+                startActivity(reviews);
 
                 break;
         }

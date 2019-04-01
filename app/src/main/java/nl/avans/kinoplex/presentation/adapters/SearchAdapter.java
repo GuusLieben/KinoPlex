@@ -1,6 +1,8 @@
 package nl.avans.kinoplex.presentation.adapters;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
@@ -41,6 +47,7 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
         return new MovieViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder viewHolder, int position) {
         Movie movie = (Movie) list.get(position);
@@ -52,9 +59,30 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
         RatingBar ratingBar = viewHolder.itemView.findViewById(R.id.movie_rating);
 
         Glide.with(viewHolder.itemView.getContext()).load(movie.getPosterPath()).into(imageView); // sets the poster of the current movie in the recyclerview
-        //genre.setText(movie.getGenres()[0]);
+        //genre.setText(movie.getGenres().get(0));
         viewHolder.getMovieTitle().setText(movie.getTitle()); // sets the title of the movie in the recyclerview
         releaseYear.setText(String.valueOf(getYear(movie.getReleaseDate()))); // sets the releaseyear of the movie in the recyclerview
+
+        List<String> genreNames = new ArrayList<>();
+        for (String g1 : movie.getGenres()) {
+            System.out.println(g1);
+            int id = 0;
+            if (g1.contains("\"id\"")) {
+                try {
+                    JSONObject object = new JSONObject(g1);
+                    id = object.getInt("id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else id = Integer.parseInt(g1);
+            String genreName = Constants.GENRES.get(id);
+            genreNames.add(genreName);
+        }
+
+        String genres = String.join(", ", genreNames);
+
+        genre.setText(genres);
+
         if (movie.getRating() != null)
             ratingBar.setRating(movie.getRating().floatValue() / 2); // sets rating of the movie
         else ratingBar.setVisibility(View.INVISIBLE);
