@@ -3,18 +3,20 @@ package nl.avans.kinoplex.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AppReview extends DomainObject implements Review {
+public class FireReview extends DomainObject implements Review {
 
     String id;
     String userId;
     String content;
     int rating;
+    String movieId;
 
-    public AppReview(String id, String userId, String content, int rating) {
+    public FireReview(String id, String userId, String content, int rating, String movieId) {
         this.id = id;
         this.userId = userId;
         this.content = content;
         this.rating = rating;
+        this.movieId = movieId;
     }
 
     @Override
@@ -58,6 +60,7 @@ public class AppReview extends DomainObject implements Review {
                 put("user_id", userId);
                 put("content", content);
                 put("rating", rating);
+                put("movie_id", movieId);
             }
         };
     }
