@@ -9,8 +9,10 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -28,8 +30,8 @@ public class ChooseListPopUp extends Activity {
     private TextView movieTitleView;
     private RecyclerView recyclerView;
     private Button addToListButton;
+    private ImageView imageViewBg;
     private Movie movie;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,7 @@ public class ChooseListPopUp extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .8), (int) (height * .6));
+        getWindow().setLayout((int)(width*.8), (int)(height*.7));
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
@@ -50,7 +52,7 @@ public class ChooseListPopUp extends Activity {
 
         getWindow().setAttributes(params);
 
-        if (getIntent().getExtras() == null) {
+        if (getIntent().getExtras() == null ) {
             return;
         }
 
@@ -59,8 +61,13 @@ public class ChooseListPopUp extends Activity {
 
         movieTitleView = findViewById(R.id.tv_add_movie_to_list);
         recyclerView = findViewById(R.id.recyclerview_available_lists_popup);
+        imageViewBg = findViewById(R.id.popup_image_bg);
 
-        movieTitleView.setText("Add '" + movie.getTitle() + "' to list");
+        Glide.with(movieTitleView)
+                .load(movie.getPosterPath())
+                .into(imageViewBg);
+
+        movieTitleView.setText("Add '"+ movie.getTitle() + "' to list");
         AbstractAdapter adapter = new AddToListAdapter(getTempList(), movie);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -69,8 +76,8 @@ public class ChooseListPopUp extends Activity {
 
     private List<DomainObject> getTempList() {
         List<DomainObject> list = new ArrayList<DomainObject>();
-        for (int i = 0; i < 5; i++) {
-            list.add(new MovieList("Watched" + i, Constants.pref.getString("userId", "-1")));
+        for ( int i = 0; i < 5; i++ ) {
+            list.add(new MovieList("Watched"+i, "user" + i));
         }
         return list;
     }
