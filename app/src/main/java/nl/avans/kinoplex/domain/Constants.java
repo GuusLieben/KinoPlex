@@ -12,6 +12,7 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
+import nl.avans.kinoplex.presentation.activities.AddReviewActivity;
 import nl.avans.kinoplex.presentation.activities.DetailActivity;
 import nl.avans.kinoplex.presentation.activities.LoginActivity;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
@@ -61,7 +62,7 @@ public class Constants {
     public static final String MOVIELIST_TAG = MovieList.class.getCanonicalName();
     public static final String TMDBREVIEW_TAG = TMDbReview.class.getCanonicalName();
 
-    //    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
+    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
     public static final String DETAILACT_TAG = DetailActivity.class.getCanonicalName();
     public static final String REVIEWACT_TAG = ReviewActivity.class.getCanonicalName();
 
@@ -103,4 +104,7 @@ public class Constants {
     public static final String PREF_AUTOLOGIN = "autoLogin";
 
     public static final String INTENT_EXTRA_MOVIELIST = "movieListObject";
+
+    public static final String MOVIE_ID = "movieId";
+    public static final String MOVIE_TITLE = "movieTitle";
 }

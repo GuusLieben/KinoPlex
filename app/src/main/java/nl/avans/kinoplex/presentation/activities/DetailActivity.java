@@ -169,7 +169,10 @@ public class DetailActivity extends AppCompatActivity
 
             case R.id.detail_options_addReview:
                 Log.d(Constants.DETAILACT_TAG, "User wants to add a review to this movie...");
-
+                Intent addReviewIntent = new Intent(this, AddReviewActivity.class);
+                addReviewIntent.putExtra(Constants.MOVIE_ID, movie.getId());
+                addReviewIntent.putExtra(Constants.MOVIE_TITLE, movie.getTitle());
+                startActivity(addReviewIntent);
                 break;
 
             case R.id.detail_options_share:
