@@ -72,7 +72,7 @@ public class TMDbReviewDao implements DaoObject {
                     String author = review.getString("author");
                     String content = review.getString("content");
                     String id = review.getString("id");
-                    String movie_id = id;
+                    String movie_id = String.valueOf(voids[0]);
                     TMDbReview tmDbReview = new TMDbReview(id, author, content);
                     Map<String, Object> map = tmDbReview.storeToMap();
                     map.put("movie_id", movie_id);

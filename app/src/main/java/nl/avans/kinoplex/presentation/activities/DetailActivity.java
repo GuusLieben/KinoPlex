@@ -149,7 +149,10 @@ public class DetailActivity extends AppCompatActivity
 
             case R.id.btn_detail_show_reviews:
                 Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Show Reviews' button");
-
+                Intent reviews = new Intent(this, ReviewActivity.class);
+                String movieJson = new Gson().toJson(movie);
+                reviews.putExtra("movieJson", movieJson);
+                startActivity(reviews);
 
                 break;
         }

@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.data.factories.DataMigration;
@@ -24,102 +25,116 @@ import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 
 public class FirestoreReviewDao implements DaoObject<Review> {
 
-    private int movieId;
-    private FirebaseFirestore db;
+  private int movieId;
+  private FirebaseFirestore db;
 
-    public FirestoreReviewDao(int movieId) {
-        this.db = FirestoreUtils.getInstance();
-        this.movieId = movieId;
+  public FirestoreReviewDao(int movieId) {
+    this.db = FirestoreUtils.getInstance();
+    this.movieId = movieId;
+  }
+
+  @Override
+  public boolean create(Review review) {
+    String id = db.collection(Constants.COL_REVIEWS).document().getId();
+    db.collection(Constants.COL_REVIEWS).document(id).set(((DomainObject) review).storeToMap());
+    return true;
+  }
+
+  @Override
+  public void readIntoAdapter(RecyclerView.Adapter adapter) {
+    db.collection(Constants.COL_REVIEWS)
+        .get()
+        .addOnSuccessListener(
+            documentSnapshot -> {
+              String mId = String.valueOf(movieId);
+              List<Object> references = new ArrayList<>();
+              for (DocumentSnapshot snapshot : documentSnapshot.getDocuments()) {
+                if (Objects.requireNonNull(snapshot.getString("movie_id")).equals(mId))
+                  references.add(snapshot);
+              }
+              writeReferencesToAdapter(references, adapter);
+            });
+  }
+
+  private void writeReferencesToAdapter(List<Object> referenceList, RecyclerView.Adapter adapter) {
+    for (Object reviewReference : referenceList) {
+      db.collection(Constants.COL_REVIEWS)
+          .document(String.valueOf(((DocumentSnapshot) reviewReference).getId()))
+          .get()
+          .addOnSuccessListener(
+              documentSnapshot -> {
+                if (documentSnapshot.contains("user_id")) { // App review
+                  String id = documentSnapshot.getId();
+                  String author = documentSnapshot.getString("user_id");
+                  String content = documentSnapshot.getString("content");
+                  int rating = (int) documentSnapshot.get("rating");
+                  AppReview appReview = new AppReview(id, author, content, rating);
+                  ((AbstractAdapter) adapter).addToDataSet(appReview);
+
+                } else { // API Review
+                  String id = documentSnapshot.getId();
+                  String author = documentSnapshot.getString("user_id");
+                  String content = documentSnapshot.getString("content");
+                  TMDbReview tmDbReview = new TMDbReview(id, author, content);
+                  ((AbstractAdapter) adapter).addToDataSet(tmDbReview);
+                }
+              });
     }
+  }
 
-    @Override
-    public boolean create(Review review) {
-        String id = db.collection(Constants.COL_REVIEWS).document().getId();
-        db.collection(Constants.COL_REVIEWS).document(id).set(((DomainObject) review).storeToMap());
-        return true;
-    }
+  @Override
+  public void readIntoIntent(Intent intent, Context context, Object id) {
+    throw new UnsupportedOperationException();
+  }
 
-    @Override
-    public void readIntoAdapter(RecyclerView.Adapter adapter) {
-        db.collection(Constants.COL_MOVIES)
-                .document(String.valueOf(movieId))
-                .get()
-                .addOnSuccessListener(
-                        documentSnapshot -> {
-                            List<Object> reviewReferences = (List<Object>) documentSnapshot.get("reviews");
-                            writeReferencesToAdapter(reviewReferences, adapter);
-                        });
-    }
+  @Override
+  public void readAll(RecyclerView.Adapter adapter) {
+    throw new UnsupportedOperationException();
+  }
 
-    private void writeReferencesToAdapter(List<Object> referenceList, RecyclerView.Adapter adapter) {
-        for (Object reviewReference : referenceList) {
-            db.collection(Constants.COL_REVIEWS)
-                    .document(String.valueOf(reviewReference))
-                    .get()
-                    .addOnSuccessListener(
-                            documentSnapshot -> {
-                                if (documentSnapshot.contains("user_id")) { // App review
-                                    String id = documentSnapshot.getId();
-                                    String author = documentSnapshot.getString("user_id");
-                                    String content = documentSnapshot.getString("content");
-                                    int rating = (int) documentSnapshot.get("rating");
-                                    AppReview appReview = new AppReview(id, author, content, rating);
-                                    ((AbstractAdapter) adapter).addToDataSet(appReview);
+  @Override
+  public boolean update(Review review) {
+    db.collection(Constants.COL_REVIEWS)
+        .document(((DomainObject) review).getId())
+        .set(((DomainObject) review).storeToMap())
+        .addOnSuccessListener(
+            aVoid -> Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Successfully updated review"));
+    return true;
+  }
 
-                                } else { // API Review
-                                    String id = documentSnapshot.getId();
-                                    String author = documentSnapshot.getString("user_id");
-                                    String content = documentSnapshot.getString("content");
-                                    TMDbReview tmDbReview = new TMDbReview(id, author, content);
-                                    ((AbstractAdapter) adapter).addToDataSet(tmDbReview);
-                                }
-                            });
-        }
-    }
+  @Override
+  public boolean delete(Review review) {
+    db.collection(Constants.COL_REVIEWS).document(((DomainObject) review).getId()).delete();
+    return true;
+  }
 
-    @Override
-    public void readIntoIntent(Intent intent, Context context, Object id) {
-        throw new UnsupportedOperationException();
-    }
+  public void getList(Movie movie, DetailActivity detailActivity) {
+    db.collection(Constants.COL_REVIEWS)
+        .get()
+        .addOnSuccessListener(
+            snapshots -> {
+              if (movie.getReviews() == null) movie.setReviews(new ArrayList<>());
 
-    @Override
-    public void readAll(RecyclerView.Adapter adapter) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean update(Review review) {
-        db.collection(Constants.COL_REVIEWS)
-                .document(((DomainObject) review).getId())
-                .set(((DomainObject) review).storeToMap())
-                .addOnSuccessListener(
-                        aVoid -> Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Successfully updated review"));
-        return true;
-    }
-
-    @Override
-    public boolean delete(Review review) {
-        db.collection(Constants.COL_REVIEWS).document(((DomainObject) review).getId()).delete();
-        return true;
-    }
-
-    public void getList(Movie movie, DetailActivity detailActivity) {
-        db.collection(Constants.COL_REVIEWS).get()
-                .addOnSuccessListener(snapshots -> {
-                    if (movie.getReviews() == null) movie.setReviews(new ArrayList<>());
-                    for (DocumentSnapshot documentSnapshot : snapshots.getDocuments())
-                        if (documentSnapshot.getString("movie_id").equalsIgnoreCase(String.valueOf(movieId))) {
-                            String id = documentSnapshot.getString("id");
-                            String author = documentSnapshot.getString("author");
-                            String content = documentSnapshot.getString("content");
-                            TMDbReview review = new TMDbReview(id, author, content);
-                            movie.addReview(review);
-                            System.out.println("Found a review");
-                            detailActivity.setReviewText(String.valueOf(movie.getReviews().size()));
-                        }
-                    if (movie.getReviews().isEmpty())
-                        movie.setReviews(((TMDbReviewDao) DataMigration.getTMDbFactory().getReviewDao(Integer.parseInt(movie.getId()))).getList());
+              if (movie.getReviews().isEmpty())
+                movie.setReviews(
+                    ((TMDbReviewDao)
+                            DataMigration.getTMDbFactory()
+                                .getReviewDao(Integer.parseInt(movie.getId())))
+                        .getList());
+              else
+                for (DocumentSnapshot documentSnapshot : snapshots.getDocuments())
+                  if (Objects.requireNonNull(documentSnapshot.getString("movie_id"))
+                      .equalsIgnoreCase(String.valueOf(movieId))) {
+                    String id = documentSnapshot.getString("id");
+                    String author = documentSnapshot.getString("author");
+                    String content = documentSnapshot.getString("content");
+                    TMDbReview review = new TMDbReview(id, author, content);
+                    movie.addReview(review);
+                    System.out.println("Found a review");
                     detailActivity.setReviewText(String.valueOf(movie.getReviews().size()));
-                });
-    }
+                  }
+
+              detailActivity.setReviewText(String.valueOf(movie.getReviews().size()));
+            });
+  }
 }

@@ -28,10 +28,10 @@
         </activity>
         <activity android:name=".presentation.activities.DetailActivity" />
         <activity android:name=".presentation.activities.MainActivity" />
-        <activity android:name=".presentation.activities.ReviewsActivity" />
+        <!--<activity android:name=".presentation.activities.ReviewActivity" />-->
         <activity android:name=".presentation.activities.SearchActivity" />
         <activity android:name=".presentation.activities.ListActivity" />
-        <activity android:name=".presentation.activities.AddReviewActivity" />
+        <!--<activity android:name=".presentation.activities.AddReviewActivity" />-->
     </application>
 
 </manifest>
