@@ -23,4 +23,8 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="rememberme">Wachtwoord onthouden</string>
     <string name="logout">Uitloggen</string>
+    <string name="now_playing_arrow">Speelt nu ▶</string>
+    <string name="top_rated_arrow">Hoogst Scorend ▶</string>
+    <string name="popular_arrow">Populair ▶</string>
+    <string name="manageLists">⚙ lijsten beheren</string>
 </resources>
