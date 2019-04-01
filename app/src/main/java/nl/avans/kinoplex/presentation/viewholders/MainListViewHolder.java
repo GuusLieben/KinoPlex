@@ -48,7 +48,7 @@ public class MainListViewHolder extends AbstractViewHolder {
         List<Movie> movies = ((MovieList) movieList).getMovieList();
         List<DomainObject> domainMovies = new ArrayList<>(movies);
         AbstractAdapter<MainMovieViewHolder> adapter = new MainMovieAdapter(domainMovies);
-        ((MovieList) movieList).setAdapter(adapter);
+        ((MovieList) movieList).setAdapter((MainMovieAdapter) adapter);
 
         String name = ((MovieList) movieList).getName();
         boolean tmdblist = false;

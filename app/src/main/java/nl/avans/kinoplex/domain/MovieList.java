@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import nl.avans.kinoplex.data.factories.DataMigration;
+import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 
 public class MovieList extends DomainObject {
     private List<Movie> movieList;
@@ -23,7 +24,7 @@ public class MovieList extends DomainObject {
     private boolean dataIsNew;
 
     //Adapter which uses this MovieList
-    private RecyclerView.Adapter adapter;
+    private MainMovieAdapter adapter;
 
     public MovieList(String name, String userId) {
         this.name = name;
@@ -31,7 +32,7 @@ public class MovieList extends DomainObject {
         movieList = new ArrayList<>();
     }
 
-    public void setAdapter(RecyclerView.Adapter adapter) {
+    public void setAdapter(MainMovieAdapter adapter) {
         this.adapter = adapter;
         adapterIsSet = true;
 
