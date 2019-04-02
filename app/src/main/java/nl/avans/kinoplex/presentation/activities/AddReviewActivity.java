@@ -7,10 +7,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import nl.avans.kinoplex.R;
@@ -25,6 +27,7 @@ public class AddReviewActivity extends AppCompatActivity {
     private EditText contextView;
     private Button addReviewBtn;
     private Movie movie;
+    private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,7 @@ public class AddReviewActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.rating_bar_add_review);
         contextView = findViewById(R.id.edit_text_add_review);
         addReviewBtn = findViewById(R.id.btn_add_review);
+        imageView = findViewById(R.id.iv_add_review_screen);
 
         if (getIntent().getExtras() == null) {
             return;
@@ -41,10 +45,16 @@ public class AddReviewActivity extends AppCompatActivity {
         movie = new Gson().fromJson(json, Movie.class);
         String movieId = movie.getId();
 
+
+
         Toolbar toolbar = findViewById(R.id.add_review_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Add Review for: " + movie.getTitle() + '\'');
+        getSupportActionBar().setTitle("Add Review for: " + movie.getTitle());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Glide.with(toolbar)
+                .load(movie.getPosterPath())
+                .into(imageView);
 
         addReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
