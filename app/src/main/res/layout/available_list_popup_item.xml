@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="45dp"
     android:layout_marginBottom="3dp"
     android:clickable="true"
     android:focusable="true"
     android:contextClickable="true"
     android:id="@+id/frame_available_lists_popup"
-    android:background="@color/colorPrimaryDark">
+    android:background="@android:color/transparent">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|left"
-        android:layout_marginLeft="80dp">
+        android:layout_marginStart="20dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,7 +25,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical">
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginStart="50dp">
 
         <TextView
             android:id="@+id/tv_popup_list_title"
@@ -42,9 +43,9 @@
         android:layout_gravity="center_horizontal|bottom">
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.7dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_height="0.8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#1F0000"/>
     </LinearLayout>
 </FrameLayout>

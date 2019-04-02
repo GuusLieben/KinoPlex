@@ -48,6 +48,8 @@ public class DetailActivity extends AppCompatActivity
     private Button backButton;
     private Movie movie;
 
+    private ImageView overlayBgPopup;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -89,6 +91,8 @@ public class DetailActivity extends AppCompatActivity
         movieShowReviews.setOnClickListener(this);
         movieOptions.setOnClickListener(this);
         backButton.setOnClickListener(this);
+
+        overlayBgPopup = findViewById(R.id.overlay_bg_image_view);
 
         Glide.with(this)
                 .load(movie.getPosterPath())
@@ -132,6 +136,7 @@ public class DetailActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         // Asynchronously loads reviews into the movie
+        hideOverlayBg();
         ((FirestoreReviewDao) DataMigration.getFactory().getReviewDao(Integer.parseInt(movie.getId()))).getList(movie, this);
     }
 
@@ -177,6 +182,7 @@ public class DetailActivity extends AppCompatActivity
                 String json = new Gson().toJson(movie);
                 chooseListPopup.putExtra(Constants.MOVIE_TAG, json);
                 startActivity(chooseListPopup);
+                showOverlayBg();
                 break;
 
             case R.id.detail_options_addReview:
@@ -204,6 +210,16 @@ public class DetailActivity extends AppCompatActivity
 
 
         return false;
+    }
+
+    private void showOverlayBg() {
+        overlayBgPopup.setVisibility(View.VISIBLE);
+        Log.d(Constants.DETAILACT_TAG, "SHOW OVERLAY........................................................................");
+    }
+
+    private void hideOverlayBg() {
+        Log.d(Constants.DETAILACT_TAG, "HIDE OVERLAY........................................................................");
+        overlayBgPopup.setVisibility(View.INVISIBLE);
     }
 
 }
