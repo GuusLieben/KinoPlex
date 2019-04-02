@@ -45,7 +45,23 @@
 
     <string name="cancel">Cancel</string>
 
+    <string name="deleteList">Are you sure?</string>
+
     <string name="Genres">Genres ▶</string>
     <string name="plusSign" translatable="false">+</string>
     <string name="addedToList">Added to the list</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="no_more_reviews">No more reviews :(</string>
+
+    <string name="rating_value" translatable="false">Rating :</string>
+    <string name="rating_content" translatable="false">Content :</string>
+
+    <string name="addMovieToList_add">Add \'</string>
+    <string name="addMovieToList_toList"> \'to list</string>
+
+    <string name="addReviewForMovie">Add review for: </string>
+    <string name="manage_list_filters">Manage Filters</string>
+    <string name="filter_title" translatable="false">Filters</string>
+
+    <string name="movieYear">Year</string>
 </resources>

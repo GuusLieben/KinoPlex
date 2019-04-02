@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+import java.util.Map;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.domain.DomainObject;
@@ -20,10 +21,16 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
 
   private Context context;
 
+  private Map<DomainObject, MainMovieAdapter> adapterMap;
+
   public MainListAdapter(List<DomainObject> dataSet, Context context) {
 
     super(dataSet);
     this.context = context;
+  }
+
+  public void setAdapterMap(Map<DomainObject, MainMovieAdapter> map) {
+    this.adapterMap = map;
   }
 
   @NonNull
@@ -41,7 +48,9 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
   @Override
   public void onBindViewHolder(@NonNull MainListViewHolder mainListViewHolder, int i) {
     MovieList list = (MovieList) getDataSet().get(i);
-    mainListViewHolder.bind(list);
+    MainMovieAdapter adapter = adapterMap.get(list);
+
+    mainListViewHolder.bind(list,adapter);
 
   }
 

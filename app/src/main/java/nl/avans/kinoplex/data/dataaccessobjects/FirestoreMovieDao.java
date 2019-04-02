@@ -3,6 +3,7 @@ package nl.avans.kinoplex.data.dataaccessobjects;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -14,12 +15,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import nl.avans.kinoplex.business.CustomListChecker;
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
+import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
 public class FirestoreMovieDao implements DaoObject<Movie> {
 
@@ -49,6 +52,9 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
     @Override
     public void readIntoAdapter(RecyclerView.Adapter adapter) {
         Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Attempting to read movie into adapter");
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Movie ID: " + movieId);
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Adapter: " + adapter);
+
         db.collection(Constants.COL_MOVIES)
                 .document(String.valueOf(movieId))
                 .get()
@@ -86,12 +92,15 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 language,
                 overview,
                 releaseDate);
+
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Setting the rating");
         movie.setRating(rating);
 
+        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Returning movie with title " + movie.getTitle());
         return movie;
     }
 
-    public void readIntoList(MovieList movieList) {
+    public void readIntoList(MovieList movieList, RecyclerView.Adapter adapter) {
         Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Attempting to read movie into list");
         db.collection(Constants.COL_MOVIES)
                 .document(String.valueOf(movieId))
@@ -103,6 +112,17 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                             } else {
                                 movieList.addMovie(getMovieFromSnapshot(documentSnapshot));
                                 ((FirestoreListDao) DataMigration.getFactory().getListDao()).addMovieToList(movieList, movieId);
+
+                                if(adapter != null) {
+                                    String name = movieList.getName();
+
+                                    //Prevents duplicated movies in standard lists
+                                    if(CustomListChecker.isCustomList(name)) {
+                                        Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Notifying adapter that list " + name + " changed");
+                                        adapter.notifyDataSetChanged();
+                                        ((AbstractAdapter<MainMovieViewHolder>) adapter).addToDataSet(getMovieFromSnapshot(documentSnapshot));
+                                    }
+                                }
                             }
                         });
     }

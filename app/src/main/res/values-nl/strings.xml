@@ -33,4 +33,15 @@
     <string name="enterTitle">Voer Titel in</string>
     <string name="cancel">Annuleren</string>
     <string name="addedToList">Aan de lijst toegevoegd</string>
+    <string name="upcoming">Verwacht</string>
+    <string name="deleteList">Weet je het zeker?</string>
+    <string name="no_more_reviews">Geen reviews meer :(</string>
+
+    <string name="addMovieToList_add">Voeg \'</string>
+    <string name="addMovieToList_toList">\' toe aan lijst</string>
+
+    <string name="addReviewForMovie">Voeg review toe voor: </string>
+    <string name="manage_list_filters">Beheer Filters</string>
+
+    <string name="movieYear">Jaar</string>
 </resources>

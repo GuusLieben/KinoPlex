@@ -47,10 +47,10 @@ public class FirestoreUserDao implements DaoObject<Pair> {
                         put("password", password);
                     }
                 };
-        Constants.editor.putString("userId", pair.first.toString().replace(" ", "").toLowerCase());
+        Constants.editor.putString("userId", pair.first.toString().replaceAll(" ", "").toLowerCase());
         Constants.editor.apply();
         db.collection(Constants.COL_USERS)
-                .document(pair.first.toString().replace(" ", "").toLowerCase())
+                .document(pair.first.toString().replaceAll(" ", "").toLowerCase())
                 .set(userData);
         return true;
     }
@@ -89,7 +89,7 @@ public class FirestoreUserDao implements DaoObject<Pair> {
             return;
         }
 
-        final String username = credentials.first;
+        String username = credentials.first;
         final String password = md5(String.valueOf(credentials.second));
 
         if (username == null || password == null) {
@@ -102,14 +102,16 @@ public class FirestoreUserDao implements DaoObject<Pair> {
             return;
         }
 
+        final String user = username.replaceAll(" ", "").toLowerCase();
+
         FirebaseFirestore db = FirestoreUtils.getInstance();
         db.collection(Constants.COL_USERS)
-                .document(username)
+                .document(user)
                 .get()
                 .addOnSuccessListener(
                         documentSnapshot -> {
                             final String hashedDocPass = documentSnapshot.getString("password");
-                            Constants.editor.putString("userId", username.replace(" ", "").toLowerCase());
+                            Constants.editor.putString("userId", user.replaceAll(" ", "").toLowerCase());
                             Constants.editor.apply();
 
                             if (password.equalsIgnoreCase(hashedDocPass)) {
@@ -172,7 +174,6 @@ public class FirestoreUserDao implements DaoObject<Pair> {
 
     @Override
     public boolean update(Pair pair) {
-
         String userId = Constants.pref.getString("userId", "-1");
         return true;
     }

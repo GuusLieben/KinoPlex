@@ -3,15 +3,21 @@ package nl.avans.kinoplex.business;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.TextView;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.MovieList;
+import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
+import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 
 
     /*
@@ -23,17 +29,25 @@ public class DialogBuilder {
 
 
     public enum Input {
-        SINGLE_EDITTEXT
+        SINGLE_EDITTEXT, PREFILLED_EDITTEXT, EDITTEXT_WITH_LABEL
     }
 
-    private static View getView(Input type, Activity activity) {
+    private static View getView(Input type, Activity activity, String input) {
+        LayoutInflater inflater = activity.getLayoutInflater();
         switch (type) {
             case SINGLE_EDITTEXT:
-                LayoutInflater inflater = activity.getLayoutInflater();
                 return inflater.inflate(R.layout.dialog_single_edittext, null);
 
+            case PREFILLED_EDITTEXT:
+                View view = inflater.inflate(R.layout.dialog_single_edittext, null);
+                ((EditText) view.findViewById(R.id.dialog_single_input)).setText(input);
 
-                default:
+                return view;
+
+            case EDITTEXT_WITH_LABEL:
+                return inflater.inflate(R.layout.dialog_edittext_with_label, null);
+
+            default:
                     final EditText default_input = new EditText(activity);
                     default_input.setPadding(10, 0, 10 ,0);
                     return default_input;
@@ -47,13 +61,13 @@ public class DialogBuilder {
      * @param title The title of the dialog box
      * @param type The type of input that should be shown. Uses inner-Enum Input
      */
-    public static void simpleInputBuilder(Activity activity, String title, Input type) {
+    public static void simpleInputBuilder(Activity activity, String title, Input type, RecyclerView.Adapter adapter) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         builder.setTitle(title);
 
-        builder.setView(getView(type, activity));
+        builder.setView(getView(type, activity, null));
 
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -68,6 +82,9 @@ public class DialogBuilder {
                 ((FirestoreListDao) DataMigration.getFactory().getListDao())
                         .createListForUser(newList);
 
+                ((ListManagerAdapter) adapter).addToDataSet(newList);
+
+                ManageListsActivity.datahasChanged = true;
                 dialog.dismiss();
             }
         });
@@ -80,6 +97,69 @@ public class DialogBuilder {
             }
         });
 
+        builder.show();
+    }
+
+    public static void simpleListEditDialog(Activity activity, String title, Input type,
+                                            MovieList list, RecyclerView.Adapter adapter) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        builder.setTitle(title);
+
+        builder.setView(getView(type, activity, list.getName()));
+
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText edit = ((AlertDialog) dialog).findViewById(R.id.dialog_single_input);
+                String input = edit.getText().toString();
+
+                list.setName(input);
+
+                DataMigration.getFactory().getListDao().update(list);
+
+                adapter.notifyDataSetChanged();
+
+                ManageListsActivity.datahasChanged = true;
+                dialog.dismiss();
+            }
+        });
+
+        String cancel = activity.getResources().getString(R.string.cancel);
+        builder.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public static void createFilterDialog(AppCompatActivity activity, Filter filter) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(R.string.filter_title);
+        View view = getView(Input.EDITTEXT_WITH_LABEL, activity, null);
+        builder.setView(view);
+        ((TextView)view.findViewById(R.id.dialog_label_input)).setText(view.getResources().getString(R.string.movieYear));
+        EditText editText = view.findViewById(R.id.dialog_input_with_label);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String yearValue = editText.getText().toString();
+                filter.filter(yearValue);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
         builder.show();
     }
 }

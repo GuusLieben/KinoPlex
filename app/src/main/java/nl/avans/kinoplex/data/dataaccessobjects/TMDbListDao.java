@@ -72,7 +72,7 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
             String identifier = (String) pairs[0];
             int page = (int) pairs[1];
 
-            Uri listUri = Uri.parse(Constants.MOVIE_API_URL + identifier)
+            Uri listUri = Uri.parse(Constants.MOVIE_API_URL + identifier.replace("!", ""))
                     .buildUpon()
                     .appendQueryParameter("api_key", Constants.API_KEY)
                     .appendQueryParameter("page", String.valueOf(page))
@@ -82,6 +82,7 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                 JSONObject result = JsonUtils.getJSONObjectFromUrl(listUri);
 
                 MovieList list = new MovieList(identifier.substring(0, 1).toUpperCase() + identifier.substring(1), "-1");
+                if (!identifier.startsWith("!")) identifier = '!' + identifier;
                 list.setDbId(identifier);
 
                 JSONArray movies = result.getJSONArray("results");
@@ -115,7 +116,7 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                     movie.setRating(rating);
 
                     DataMigration.getFactory().getMovieDao(id).create(movie);
-                    ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(id)).readIntoList(list);
+                    ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(id)).readIntoList(list, null);
                     DataMigration.getFactory().getMovieDao(id).readIntoAdapter((RecyclerView.Adapter) pairs[2]);
                 }
 
