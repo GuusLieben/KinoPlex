@@ -1,8 +1,8 @@
 package nl.avans.kinoplex.domain;
 
 
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -28,6 +28,9 @@ public class MovieList extends DomainObject {
     }
 
     public void setDbId(String dbId) {
+        List<String> TMDbIds = Arrays.asList("now_playing", "popular", "top_rated", "upcoming");
+        dbId = dbId.toLowerCase();
+        if (TMDbIds.contains(dbId) && !(dbId.startsWith("!"))) dbId = '!' + dbId;
         this.dbId = dbId;
     }
 
