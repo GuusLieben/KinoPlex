@@ -18,6 +18,7 @@ import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.activities.ChooseListPopUp;
+import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.viewholders.AddToListViewHolder;
 
 public class AddToListAdapter extends AbstractAdapter<AddToListViewHolder> {
@@ -50,6 +51,8 @@ public class AddToListAdapter extends AbstractAdapter<AddToListViewHolder> {
                 Log.d("AddMovieToList", "User wants to add the movie : " + movie.getTitle() + " ; to the list -> " + movieList.getName());
                 ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId()))).readIntoList(movieList, null);
                 Toast.makeText(context, context.getString(R.string.addedToList), Toast.LENGTH_SHORT).show();
+
+                ManageListsActivity.datahasChanged = true;
                 ((ChooseListPopUp) context).finish();
             }
         });

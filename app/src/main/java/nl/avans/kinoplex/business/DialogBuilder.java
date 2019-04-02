@@ -13,6 +13,7 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.MovieList;
+import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 
 
@@ -76,6 +77,8 @@ public class DialogBuilder {
                         .createListForUser(newList);
 
                 ((ListManagerAdapter) adapter).addToDataSet(newList);
+
+                ManageListsActivity.datahasChanged = true;
                 dialog.dismiss();
             }
         });
@@ -113,6 +116,8 @@ public class DialogBuilder {
                 DataMigration.getFactory().getListDao().update(list);
 
                 adapter.notifyDataSetChanged();
+
+                ManageListsActivity.datahasChanged = true;
                 dialog.dismiss();
             }
         });
