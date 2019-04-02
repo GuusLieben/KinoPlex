@@ -88,7 +88,7 @@ public class MainListViewHolder extends AbstractViewHolder {
         if (tmdblist) {
             Log.d(Constants.MAINLISTVH_TAG, "TMDB List collection for " + name);
             try {
-                ((TMDbListDao) DataMigration.getTMDbFactory().getListDao()).readCollectionToAdapter('!' + name.toLowerCase(), 1, movieAdapter);
+                ((TMDbListDao) DataMigration.getTMDbFactory().getListDao()).readCollectionToAdapter(name.toLowerCase(), 1, movieAdapter);
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
