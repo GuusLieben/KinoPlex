@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.activities.ManageListsActivity"></activity>
+        <activity android:name=".presentation.activities.ManageListsActivity" />
         <activity android:name=".presentation.activities.ReviewActivity" />
         <activity
             android:name=".presentation.activities.ChooseListPopUp"
