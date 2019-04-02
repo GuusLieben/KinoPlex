@@ -5,13 +5,17 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.domain.DomainObject;
@@ -20,9 +24,10 @@ import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
 
 import static nl.avans.kinoplex.presentation.adapters.SearchAdapter.getYear;
 
-public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
+public class ListAdapter extends AbstractAdapter<MovieViewHolder> implements Filterable {
   private Context context;
-
+  private List<DomainObject> list;
+  private List<DomainObject> listFull;
   public ListAdapter(List<DomainObject> dataSet) {
     super(dataSet);
   }
@@ -37,7 +42,8 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
     LayoutInflater inflater = LayoutInflater.from(context);
 
     View view = inflater.inflate(layoutID, viewGroup, false);
-
+    list = new ArrayList<>(getDataSet());
+    listFull = new ArrayList<>(list);
     return new MovieViewHolder(view);
   }
 
@@ -69,4 +75,44 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
   public int getItemCount() {
     return getDataSet().size();
   }
+
+  @Override
+  public Filter getFilter() {
+    return movieFilter;
+  }
+
+  private Filter movieFilter =
+          new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+              List<DomainObject> filteredList = new ArrayList<>();
+
+
+              if (constraint == null || constraint.length() == 0) { // checks if the searchview is empty, if so, all data will be shown
+                filteredList.addAll(listFull);
+              } else {
+                String filterPattern = constraint.toString().toLowerCase().trim(); // otherwise the chosen filter will be applied
+
+                for (DomainObject movie : listFull) {
+                  if (Objects.requireNonNull(((Movie) movie).getReleaseyear())
+                          .toLowerCase()
+                          .contains(filterPattern)) {
+                    filteredList.add(movie);
+                  }
+                }
+              }
+              FilterResults results = new FilterResults();
+              results.values = filteredList;
+
+              return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+              list.clear();
+              list.addAll((List) filterResults.values);
+              updateDataSet((List<DomainObject>) filterResults.values); // update the data with the filteredresults
+              notifyDataSetChanged();
+            }
+          };
 }
