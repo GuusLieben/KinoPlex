@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_item_add_review"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/ic_add_black_24dp"
         app:showAsAction="ifRoom"
-        android:iconTint="@android:color/white"
         android:title="@string/AddReview">
 
     </item>

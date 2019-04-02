@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.CustomListChecker;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreMovieDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.DomainObject;
@@ -59,5 +60,12 @@ public class AddToListAdapter extends AbstractAdapter<AddToListViewHolder> {
         });
     }
 
+    @Override
+    public void addToDataSet(DomainObject domainObject) {
+        MovieList list = (MovieList) domainObject;
 
+        if(CustomListChecker.isCustomList(list.getName())) {
+            super.addToDataSet(domainObject);
+        }
+    }
 }

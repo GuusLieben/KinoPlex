@@ -43,7 +43,7 @@ public class AddReviewActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.add_review_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Add Review for: " + movie.getTitle() + '\'');
+        getSupportActionBar().setTitle("Add Review for: " + movie.getTitle());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         addReviewBtn.setOnClickListener(new View.OnClickListener() {
