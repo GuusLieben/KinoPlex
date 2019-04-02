@@ -11,9 +11,9 @@ import java.util.List;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.business.FirestoreUtils;
-import nl.avans.kinoplex.domain.FireReview;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
+import nl.avans.kinoplex.domain.FireReview;
 import nl.avans.kinoplex.domain.TMDbReview;
 import nl.avans.kinoplex.presentation.viewholders.ReviewViewHolder;
 

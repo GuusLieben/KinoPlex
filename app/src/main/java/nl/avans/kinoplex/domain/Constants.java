@@ -16,12 +16,15 @@ import nl.avans.kinoplex.presentation.activities.AddReviewActivity;
 import nl.avans.kinoplex.presentation.activities.DetailActivity;
 import nl.avans.kinoplex.presentation.activities.LoginActivity;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
+import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.activities.RegisterActivity;
 import nl.avans.kinoplex.presentation.activities.ReviewActivity;
 import nl.avans.kinoplex.presentation.activities.SearchActivity;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
+import nl.avans.kinoplex.presentation.viewholders.ListManagerViewHolder;
+import nl.avans.kinoplex.presentation.viewholders.MainListViewHolder;
 import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
 public class Constants {
@@ -77,6 +80,7 @@ public class Constants {
     //    public static final String REGISTERACT_TAG = RegisterActivity.class.getCanonicalName();
     //    public static final String REVIEWSACT_TAG = ReviewsActivity.class.getCanonicalName();
     public static final String SEARCHACT_TAG = SearchActivity.class.getCanonicalName();
+    public static final String MANAGELISTSACT_TAG = ManageListsActivity.class.getCanonicalName();
 
     //    public static final String LISTADAPT_TAG = ListActivity.class.getCanonicalName();
     public static final String MOVIEADAPT_TAG = MainMovieAdapter.class.getCanonicalName();
@@ -86,9 +90,12 @@ public class Constants {
 
     //    public static final String LISTVH_TAG  = ListViewHolder.class.getCanonicalName();
     public static final String MAINMOVIEVH_TAG = MainMovieViewHolder.class.getCanonicalName();
+    public static final String MAINLISTVH_TAG = MainListViewHolder.class.getCanonicalName();
 //    public static final String PARENTVH_TAG= ParentViewHolder.class.getCanonicalName();
 //    public static final String REVIEWVH_TAG = ReviewViewHolder.class.getCanonicalName();
 //    public static final String SEARCHVH_TAG = SearchViewHolder.class.getCanonicalName();
+
+    public static final String LISTMANAGERVH_TAG = ListManagerViewHolder.class.getCanonicalName();
 
 
     // Intent Extras

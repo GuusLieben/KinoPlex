@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.google.gson.Gson;
 
@@ -16,25 +18,43 @@ import nl.avans.kinoplex.presentation.adapters.ReviewAdapter;
 
 public class ReviewActivity extends AppCompatActivity {
 
-  private ReviewAdapter adapter;
-  private RecyclerView reviewRecyclerView;
+    private ReviewAdapter adapter;
+    private RecyclerView reviewRecyclerView;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.review_recyclelist);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.review_recyclelist);
 
-    String movieJson = getIntent().getStringExtra("movieJson");
-    Movie movie = new Gson().fromJson(movieJson, Movie.class);
+        String movieJson = getIntent().getStringExtra("movieJson");
+        Movie movie = new Gson().fromJson(movieJson, Movie.class);
 
-    reviewRecyclerView = findViewById(R.id.reviewlist_recyclerview);
-    adapter = new ReviewAdapter(new ArrayList<>());
+        Toolbar toolbar = findViewById(R.id.review_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Reviews for '" + movie.getTitle() + '\'');
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    DataMigration.getFactory()
-        .getReviewDao(Integer.parseInt(movie.getId()))
-        .readIntoAdapter(adapter);
+        reviewRecyclerView = findViewById(R.id.reviewlist_recyclerview);
+        adapter = new ReviewAdapter(new ArrayList<>());
 
-    reviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    reviewRecyclerView.setAdapter(adapter);
-  }
+        DataMigration.getFactory()
+                .getReviewDao(Integer.parseInt(movie.getId()))
+                .readIntoAdapter(adapter);
+
+        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        reviewRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
 }
