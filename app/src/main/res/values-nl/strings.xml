@@ -34,4 +34,6 @@
     <string name="cancel">Annuleren</string>
     <string name="addedToList">Aan de lijst toegevoegd</string>
     <string name="upcoming">Verwacht</string>
+    <string name="deleteList">Weet je het zeker?</string>
+    <string name="no_more_reviews">Geen reviews meer :(</string>
 </resources>

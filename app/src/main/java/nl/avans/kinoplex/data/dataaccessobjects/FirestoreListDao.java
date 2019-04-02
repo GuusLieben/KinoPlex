@@ -63,6 +63,8 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                         int movieId = Integer.parseInt(String.valueOf(movie));
                         ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(movieId)).readIntoList(list, null);
                     }
+
+                    Log.d(FIRESTORELISTDAO_TAG, "Adding list to adapter, list: " + list);
                     ((AbstractAdapter) adapter).addToDataSet(list);
                 }
             }
