@@ -10,8 +10,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/dialog_label_input"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="3dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="5dp"
             android:textSize="16sp"
             android:textColor="@android:color/darker_gray"
             />
