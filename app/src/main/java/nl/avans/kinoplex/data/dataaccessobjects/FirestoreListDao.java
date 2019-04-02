@@ -13,7 +13,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +67,6 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     public boolean create(MovieList movieList) {
 //        DocumentReference ref = db.collection(Constants.COL_LISTS).document();
         String id = movieList.getDbId().toLowerCase();
-        List<String> TMDbIds = Arrays.asList(new String[]{"now_playing", "popular", "top_rated", "upcoming"});
-        if (TMDbIds.contains(id)) id = '!' + id;
         Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore with id " + id + " from " + movieList.getDbId());
         db.collection(Constants.COL_LISTS)
                 .document(id)
