@@ -172,7 +172,6 @@ public class FirestoreUserDao implements DaoObject<Pair> {
 
     @Override
     public boolean update(Pair pair) {
-
         String userId = Constants.pref.getString("userId", "-1");
         return true;
     }

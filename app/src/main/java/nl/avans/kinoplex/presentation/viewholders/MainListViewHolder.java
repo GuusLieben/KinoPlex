@@ -57,6 +57,9 @@ public class MainListViewHolder extends AbstractViewHolder {
         } else if (name.equals("Top_rated")) {
             listTitle.setText(context.getResources().getString(R.string.top_rated));
             tmdblist = true;
+        } else if (name.equals("Upcoming")) {
+            listTitle.setText(context.getString(R.string.upcoming));
+            tmdblist = true;
         } else {
             listTitle.setText(name);
         }
