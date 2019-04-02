@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // set the parentAdapter to the mainrecyclerview
         mainRecyclerView.setAdapter(parentAdapter);
-        DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
     }
@@ -122,5 +121,17 @@ public class MainActivity extends AppCompatActivity implements
 
         return false;
     }
-    
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(Constants.MAINACT_TAG, "onResume was called");
+
+        if( ManageListsActivity.datahasChanged ) {
+            DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
+
+            ManageListsActivity.datahasChanged = false;
+        }
+    }
 }

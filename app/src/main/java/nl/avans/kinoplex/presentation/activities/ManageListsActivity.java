@@ -29,10 +29,14 @@ public class ManageListsActivity extends Activity implements View.OnClickListene
     private RecyclerView manageListsRecyclerview;
     private ListManagerAdapter adapter;
 
+    public static boolean datahasChanged = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_lists);
+
+        datahasChanged = false;
 
         ImageView background = findViewById(R.id.iv_background_poster);
         Glide.with(this).load(PosterPicker.getRandomPosterID()).into(background);
