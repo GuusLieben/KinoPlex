@@ -32,4 +32,5 @@
     <string name="yourLists">Jouw Lijsten</string>
     <string name="enterTitle">Voer Titel in</string>
     <string name="cancel">Annuleren</string>
+    <string name="addedToList">Aan de lijst toegevoegd</string>
 </resources>
