@@ -1,7 +1,6 @@
 package nl.avans.kinoplex.presentation.adapters;
 
 import android.content.Context;
-import android.service.autofill.Dataset;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +22,7 @@ import nl.avans.kinoplex.presentation.viewholders.AddToListViewHolder;
 public class AddToListAdapter extends AbstractAdapter<AddToListViewHolder> {
     private Context context;
     private Movie movie;
+
     public AddToListAdapter(List<DomainObject> dataSet, Movie movie, Context c) {
         super(dataSet);
         this.movie = movie;
@@ -43,15 +43,26 @@ public class AddToListAdapter extends AbstractAdapter<AddToListViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull AddToListViewHolder addToListViewHolder, int i) {
         MovieList movieList = (MovieList) getDataSet().get(i);
+
+        String name = movieList.getName();
+        if (name.equalsIgnoreCase("!Now_playing")) {
+            name = context.getResources().getString(R.string.now_playing);
+        } else if (name.equalsIgnoreCase("!Popular")) {
+            name = context.getResources().getString(R.string.Popular);
+        } else if (name.equalsIgnoreCase("!Top_rated")) {
+            name = context.getResources().getString(R.string.top_rated);
+        } else if (name.equalsIgnoreCase("!Upcoming")) {
+            name = context.getResources().getString(R.string.upcoming);
+        }
+
+        final String listName = name;
+
         addToListViewHolder.getListTitle().setText(movieList.getName());
-        addToListViewHolder.getFrameLayout().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("AddMovieToList", "User wants to add the movie : " + movie.getTitle() + " ; to the list -> " + movieList.getName());
-                ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId()))).readIntoList(movieList, null);
-                Toast.makeText(context, context.getString(R.string.addedToList), Toast.LENGTH_SHORT).show();
-                ((ChooseListPopUp) context).finish();
-            }
+        addToListViewHolder.getFrameLayout().setOnClickListener(v -> {
+            Log.d("AddMovieToList", "User wants to add the movie : " + listName + " ; to the list -> " + movieList.getName());
+            ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId()))).readIntoList(movieList, null);
+            Toast.makeText(context, context.getString(R.string.addedToList), Toast.LENGTH_SHORT).show();
+            ((ChooseListPopUp) context).finish();
         });
     }
 
