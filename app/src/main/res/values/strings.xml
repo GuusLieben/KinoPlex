@@ -47,6 +47,8 @@
 
     <string name="deleteList">Are you sure?</string>
 
+    <string name="standardList">standard lists</string>
+
     <string name="Genres">Genres ▶</string>
     <string name="plusSign" translatable="false">+</string>
     <string name="addedToList">Added to the list</string>
@@ -58,4 +60,5 @@
 
     <string name="addMovieToList_add">Add \'</string>
     <string name="addMovieToList_toList"> \'to list</string>
+    <string name="userLists">user lists</string>
 </resources>

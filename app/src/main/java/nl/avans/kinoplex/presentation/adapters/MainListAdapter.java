@@ -14,6 +14,7 @@ import java.util.Map;
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.MovieList;
+import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.viewholders.MainListViewHolder;
 
 
@@ -21,7 +22,17 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
 
   private Context context;
 
+  private DrawerMenuUpdateListener listener;
+
   private Map<DomainObject, MainMovieAdapter> adapterMap;
+
+  public interface DrawerMenuUpdateListener {
+    void addListsToNavigation();
+  }
+
+  public void setListener(DrawerMenuUpdateListener listener) {
+    this.listener = listener;
+  }
 
   public MainListAdapter(List<DomainObject> dataSet, Context context) {
 
@@ -59,4 +70,10 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
     return getDataSet().size();
   }
 
+  @Override
+  public void updateDataSet(List<DomainObject> dataSet) {
+    super.updateDataSet(dataSet);
+
+    listener.addListsToNavigation();
+  }
 }

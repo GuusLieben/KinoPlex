@@ -16,23 +16,31 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.CustomListChecker;
 import nl.avans.kinoplex.business.LoginManager;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
 import nl.avans.kinoplex.domain.Constants;
+import nl.avans.kinoplex.domain.DomainObject;
+import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 
 public class MainActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        MainListAdapter.DrawerMenuUpdateListener {
 
 
     private MainListAdapter parentAdapter;
     RecyclerView mainRecyclerView;
     private DrawerLayout drawerLayout;
+
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements
 
         drawerLayout = findViewById(R.id.drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView = findViewById(R.id.nav_view);
 
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
         setSupportActionBar(toolbar);
@@ -60,11 +69,6 @@ public class MainActivity extends AppCompatActivity implements
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
-        MenuItem manageListItem = navigationView.getMenu().findItem(R.id.nav_item_add_list);
-        SpannableString s = new SpannableString(manageListItem.getTitle());
-        s.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.softTextColor)), 0, s.length(), 0);
-        manageListItem.setTitle(s);
 
         // Load the adapters with a blank dataset.
         // TODO : Replace blank ArrayLists with existing Datasets from Firestore (cache)
@@ -77,8 +81,37 @@ public class MainActivity extends AppCompatActivity implements
 
         // set the parentAdapter to the mainrecyclerview
         mainRecyclerView.setAdapter(parentAdapter);
+        parentAdapter.setListener(this);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
 
+    public void addListsToNavigation() {
+        List<DomainObject> objects = parentAdapter.getDataSet();
+
+        navigationView.getMenu().getItem(0).getSubMenu().clear();
+        navigationView.getMenu().getItem(1).getSubMenu().clear();
+
+        for(DomainObject dObject : objects) {
+            MovieList list = (MovieList) dObject;
+
+            if(CustomListChecker.isCustomList(list.getName())) {
+                MenuItem menuItem = navigationView.getMenu().getItem(1);
+                SubMenu subMenu = menuItem.getSubMenu();
+                subMenu.add( list.getName() );
+
+            } else {
+                MenuItem menuItem = navigationView.getMenu().getItem(0);
+                SubMenu subMenu = menuItem.getSubMenu();
+                subMenu.add( CustomListChecker.returnCorrectTitle(list.getName(), this) );
+
+
+            }
+
+            MenuItem manageListItem = navigationView.getMenu().findItem(R.id.nav_item_add_list);
+            SpannableString s = new SpannableString(getResources().getString(R.string.manageLists));
+            s.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.softTextColor)), 0, s.length(), 0);
+            manageListItem.setTitle(s);
+        }
     }
 
     @Override
@@ -140,4 +173,5 @@ public class MainActivity extends AppCompatActivity implements
         super.onDestroy();
         LoginManager.Logout(this, this);
     }
+
 }

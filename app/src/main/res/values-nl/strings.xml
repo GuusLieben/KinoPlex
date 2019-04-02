@@ -39,4 +39,6 @@
 
     <string name="addMovieToList_add">Voeg \'</string>
     <string name="addMovieToList_toList">\' toe aan lijst</string>
+    <string name="standardList">standaard lijsten</string>
+    <string name="userLists">gebruikerslijsten</string>
 </resources>
