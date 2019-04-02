@@ -72,7 +72,7 @@ public class DialogBuilder {
                 String userId = Constants.pref.getString("userId", "-1");
                 MovieList newList = new MovieList(input, userId);
 
-                newList = ((FirestoreListDao) DataMigration.getFactory().getListDao())
+                ((FirestoreListDao) DataMigration.getFactory().getListDao())
                         .createListForUser(newList);
 
                 ((ListManagerAdapter) adapter).addToDataSet(newList);

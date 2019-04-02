@@ -37,11 +37,11 @@ public class FirestoreListDao implements DaoObject<MovieList> {
         db = FirestoreUtils.getInstance();
     }
 
-    public MovieList createListForUser(MovieList movieList) {
-        String collectionId = db.collection(Constants.COL_LISTS).document().getId();
+    public void createListForUser(MovieList movieList) {
+        String collectionId = movieList.getDbId();
+        if (collectionId == null) collectionId = db.collection(Constants.COL_LISTS).document().getId().toLowerCase();
         movieList.setDbId(collectionId);
         db.collection(Constants.COL_LISTS).document(collectionId).set(movieList.storeToMap());
-        return movieList;
     }
 
     public void readCollectionsForCurrentUserToAdapter(RecyclerView.Adapter adapter) {
@@ -149,7 +149,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
         String id = list.getDbId();
         if (id == null) {
             id = db.collection(Constants.COL_LISTS).document().getId();
-            list.setDbId(id);
+            list.setDbId(id.toLowerCase());
         }
 
         Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore with id " + list.getId() + " / " + list.getDbId());
