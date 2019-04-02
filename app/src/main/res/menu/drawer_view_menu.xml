@@ -3,15 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <group
-        android:checkableBehavior="single">
+        android:id="@+id/drawer_menu_default_lists"
+        android:checkableBehavior="single"
+        >
+
         <item
             android:id="@+id/nav_item_top_rated"
-            android:title="@string/top_rated" />
+            android:title="@string/top_rated_arrow" />
+
         <item
             android:id="@+id/nav_item_now_playing"
-            android:title="@string/now_playing"/>
+            android:title="@string/now_playing_arrow"/>
+
         <item
             android:id="@+id/nav_item_popular"
-            android:title="@string/Popular"/>
+            android:title="@string/popular_arrow"/>
+
+    </group>
+
+    <group
+        android:id="@+id/drawer_menu_user_lists"
+        android:checkableBehavior="single">
+
+
+
+        <item
+            android:id="@+id/nav_item_add_list"
+
+            android:title="@string/manageLists" />
+    </group>
+
+    <group
+        android:id="@+id/drawer_Genres"
+        android:checkableBehavior="single">
+
+
+
+        <item
+            android:id="@+id/nav_Genres"
+            android:title="@string/Genres" />
     </group>
 </menu>

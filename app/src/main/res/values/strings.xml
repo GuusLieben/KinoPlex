@@ -16,6 +16,9 @@
     <string name="Popular">Popular</string>
     <string name="top_rated">Top Rated</string>
 
+
+    <string name="now_playing_arrow">Now Playing ▶</string>
+
     <string name="addToList">Add to list</string>
     <string name="AddReview">Add Review</string>
     <string name="Share">Share</string>
@@ -32,4 +35,17 @@
 
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
+    <string name="top_rated_arrow">Top Rated ▶</string>
+    <string name="popular_arrow">Popular ▶</string>
+
+
+    <string name="manageLists">⚙ manage lists</string>
+    <string name="yourLists">Your Lists</string>
+    <string name="enterTitle">Enter Title</string>
+
+    <string name="cancel">Cancel</string>
+
+    <string name="Genres">Genres ▶</string>
+    <string name="plusSign" translatable="false">+</string>
+    <string name="addedToList">Added to the list</string>
 </resources>
