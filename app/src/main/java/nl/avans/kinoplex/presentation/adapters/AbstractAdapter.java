@@ -32,12 +32,13 @@ public abstract class AbstractAdapter<M extends AbstractViewHolder>
         notifyDataSetChanged();
     }
 
+
     @Override
     public int getItemCount() {
         return dataSet.size();
     }
 
-    List<DomainObject> getDataSet() {
+    public List<DomainObject> getDataSet() {
         return dataSet;
     }
 }
