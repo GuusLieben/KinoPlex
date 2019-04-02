@@ -134,4 +134,10 @@ public class MainActivity extends AppCompatActivity implements
             ManageListsActivity.datahasChanged = false;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoginManager.Logout(this, this);
+    }
 }
