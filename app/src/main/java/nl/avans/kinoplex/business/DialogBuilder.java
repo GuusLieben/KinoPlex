@@ -3,10 +3,13 @@ package nl.avans.kinoplex.business;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.TextView;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
@@ -25,7 +28,7 @@ import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 public class DialogBuilder {
 
     public enum Input {
-        SINGLE_EDITTEXT, PREFILLED_EDITTEXT
+        SINGLE_EDITTEXT, PREFILLED_EDITTEXT, EDITTEXT_WITH_LABEL
     }
 
     private static View getView(Input type, Activity activity, String input) {
@@ -40,7 +43,10 @@ public class DialogBuilder {
 
                 return view;
 
-                default:
+            case EDITTEXT_WITH_LABEL:
+                return inflater.inflate(R.layout.dialog_edittext_with_label, null);
+
+            default:
                     final EditText default_input = new EditText(activity);
                     default_input.setPadding(10, 0, 10 ,0);
                     return default_input;
@@ -129,6 +135,30 @@ public class DialogBuilder {
             }
         });
 
+        builder.show();
+    }
+
+    public static void createFilterDialog(AppCompatActivity activity, Filter filter) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(R.string.filter_title);
+        View view = getView(Input.EDITTEXT_WITH_LABEL, activity, null);
+        builder.setView(view);
+        ((TextView)view.findViewById(R.id.dialog_label_input)).setText(view.getResources().getString(R.string.movieYear));
+        EditText editText = view.findViewById(R.id.dialog_input_with_label);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String yearValue = editText.getText().toString();
+                filter.filter(yearValue);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
         builder.show();
     }
 }

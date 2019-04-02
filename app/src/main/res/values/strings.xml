@@ -60,5 +60,14 @@
 
     <string name="addMovieToList_add">Add \'</string>
     <string name="addMovieToList_toList"> \'to list</string>
+
     <string name="userLists">user lists</string>
+
+
+    <string name="addReviewForMovie">Add review for: </string>
+    <string name="manage_list_filters">Manage Filters</string>
+    <string name="filter_title" translatable="false">Filters</string>
+
+    <string name="movieYear">Year</string>
+
 </resources>

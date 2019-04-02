@@ -82,6 +82,7 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                 JSONObject result = JsonUtils.getJSONObjectFromUrl(listUri);
 
                 MovieList list = new MovieList(identifier.substring(0, 1).toUpperCase() + identifier.substring(1), "-1");
+                if (!identifier.startsWith("!")) identifier = '!' + identifier;
                 list.setDbId(identifier);
 
                 JSONArray movies = result.getJSONArray("results");
