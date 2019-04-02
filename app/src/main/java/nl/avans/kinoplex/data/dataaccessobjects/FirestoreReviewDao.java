@@ -35,12 +35,16 @@ public class FirestoreReviewDao implements DaoObject<Review> {
 
     @Override
     public boolean create(Review review) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to create review on Firestore");
         String id = "$NE";
         if (review instanceof FireReview) {
-            if (((FireReview) review).getId() == null)
+            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Instance of FireReview detected, checking ID");
+            if (((FireReview) review).getId() == null) {
+                Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "ID was null, requesting auto-id from Firestore");
                 id = db.collection(Constants.COL_REVIEWS).document().getId();
-            else id = ((FireReview) review).getId();
+            } else id = ((FireReview) review).getId();
         }
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Writing to ID : " + id);
         ((FireReview) review).setId(id);
         if (!id.equals("$NE"))
             db.collection(Constants.COL_REVIEWS).document(id).set(((DomainObject) review).storeToMap());
@@ -49,6 +53,7 @@ public class FirestoreReviewDao implements DaoObject<Review> {
 
     @Override
     public void readIntoAdapter(RecyclerView.Adapter adapter) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to read from Firestore");
         db.collection(Constants.COL_REVIEWS)
                 .get()
                 .addOnSuccessListener(
@@ -56,21 +61,26 @@ public class FirestoreReviewDao implements DaoObject<Review> {
                             String mId = String.valueOf(movieId);
                             List<Object> references = new ArrayList<>();
                             for (DocumentSnapshot snapshot : documentSnapshot.getDocuments()) {
+                                Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Checking document snapshot : " + snapshot.getData());
                                 if (Objects.requireNonNull(snapshot.getString("movie_id")).equals(mId))
                                     references.add(snapshot);
                             }
+                            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Writing references to adapter");
                             writeReferencesToAdapter(references, adapter);
                         });
     }
 
     private void writeReferencesToAdapter(List<Object> referenceList, RecyclerView.Adapter adapter) {
         for (Object reviewReference : referenceList) {
+            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to write reference to adapter : " + reviewReference.toString());
             db.collection(Constants.COL_REVIEWS)
                     .document(String.valueOf(((DocumentSnapshot) reviewReference).getId()))
                     .get()
                     .addOnSuccessListener(
                             documentSnapshot -> {
+                                Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Reference data was : " + documentSnapshot.getData());
                                 if (documentSnapshot.getString("user_id") != null) { // App review
+                                    Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Detected FireReview");
                                     String id = documentSnapshot.getId();
                                     String author = documentSnapshot.getString("user_id");
                                     String content = documentSnapshot.getString("content");
@@ -81,8 +91,9 @@ public class FirestoreReviewDao implements DaoObject<Review> {
                                     ((AbstractAdapter) adapter).addToDataSet(fireReview);
 
                                 } else { // API Review
+                                    Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Detected TMDb Review");
                                     String id = documentSnapshot.getId();
-                                    String author = documentSnapshot.getString("user_id");
+                                    String author = documentSnapshot.getString("author");
                                     String content = documentSnapshot.getString("content");
                                     TMDbReview tmDbReview = new TMDbReview(id, author, content);
                                     ((AbstractAdapter) adapter).addToDataSet(tmDbReview);
@@ -103,6 +114,7 @@ public class FirestoreReviewDao implements DaoObject<Review> {
 
     @Override
     public boolean update(Review review) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to write to Firestore");
         db.collection(Constants.COL_REVIEWS)
                 .document(((DomainObject) review).getId())
                 .set(((DomainObject) review).storeToMap())
@@ -113,11 +125,13 @@ public class FirestoreReviewDao implements DaoObject<Review> {
 
     @Override
     public boolean delete(Review review) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to delete from Firestore");
         db.collection(Constants.COL_REVIEWS).document(((DomainObject) review).getId()).delete();
         return true;
     }
 
     public void getList(Movie movie, DetailActivity detailActivity) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to read list of reviews for movie");
         db.collection(Constants.COL_REVIEWS)
                 .get()
                 .addOnSuccessListener(
@@ -132,9 +146,11 @@ public class FirestoreReviewDao implements DaoObject<Review> {
                                             .getList());
 
 
-                            for (DocumentSnapshot documentSnapshot : snapshots.getDocuments())
+                            for (DocumentSnapshot documentSnapshot : snapshots.getDocuments()) {
+                                Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Checking snapshot : " + documentSnapshot.getData());
                                 if (Objects.requireNonNull(documentSnapshot.getString("movie_id"))
                                         .equalsIgnoreCase(String.valueOf(movieId))) {
+                                    Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Found matching snapshot, constructing");
                                     if (documentSnapshot.contains("user_id")) { // App review
                                         String id = documentSnapshot.getId();
                                         String author = documentSnapshot.getString("user_id");
@@ -143,14 +159,18 @@ public class FirestoreReviewDao implements DaoObject<Review> {
                                         String reviewMovieID = documentSnapshot.getString("movie_id");
                                         int intRating = Math.round(rating);
                                         FireReview fireReview = new FireReview(id, author, content, intRating, reviewMovieID);
+                                        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Constructed, adding to movie");
                                         movie.addAppReview(fireReview);
-                                        System.out.println("Found a review");
                                     }
                                 }
+                            }
 
-                            System.out.println("TMDb Reviews : " + movie.getReviews());
-                            System.out.println("Fire Reviews : " + movie.getFireReviews());
+                            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "TMDb Reviews : " + movie.getReviews());
+                            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Fire Reviews : " + movie.getFireReviews());
+
                             int reviewAmount = movie.getReviews().size() + movie.getFireReviews().size();
+
+                            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Updating amount to : " + String.valueOf(reviewAmount));
                             detailActivity.setReviewText(String.valueOf(reviewAmount));
                         });
     }

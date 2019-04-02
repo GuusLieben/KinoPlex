@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +22,7 @@ import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.business.LoginManager;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
+import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 
 public class MainActivity extends AppCompatActivity implements
@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        Constants.pref =
+                getApplicationContext().getSharedPreferences(Constants.PREF_LOGIN, MODE_PRIVATE);
+        Constants.editor = Constants.pref.edit();
+
         setContentView(R.layout.activity_main);
         setTitle(getResources().getString(R.string.home));
 
@@ -74,13 +79,6 @@ public class MainActivity extends AppCompatActivity implements
         DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-//        Intent detailIntent = new Intent(this, DetailActivity.class);
-//        DataMigration.getFactory().getMovieDao().readIntoIntent(detailIntent, this, "299537");
-
-
-        // TODO :: set in the parentAdapter.viewHolder the movieAdapter to the recyclerview of that list_item
-    /*movieAdapter = new MovieAdapter(new ArrayList<>());
-    DataMigration.getFactory().getMovieDao(550).readIntoAdapter(movieAdapter); // Async*/
     }
 
     @Override
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.home_account_logout :
+            case R.id.home_account_logout:
                 LoginManager.Logout(this, this);
         }
 
@@ -114,6 +112,13 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_item_add_list:
+                Intent intent = new Intent(this, ManageListsActivity.class);
+                startActivity(intent);
+        }
+
+
         return false;
     }
 }

@@ -15,21 +15,13 @@ public class LoginManager {
     public static void saveLoginCredentials(Context context, Pair<String, String> credentials) {
         Log.d(Constants.LOGINMANGER_TAG, "Checking context...");
 
-        if(context == null) {
-            return;
-        }
+        if (context == null) return;
 
-        if(credentials == null) {
-            return;
-        }
+        if (credentials == null) return;
 
-        if(credentials.first == null || credentials.second == null) {
-            return;
-        }
+        if (credentials.first == null || credentials.second == null) return;
 
-        if(credentials.first.equals("") || credentials.second.equals("")) {
-            return;
-        }
+        if (credentials.first.equals("") || credentials.second.equals("")) return;
 
         Log.d(Constants.LOGINMANGER_TAG, "Saving the credentials of the user...");
 
@@ -41,7 +33,7 @@ public class LoginManager {
     }
 
     public static Pair<String, String> getLoginCredentials(Context context) {
-        if(context == null) {
+        if (context == null) {
             return null;
         }
 
@@ -50,7 +42,7 @@ public class LoginManager {
         Log.d(Constants.LOGINMANGER_TAG, "Value of AUTOLOGIN: " +
                 Constants.pref.getBoolean(Constants.PREF_AUTOLOGIN, false));
 
-        if(Constants.pref.getBoolean(Constants.PREF_AUTOLOGIN, false)) {
+        if (Constants.pref.getBoolean(Constants.PREF_AUTOLOGIN, false)) {
             String username = Constants.pref.getString(Constants.PREF_USERNAME, null);
             String hashedPassword = Constants.pref.getString(Constants.PREF_HASHEDPASS, null);
 

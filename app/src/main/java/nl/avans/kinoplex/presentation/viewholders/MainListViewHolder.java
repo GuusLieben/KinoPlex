@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public class MainListViewHolder extends AbstractViewHolder {
     public MainListViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        context =  itemView.getContext();
+        context = itemView.getContext();
 
         listTitle = itemView.findViewById(R.id.tv_list_title);
         seeAllBtn = itemView.findViewById(R.id.see_list_btn);
@@ -46,17 +47,22 @@ public class MainListViewHolder extends AbstractViewHolder {
     public void bind(DomainObject movieList) {
 
         String name = ((MovieList) movieList).getName();
-        if(name.equals("Now_playing")) {
+        boolean tmdblist = false;
+        if (name.equals("Now_playing")) {
             listTitle.setText(context.getResources().getString(R.string.now_playing));
-        } else if(name.equals("Popular")) {
+            tmdblist = true;
+        } else if (name.equals("Popular")) {
             listTitle.setText(context.getResources().getString(R.string.Popular));
-        } else if(name.equals("Top_rated")) {
+            tmdblist = true;
+        } else if (name.equals("Top_rated")) {
             listTitle.setText(context.getResources().getString(R.string.top_rated));
+            tmdblist = true;
         } else {
             listTitle.setText(name);
         }
 
         List<Movie> movies = ((MovieList) movieList).getMovieList();
+
         List<DomainObject> domainMovies = new ArrayList<>(movies);
 
         AbstractAdapter<MainMovieViewHolder> adapter = new MainMovieAdapter(domainMovies);
@@ -64,12 +70,19 @@ public class MainListViewHolder extends AbstractViewHolder {
                 new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
         movieListRecylerview.setAdapter(adapter);
 
-        try {
-            ((TMDbListDao) DataMigration.getTMDbFactory().getListDao()).readCollectionToAdapter(name.toLowerCase(), 1, adapter);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (tmdblist) {
+            Log.d(Constants.MAINMOVIEVH_TAG, "TMDB List collection for " + name);
+            try {
+                ((TMDbListDao) DataMigration.getTMDbFactory().getListDao()).readCollectionToAdapter(name.toLowerCase(), 1, adapter);
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(Constants.MAINMOVIEVH_TAG, "Fire List collection for " + name);
+
+            for (Movie movie : ((MovieList) movieList).getMovieList()) {
+                DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId())).readIntoAdapter(adapter);
+            }
         }
 
         // set see all btn on click listener to open list activity with the Domainobject movieList as parameter
