@@ -38,16 +38,10 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     }
 
     public void createListForUser(MovieList movieList) {
-        db.collection(Constants.COL_LISTS).get().addOnSuccessListener(aVoid -> {
-            for (DocumentSnapshot documentSnapshot : aVoid.getDocuments()) {
-                if (documentSnapshot.getString("user_id").equals(Constants.pref.getString("userId", "-1")) && documentSnapshot.getString("name").equals(movieList.getName())) {
-                    String collectionId = movieList.getDbId();
-                    if (collectionId == null) collectionId = documentSnapshot.getId();
-                    movieList.setDbId(collectionId);
-                    db.collection(Constants.COL_LISTS).document(collectionId).set(movieList.storeToMap());
-                }
-            }
-        });
+        String collectionId = movieList.getDbId();
+        if (collectionId == null) collectionId = db.collection(Constants.COL_LISTS).document().getId().toLowerCase();
+        movieList.setDbId(collectionId);
+        db.collection(Constants.COL_LISTS).document(collectionId).set(movieList.storeToMap());
     }
 
     public void readCollectionsForCurrentUserToAdapter(RecyclerView.Adapter adapter) {
@@ -155,7 +149,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
         String id = list.getDbId();
         if (id == null) {
             id = db.collection(Constants.COL_LISTS).document().getId();
-            list.setDbId(id);
+            list.setDbId(id.toLowerCase());
         }
 
         Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore with id " + list.getId() + " / " + list.getDbId());

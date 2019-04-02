@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // set the parentAdapter to the mainrecyclerview
         mainRecyclerView.setAdapter(parentAdapter);
-        DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
     }
@@ -120,5 +120,24 @@ public class MainActivity extends AppCompatActivity implements
 
 
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(Constants.MAINACT_TAG, "onResume was called");
+
+        if( ManageListsActivity.datahasChanged ) {
+            DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
+
+            ManageListsActivity.datahasChanged = false;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoginManager.Logout(this, this);
     }
 }

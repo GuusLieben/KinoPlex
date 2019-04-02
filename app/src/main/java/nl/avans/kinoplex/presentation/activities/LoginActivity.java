@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.DialogBuilder;
 import nl.avans.kinoplex.business.LoginManager;
 import nl.avans.kinoplex.business.PosterPicker;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
@@ -39,6 +40,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    ManageListsActivity.datahasChanged = true;
 
     Constants.pref =
         getApplicationContext().getSharedPreferences(Constants.PREF_LOGIN, MODE_PRIVATE);

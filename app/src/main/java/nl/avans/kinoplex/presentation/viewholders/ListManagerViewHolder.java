@@ -17,6 +17,7 @@ import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
 
 import nl.avans.kinoplex.domain.MovieList;
+import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 
@@ -85,6 +86,8 @@ public class ListManagerViewHolder extends AbstractViewHolder implements View.On
                     public void onClick(DialogInterface dialog, int which) {
                         DataMigration.getFactory().getListDao().delete(list);
                         ((AbstractAdapter) adapter).deleteFromDataSet(list);
+
+                        ManageListsActivity.datahasChanged = true;
                         dialog.dismiss();
                     }
                 });

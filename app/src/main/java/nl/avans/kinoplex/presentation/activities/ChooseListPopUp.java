@@ -15,15 +15,12 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
-import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
-import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 import nl.avans.kinoplex.presentation.adapters.AddToListAdapter;
 
@@ -61,6 +58,7 @@ public class ChooseListPopUp extends Activity {
         String json = getIntent().getStringExtra(Constants.MOVIE_TAG);
         movie = new Gson().fromJson(json, Movie.class);
 
+
         movieTitleView = findViewById(R.id.tv_add_movie_to_list);
         recyclerView = findViewById(R.id.recyclerview_available_lists_popup);
         imageViewBg = findViewById(R.id.popup_image_bg);
@@ -69,11 +67,15 @@ public class ChooseListPopUp extends Activity {
                 .load(movie.getPosterPath())
                 .into(imageViewBg);
 
-        movieTitleView.setText("Add '" + movie.getTitle() + "' to list");
+        String movieTitle = getString(R.string.addMovieToList_add) + movie.getTitle() + getString(R.string.addMovieToList_toList);
+        movieTitleView.setText(movieTitle);
         AbstractAdapter adapter = new AddToListAdapter(new ArrayList<>(), movie, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         ((FirestoreListDao) DataMigration.getFactory().getListDao()).readCollectionsForCurrentUserToAdapter(adapter);
     }
+
+
+
 }

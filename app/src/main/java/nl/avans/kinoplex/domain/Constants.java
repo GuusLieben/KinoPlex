@@ -102,6 +102,7 @@ public class Constants {
     public static final String INTENT_EXTRA_MOVIEID = "MovieID";
     public static final String INTENT_EXTRA_MOVIE_JSON = "movieJson";
     public static final String INTENT_EXTRA_LOGIN_VALIDATED = "lastLoginWasValid";
+    public static final String INTENT_EXTRA_MOVIE_LIST_JSON = "movieListJson";
 
 
     //Shared Preferences
