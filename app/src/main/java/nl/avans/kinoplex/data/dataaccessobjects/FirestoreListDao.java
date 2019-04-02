@@ -37,11 +37,17 @@ public class FirestoreListDao implements DaoObject<MovieList> {
         db = FirestoreUtils.getInstance();
     }
 
-    public MovieList createListForUser(MovieList movieList) {
-        String collectionId = db.collection(Constants.COL_LISTS).document().getId();
-        movieList.setDbId(collectionId);
-        db.collection(Constants.COL_LISTS).document(collectionId).set(movieList.storeToMap());
-        return movieList;
+    public void createListForUser(MovieList movieList) {
+        db.collection(Constants.COL_LISTS).get().addOnSuccessListener(aVoid -> {
+            for (DocumentSnapshot documentSnapshot : aVoid.getDocuments()) {
+                if (documentSnapshot.getString("user_id").equals(Constants.pref.getString("userId", "-1")) && documentSnapshot.getString("name").equals(movieList.getName())) {
+                    String collectionId = movieList.getDbId();
+                    if (collectionId == null) collectionId = documentSnapshot.getId();
+                    movieList.setDbId(collectionId);
+                    db.collection(Constants.COL_LISTS).document(collectionId).set(movieList.storeToMap());
+                }
+            }
+        });
     }
 
     public void readCollectionsForCurrentUserToAdapter(RecyclerView.Adapter adapter) {
