@@ -55,4 +55,7 @@
 
     <string name="rating_value" translatable="false">Rating :</string>
     <string name="rating_content" translatable="false">Content :</string>
+
+    <string name="addMovieToList_add">Add \'</string>
+    <string name="addMovieToList_toList"> \'to list</string>
 </resources>
