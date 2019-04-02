@@ -1,5 +1,7 @@
 package nl.avans.kinoplex.domain;
 
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -19,6 +21,7 @@ public class MovieList extends DomainObject {
         this.userId = userId;
         movieList = new ArrayList<>();
     }
+
 
     public String getDbId() {
         return dbId;

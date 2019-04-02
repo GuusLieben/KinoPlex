@@ -85,7 +85,7 @@ public class TMDbMovieDao implements DaoObject {
                 if (integers[1] != null) {
                     FirestoreUtils.getInstance().collection(Constants.COL_MOVIES).document(movie.getId()).set(movie.storeToMap()).addOnSuccessListener(aVoid -> {
                         final Handler handler = new Handler();
-                        handler.postDelayed(() -> ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(movieId)).readIntoList((MovieList) integers[1]), 250);
+                        handler.postDelayed(() -> ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(movieId)).readIntoList((MovieList) integers[1], null), 250);
                     });
                 }
             } catch (JSONException |

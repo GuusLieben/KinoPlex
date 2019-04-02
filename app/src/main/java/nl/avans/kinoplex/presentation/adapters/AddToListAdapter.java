@@ -48,7 +48,7 @@ public class AddToListAdapter extends AbstractAdapter<AddToListViewHolder> {
             @Override
             public void onClick(View v) {
                 Log.d("AddMovieToList", "User wants to add the movie : " + movie.getTitle() + " ; to the list -> " + movieList.getName());
-                ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId()))).readIntoList(movieList);
+                ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId()))).readIntoList(movieList, null);
                 Toast.makeText(context, context.getString(R.string.addedToList), Toast.LENGTH_SHORT).show();
                 ((ChooseListPopUp) context).finish();
             }

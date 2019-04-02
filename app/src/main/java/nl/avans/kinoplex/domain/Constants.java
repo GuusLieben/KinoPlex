@@ -22,6 +22,7 @@ import nl.avans.kinoplex.presentation.activities.SearchActivity;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
+import nl.avans.kinoplex.presentation.viewholders.MainListViewHolder;
 import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
 public class Constants {
@@ -86,6 +87,7 @@ public class Constants {
 
     //    public static final String LISTVH_TAG  = ListViewHolder.class.getCanonicalName();
     public static final String MAINMOVIEVH_TAG = MainMovieViewHolder.class.getCanonicalName();
+    public static final String MAINLISTVH_TAG = MainListViewHolder.class.getCanonicalName();
 //    public static final String PARENTVH_TAG= ParentViewHolder.class.getCanonicalName();
 //    public static final String REVIEWVH_TAG = ReviewViewHolder.class.getCanonicalName();
 //    public static final String SEARCHVH_TAG = SearchViewHolder.class.getCanonicalName();
