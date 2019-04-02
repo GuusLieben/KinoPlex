@@ -13,6 +13,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -23,6 +24,8 @@ import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
+import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
+import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 
 import static nl.avans.kinoplex.domain.Constants.FIRESTORELISTDAO_TAG;
 
@@ -52,7 +55,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                     list.setDbId(documentSnapshot.getId());
                     for (Object movie : (List<Object>) documentSnapshot.get("movies")) {
                         int movieId = Integer.parseInt(String.valueOf(movie));
-                        ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(movieId)).readIntoList(list);
+                        ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(movieId)).readIntoList(list, null);
                     }
                     ((AbstractAdapter) adapter).addToDataSet(list);
                 }
@@ -80,32 +83,50 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                 querySnapshotTask -> {
                     Log.d(FIRESTORELISTDAO_TAG, "Successfully read lists from Firebase");
                     QuerySnapshot snapshot = querySnapshotTask.getResult();
+
                     List<DomainObject> movieLists = new ArrayList<>();
+                    Map<DomainObject, MainMovieAdapter> adapterMap = new HashMap<>();
+
                     for (QueryDocumentSnapshot documentSnapshot : snapshot) {
                         String name = documentSnapshot.getString("name");
+
                         Log.d(FIRESTORELISTDAO_TAG, "Collected list with name " + name);
+
                         String userId = Objects.requireNonNull(documentSnapshot.get("user_id")).toString();
                         Log.d(Constants.FIRESTORELISTDAO_TAG, "------------------------------------------------------> " + Constants.pref.getString("userId", "-1"));
                         if (userId.equalsIgnoreCase("-1") || userId.equalsIgnoreCase(Constants.pref.getString("userId", "-1"))) {
                             MovieList list = new MovieList(name, userId);
+                            MainMovieAdapter movieAdapter = new MainMovieAdapter(list.getDomainMovieList());
+
                             list.setDbId(documentSnapshot.getId());
 
                             List<Object> movieIds = (List<Object>) documentSnapshot.get("movies");
 
                             ArrayList<String> registeredIds = new ArrayList<>();
+
+                            //Go through each movie and add it to the MovieList
                             for (Object movieId : Objects.requireNonNull(movieIds)) {
                                 if (!registeredIds.contains(String.valueOf(movieId))) {
+
+                                    //Add the actual movie to the list
                                     ((FirestoreMovieDao)
                                             DataMigration.getFactory().getMovieDao(Integer.parseInt(String.valueOf(movieId))))
-                                            .readIntoList(list);
+                                            .readIntoList(list, movieAdapter);
                                     registeredIds.add(String.valueOf(movieId));
                                 }
                             }
                             movieLists.add(list);
+                            adapterMap.put(list, movieAdapter);
                         }
                     }
+
+                    if(adapter.getClass() == MainListAdapter.class) {
+                        ((MainListAdapter) adapter).setAdapterMap(adapterMap);
+                    }
+
                     Log.d(FIRESTORELISTDAO_TAG, "Updating DataSet");
                     ((AbstractAdapter) adapter).updateDataSet(movieLists);
+
                 });
     }
 

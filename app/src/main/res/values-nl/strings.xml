@@ -33,4 +33,5 @@
     <string name="enterTitle">Voer Titel in</string>
     <string name="cancel">Annuleren</string>
     <string name="addedToList">Aan de lijst toegevoegd</string>
+    <string name="upcoming">Verwacht</string>
 </resources>
