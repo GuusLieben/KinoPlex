@@ -1,7 +1,6 @@
 package nl.avans.kinoplex.domain;
 
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import nl.avans.kinoplex.data.factories.DataMigration;
-import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
-
 public class MovieList extends DomainObject {
     private List<Movie> movieList;
     private static Set<MovieList> listSet = new LinkedHashSet<>();
@@ -20,39 +16,12 @@ public class MovieList extends DomainObject {
     private String dbId;
     private String userId;
 
-    private boolean adapterIsSet;
-    private boolean dataIsNew;
-
-    //Adapter which uses this MovieList
-    private MainMovieAdapter adapter;
-
     public MovieList(String name, String userId) {
         this.name = name;
         this.userId = userId;
         movieList = new ArrayList<>();
     }
 
-    public void setAdapter(MainMovieAdapter adapter) {
-        this.adapter = adapter;
-        adapterIsSet = true;
-
-        if(movieList.size() > 0 && dataIsNew) {
-            for (Movie movie : movieList) {
-                DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId())).readIntoAdapter(adapter);
-            }
-        }
-    }
-
-    public void notifyAdapterOfNewData() {
-        Log.d(Constants.MOVIELIST_TAG, "Size of movie list: " + movieList.size());
-        dataIsNew = true;
-
-        if(movieList.size() > 0 && adapterIsSet) {
-            for (Movie movie : movieList) {
-                DataMigration.getFactory().getMovieDao(Integer.parseInt(movie.getId())).readIntoAdapter(adapter);
-            }
-        }
-    }
 
     public String getDbId() {
         return dbId;

@@ -115,7 +115,7 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
                     movie.setRating(rating);
 
                     DataMigration.getFactory().getMovieDao(id).create(movie);
-                    ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(id)).readIntoList(list);
+                    ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(id)).readIntoList(list, null);
                     DataMigration.getFactory().getMovieDao(id).readIntoAdapter((RecyclerView.Adapter) pairs[2]);
                 }
 
