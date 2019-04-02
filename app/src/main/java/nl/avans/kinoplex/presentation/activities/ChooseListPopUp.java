@@ -67,7 +67,8 @@ public class ChooseListPopUp extends Activity {
                 .load(movie.getPosterPath())
                 .into(imageViewBg);
 
-        movieTitleView.setText("Add '" + movie.getTitle() + "' to list");
+        String movieTitle = getString(R.string.addMovieToList_add) + movie.getTitle() + getString(R.string.addMovieToList_toList);
+        movieTitleView.setText(movieTitle);
         AbstractAdapter adapter = new AddToListAdapter(new ArrayList<>(), movie, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
