@@ -13,6 +13,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,9 +67,12 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     @Override
     public boolean create(MovieList movieList) {
 //        DocumentReference ref = db.collection(Constants.COL_LISTS).document();
-        Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore with id " + movieList.getDbId() + " / " + movieList.getId());
+        String id = movieList.getDbId().toLowerCase();
+        List<String> TMDbIds = Arrays.asList(new String[]{"now_playing", "popular", "top_rated", "upcoming"});
+        if (TMDbIds.contains(id)) id = '!' + id;
+        Log.d(FIRESTORELISTDAO_TAG, "Attempting to write to Firestore with id " + id + " from " + movieList.getDbId());
         db.collection(Constants.COL_LISTS)
-                .document(movieList.getDbId())
+                .document(id)
                 .set(movieList.storeToMap())
                 .addOnSuccessListener(aVoid -> Log.d(FIRESTORELISTDAO_TAG, "Successfully wrote List to Firestore"))
                 .addOnFailureListener(e -> Log.w(FIRESTORELISTDAO_TAG, "Error writing document", e));
@@ -120,7 +124,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                         }
                     }
 
-                    if(adapter.getClass() == MainListAdapter.class) {
+                    if (adapter.getClass() == MainListAdapter.class) {
                         ((MainListAdapter) adapter).setAdapterMap(adapterMap);
                     }
 
