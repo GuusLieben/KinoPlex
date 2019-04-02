@@ -24,7 +24,9 @@ public class MovieList extends DomainObject {
 
 
     public String getDbId() {
-        return dbId;
+        String temp = dbId;
+        if (temp != null) temp = temp.toLowerCase();
+        return temp;
     }
 
     public void setDbId(String dbId) {
