@@ -47,6 +47,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
     public void readCollectionsForCurrentUserToAdapter(RecyclerView.Adapter adapter) {
         db.collection(Constants.COL_LISTS).get().addOnSuccessListener(queryDocumentSnapshots -> {
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                Log.d(Constants.FIRESTORELISTDAO_TAG, "------------------------------------------------------> " + Constants.pref.getString("userId", "-1"));
                 if (documentSnapshot.getString("user_id").equalsIgnoreCase(Constants.pref.getString("userId", "-1")) || documentSnapshot.getString("user_id").equals("-1")) {
                     String userId = documentSnapshot.getString("user_id");
                     String name = documentSnapshot.getString("name");
@@ -92,6 +93,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                         Log.d(FIRESTORELISTDAO_TAG, "Collected list with name " + name);
 
                         String userId = Objects.requireNonNull(documentSnapshot.get("user_id")).toString();
+                        Log.d(Constants.FIRESTORELISTDAO_TAG, "------------------------------------------------------> " + Constants.pref.getString("userId", "-1"));
                         if (userId.equalsIgnoreCase("-1") || userId.equalsIgnoreCase(Constants.pref.getString("userId", "-1"))) {
                             MovieList list = new MovieList(name, userId);
                             MainMovieAdapter movieAdapter = new MainMovieAdapter(list.getDomainMovieList());
