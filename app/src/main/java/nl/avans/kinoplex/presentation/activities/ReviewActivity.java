@@ -1,10 +1,6 @@
 package nl.avans.kinoplex.presentation.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,8 +16,7 @@ import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.presentation.adapters.ReviewAdapter;
 
-public class ReviewActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener {
+public class ReviewActivity extends AppCompatActivity {
 
     private ReviewAdapter adapter;
     private RecyclerView reviewRecyclerView;
@@ -34,19 +29,10 @@ public class ReviewActivity extends AppCompatActivity implements
         String movieJson = getIntent().getStringExtra("movieJson");
         Movie movie = new Gson().fromJson(movieJson, Movie.class);
 
-        setTitle("Reviews for '" + movie.getTitle() + '\'');
-
-        DrawerLayout drawerLayout = findViewById(R.id.search_drawerlayout);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-
-        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
+        Toolbar toolbar = findViewById(R.id.review_toolbar);
         setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+        getSupportActionBar().setTitle("Reviews for '" + movie.getTitle() + '\'');
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         reviewRecyclerView = findViewById(R.id.reviewlist_recyclerview);
         adapter = new ReviewAdapter(new ArrayList<>());
@@ -60,7 +46,15 @@ public class ReviewActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        return false;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }
