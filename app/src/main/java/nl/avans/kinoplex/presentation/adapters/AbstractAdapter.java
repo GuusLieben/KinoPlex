@@ -27,6 +27,11 @@ public abstract class AbstractAdapter<M extends AbstractViewHolder>
         notifyDataSetChanged();
     }
 
+    public void deleteFromDataSet(DomainObject domainObject) {
+        this.dataSet.remove(domainObject);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return dataSet.size();

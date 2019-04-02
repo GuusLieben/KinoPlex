@@ -45,6 +45,8 @@
 
     <string name="cancel">Cancel</string>
 
+    <string name="deleteList">Are you sure?</string>
+
     <string name="Genres">Genres ▶</string>
     <string name="plusSign" translatable="false">+</string>
     <string name="addedToList">Added to the list</string>
