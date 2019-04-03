@@ -25,6 +25,10 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 
+/**
+ * @author Stijn Schep
+ * Activity in which the user can enter login credentials.
+ */
 public class LoginActivity extends Activity implements View.OnClickListener {
   private EditText usernameEditText;
   private EditText passwordEditText;
@@ -105,6 +109,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
   }
 
+  /**
+   * @author Stijn Schep
+   * Change layout to indicate that an error has occured.
+   */
   public void showLoginError() {
     Log.d(Constants.LOGINACT_TAG, "Login failed, showing error...");
 
@@ -118,6 +126,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     Toast.makeText(this, getResources().getString(R.string.invalidLogin), Toast.LENGTH_LONG).show();
   }
 
+  /**
+   * @author Stijn Schep
+   * Make the ProgressBar visibible and the login screen invisible
+   */
   public void showLoadingScreen() {
     Log.d(Constants.LOGINACT_TAG, "Now showing progress bar...");
 
@@ -125,6 +137,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     progressBar.setVisibility(View.VISIBLE);
   }
 
+  /**
+   * @author Stijn Schep
+   * Make the login screen visible and the ProgressBar invisible
+   */
   private void showLoginScreen() {
     Log.d(Constants.LOGINACT_TAG, "Now showing login screen...");
 

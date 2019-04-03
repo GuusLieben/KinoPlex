@@ -33,6 +33,12 @@ import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 
+
+/**
+ * @author Stijn Schep
+ * Activity that facilitates the details of a single movie
+ *
+ */
 public class DetailActivity extends AppCompatActivity
     implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
   private ImageView movieBackdropImageView;
