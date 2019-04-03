@@ -49,7 +49,8 @@ public class AddReviewActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.add_review_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Add Review for: " + movie.getTitle());
+        String toolbarTitle = getString(R.string.addReviewForMovie) + movie.getTitle();
+        getSupportActionBar().setTitle(toolbarTitle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Glide.with(toolbar)
