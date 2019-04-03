@@ -33,7 +33,6 @@
     <string name="enterTitle">Voer Titel in</string>
     <string name="cancel">Annuleren</string>
     <string name="addedToList">Aan de lijst toegevoegd</string>
-    <string name="upcoming">Verwacht</string>
     <string name="deleteList">Weet je het zeker?</string>
     <string name="no_more_reviews">Geen reviews meer :(</string>
 
@@ -44,4 +43,7 @@
     <string name="manage_list_filters">Beheer Filters</string>
 
     <string name="movieYear">Jaar</string>
+    <string name="released">Uitgebracht</string>
+    <string name="upcoming">Verwacht</string>
+
 </resources>
