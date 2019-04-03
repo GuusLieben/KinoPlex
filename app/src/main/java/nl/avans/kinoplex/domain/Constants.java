@@ -12,15 +12,19 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
+import nl.avans.kinoplex.presentation.activities.AddReviewActivity;
 import nl.avans.kinoplex.presentation.activities.DetailActivity;
 import nl.avans.kinoplex.presentation.activities.LoginActivity;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
+import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.activities.RegisterActivity;
 import nl.avans.kinoplex.presentation.activities.ReviewActivity;
 import nl.avans.kinoplex.presentation.activities.SearchActivity;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
+import nl.avans.kinoplex.presentation.viewholders.ListManagerViewHolder;
+import nl.avans.kinoplex.presentation.viewholders.MainListViewHolder;
 import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
 public class Constants {
@@ -41,7 +45,7 @@ public class Constants {
     public static final String COL_LISTS = "lists";
     public static final String COL_MOVIES = "movies";
     public static final String COL_GENRES = "genres";
-    public static final String COL_REVIEWS = "reviews2";
+    public static final String COL_REVIEWS = "reviews";
     public static final String COL_USERS = "users";
 
     public static final String FIRESTOREUTILS_TAG = FirestoreUtils.class.getCanonicalName();
@@ -56,12 +60,12 @@ public class Constants {
     public static final String FIRESTOREDAOFACTORY_TAG = FirestoreDaoFactory.class.getCanonicalName();
     public static final String TMDBDAOFACTORY_TAG = TMDbDaoFactory.class.getCanonicalName();
 
-    public static final String APPREVIEW_TAG = AppReview.class.getCanonicalName();
+    public static final String APPREVIEW_TAG = FireReview.class.getCanonicalName();
     public static final String MOVIE_TAG = Movie.class.getCanonicalName();
     public static final String MOVIELIST_TAG = MovieList.class.getCanonicalName();
     public static final String TMDBREVIEW_TAG = TMDbReview.class.getCanonicalName();
 
-    //    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
+    public static final String ADDREVIEWACT_TAG = AddReviewActivity.class.getCanonicalName();
     public static final String DETAILACT_TAG = DetailActivity.class.getCanonicalName();
     public static final String REVIEWACT_TAG = ReviewActivity.class.getCanonicalName();
 
@@ -76,6 +80,7 @@ public class Constants {
     //    public static final String REGISTERACT_TAG = RegisterActivity.class.getCanonicalName();
     //    public static final String REVIEWSACT_TAG = ReviewsActivity.class.getCanonicalName();
     public static final String SEARCHACT_TAG = SearchActivity.class.getCanonicalName();
+    public static final String MANAGELISTSACT_TAG = ManageListsActivity.class.getCanonicalName();
 
     //    public static final String LISTADAPT_TAG = ListActivity.class.getCanonicalName();
     public static final String MOVIEADAPT_TAG = MainMovieAdapter.class.getCanonicalName();
@@ -85,15 +90,19 @@ public class Constants {
 
     //    public static final String LISTVH_TAG  = ListViewHolder.class.getCanonicalName();
     public static final String MAINMOVIEVH_TAG = MainMovieViewHolder.class.getCanonicalName();
+    public static final String MAINLISTVH_TAG = MainListViewHolder.class.getCanonicalName();
 //    public static final String PARENTVH_TAG= ParentViewHolder.class.getCanonicalName();
 //    public static final String REVIEWVH_TAG = ReviewViewHolder.class.getCanonicalName();
 //    public static final String SEARCHVH_TAG = SearchViewHolder.class.getCanonicalName();
+
+    public static final String LISTMANAGERVH_TAG = ListManagerViewHolder.class.getCanonicalName();
 
 
     // Intent Extras
     public static final String INTENT_EXTRA_MOVIEID = "MovieID";
     public static final String INTENT_EXTRA_MOVIE_JSON = "movieJson";
     public static final String INTENT_EXTRA_LOGIN_VALIDATED = "lastLoginWasValid";
+    public static final String INTENT_EXTRA_MOVIE_LIST_JSON = "movieListJson";
 
 
     //Shared Preferences
@@ -103,4 +112,8 @@ public class Constants {
     public static final String PREF_AUTOLOGIN = "autoLogin";
 
     public static final String INTENT_EXTRA_MOVIELIST = "movieListObject";
+
+    public static final String MOVIE_ID = "movieId";
+    public static final String MOVIE_TITLE = "movieTitle";
+
 }

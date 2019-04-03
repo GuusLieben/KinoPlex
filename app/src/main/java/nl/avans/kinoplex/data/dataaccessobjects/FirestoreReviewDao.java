@@ -14,7 +14,7 @@ import java.util.Objects;
 
 import nl.avans.kinoplex.business.FirestoreUtils;
 import nl.avans.kinoplex.data.factories.DataMigration;
-import nl.avans.kinoplex.domain.AppReview;
+import nl.avans.kinoplex.domain.FireReview;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
@@ -25,122 +25,153 @@ import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 
 public class FirestoreReviewDao implements DaoObject<Review> {
 
-  private int movieId;
-  private FirebaseFirestore db;
+    private int movieId;
+    private FirebaseFirestore db;
 
-  public FirestoreReviewDao(int movieId) {
-    this.db = FirestoreUtils.getInstance();
-    this.movieId = movieId;
-  }
-
-  @Override
-  public boolean create(Review review) {
-    String id = "$NE";
-    if (review instanceof AppReview) {
-      if (((AppReview) review).getId() == null)
-        id = db.collection(Constants.COL_REVIEWS).document().getId();
-      else id = ((AppReview) review).getId();
+    public FirestoreReviewDao(int movieId) {
+        this.db = FirestoreUtils.getInstance();
+        this.movieId = movieId;
     }
-    if (!id.equals("$NE"))
-      db.collection(Constants.COL_REVIEWS).document(id).set(((DomainObject) review).storeToMap());
-    return true;
-  }
 
-  @Override
-  public void readIntoAdapter(RecyclerView.Adapter adapter) {
-    db.collection(Constants.COL_REVIEWS)
-        .get()
-        .addOnSuccessListener(
-            documentSnapshot -> {
-              String mId = String.valueOf(movieId);
-              List<Object> references = new ArrayList<>();
-              for (DocumentSnapshot snapshot : documentSnapshot.getDocuments()) {
-                if (Objects.requireNonNull(snapshot.getString("movie_id")).equals(mId))
-                  references.add(snapshot);
-              }
-              writeReferencesToAdapter(references, adapter);
-            });
-  }
-
-  private void writeReferencesToAdapter(List<Object> referenceList, RecyclerView.Adapter adapter) {
-    for (Object reviewReference : referenceList) {
-      db.collection(Constants.COL_REVIEWS)
-          .document(String.valueOf(((DocumentSnapshot) reviewReference).getId()))
-          .get()
-          .addOnSuccessListener(
-              documentSnapshot -> {
-                if (documentSnapshot.contains("user_id")) { // App review
-                  String id = documentSnapshot.getId();
-                  String author = documentSnapshot.getString("user_id");
-                  String content = documentSnapshot.getString("content");
-                  int rating = (int) documentSnapshot.get("rating");
-                  AppReview appReview = new AppReview(id, author, content, rating);
-                  ((AbstractAdapter) adapter).addToDataSet(appReview);
-
-                } else { // API Review
-                  String id = documentSnapshot.getId();
-                  String author = documentSnapshot.getString("user_id");
-                  String content = documentSnapshot.getString("content");
-                  TMDbReview tmDbReview = new TMDbReview(id, author, content);
-                  ((AbstractAdapter) adapter).addToDataSet(tmDbReview);
-                }
-              });
+    @Override
+    public boolean create(Review review) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to create review on Firestore");
+        String id = "$NE";
+        if (review instanceof FireReview) {
+            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Instance of FireReview detected, checking ID");
+            if (((FireReview) review).getId() == null) {
+                Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "ID was null, requesting auto-id from Firestore");
+                id = db.collection(Constants.COL_REVIEWS).document().getId();
+            } else id = ((FireReview) review).getId();
+        }
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Writing to ID : " + id);
+        ((FireReview) review).setId(id);
+        if (!id.equals("$NE"))
+            db.collection(Constants.COL_REVIEWS).document(id).set(((DomainObject) review).storeToMap());
+        return true;
     }
-  }
 
-  @Override
-  public void readIntoIntent(Intent intent, Context context, Object id) {
-    throw new UnsupportedOperationException();
-  }
+    @Override
+    public void readIntoAdapter(RecyclerView.Adapter adapter) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to read from Firestore");
+        db.collection(Constants.COL_REVIEWS)
+                .get()
+                .addOnSuccessListener(
+                        documentSnapshot -> {
+                            String mId = String.valueOf(movieId);
+                            List<Object> references = new ArrayList<>();
+                            for (DocumentSnapshot snapshot : documentSnapshot.getDocuments()) {
+                                Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Checking document snapshot : " + snapshot.getData());
+                                if (Objects.requireNonNull(snapshot.getString("movie_id")).equals(mId))
+                                    references.add(snapshot);
+                            }
+                            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Writing references to adapter");
+                            writeReferencesToAdapter(references, adapter);
+                        });
+    }
 
-  @Override
-  public void readAll(RecyclerView.Adapter adapter) {
-    throw new UnsupportedOperationException();
-  }
+    private void writeReferencesToAdapter(List<Object> referenceList, RecyclerView.Adapter adapter) {
+        for (Object reviewReference : referenceList) {
+            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to write reference to adapter : " + reviewReference.toString());
+            db.collection(Constants.COL_REVIEWS)
+                    .document(String.valueOf(((DocumentSnapshot) reviewReference).getId()))
+                    .get()
+                    .addOnSuccessListener(
+                            documentSnapshot -> {
+                                Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Reference data was : " + documentSnapshot.getData());
+                                if (documentSnapshot.getString("user_id") != null) { // App review
+                                    Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Detected FireReview");
+                                    String id = documentSnapshot.getId();
+                                    String author = documentSnapshot.getString("user_id");
+                                    String content = documentSnapshot.getString("content");
+                                    long rating = (long) documentSnapshot.get("rating");
+                                    String reviewMovieID = documentSnapshot.getString("movie_id");
+                                    int intRating = Math.round(rating);
+                                    FireReview fireReview = new FireReview(id, author, content, intRating, reviewMovieID);
+                                    ((AbstractAdapter) adapter).addToDataSet(fireReview);
 
-  @Override
-  public boolean update(Review review) {
-    db.collection(Constants.COL_REVIEWS)
-        .document(((DomainObject) review).getId())
-        .set(((DomainObject) review).storeToMap())
-        .addOnSuccessListener(
-            aVoid -> Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Successfully updated review"));
-    return true;
-  }
+                                } else { // API Review
+                                    Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Detected TMDb Review");
+                                    String id = documentSnapshot.getId();
+                                    String author = documentSnapshot.getString("author");
+                                    String content = documentSnapshot.getString("content");
+                                    TMDbReview tmDbReview = new TMDbReview(id, author, content);
+                                    ((AbstractAdapter) adapter).addToDataSet(tmDbReview);
+                                }
+                            });
+        }
+    }
 
-  @Override
-  public boolean delete(Review review) {
-    db.collection(Constants.COL_REVIEWS).document(((DomainObject) review).getId()).delete();
-    return true;
-  }
+    @Override
+    public void readIntoIntent(Intent intent, Context context, Object id) {
+        throw new UnsupportedOperationException();
+    }
 
-  public void getList(Movie movie, DetailActivity detailActivity) {
-    db.collection(Constants.COL_REVIEWS)
-        .get()
-        .addOnSuccessListener(
-            snapshots -> {
-              if (movie.getReviews() == null) movie.setReviews(new ArrayList<>());
+    @Override
+    public void readAll(RecyclerView.Adapter adapter) {
+        throw new UnsupportedOperationException();
+    }
 
-              if (movie.getReviews().isEmpty())
-                movie.setReviews(
-                    ((TMDbReviewDao)
-                            DataMigration.getTMDbFactory()
-                                .getReviewDao(Integer.parseInt(movie.getId())))
-                        .getList());
-              else
-                for (DocumentSnapshot documentSnapshot : snapshots.getDocuments())
-                  if (Objects.requireNonNull(documentSnapshot.getString("movie_id"))
-                      .equalsIgnoreCase(String.valueOf(movieId))) {
-                    String id = documentSnapshot.getString("id");
-                    String author = documentSnapshot.getString("author");
-                    String content = documentSnapshot.getString("content");
-                    TMDbReview review = new TMDbReview(id, author, content);
-                    movie.addReview(review);
-                    System.out.println("Found a review");
-                    detailActivity.setReviewText(String.valueOf(movie.getReviews().size()));
-                  }
+    @Override
+    public boolean update(Review review) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to write to Firestore");
+        db.collection(Constants.COL_REVIEWS)
+                .document(((DomainObject) review).getId())
+                .set(((DomainObject) review).storeToMap())
+                .addOnSuccessListener(
+                        aVoid -> Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Successfully updated review"));
+        return true;
+    }
 
-              detailActivity.setReviewText(String.valueOf(movie.getReviews().size()));
-            });
-  }
+    @Override
+    public boolean delete(Review review) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to delete from Firestore");
+        db.collection(Constants.COL_REVIEWS).document(((DomainObject) review).getId()).delete();
+        return true;
+    }
+
+    public void getList(Movie movie, DetailActivity detailActivity) {
+        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to read list of reviews for movie");
+        db.collection(Constants.COL_REVIEWS)
+                .get()
+                .addOnSuccessListener(
+                        snapshots -> {
+                            movie.setReviews(new ArrayList<>());
+                            movie.setFireReviews(new ArrayList<>());
+
+                            movie.setReviews(
+                                    ((TMDbReviewDao)
+                                            DataMigration.getTMDbFactory()
+                                                    .getReviewDao(Integer.parseInt(movie.getId())))
+                                            .getList());
+
+
+                            for (DocumentSnapshot documentSnapshot : snapshots.getDocuments()) {
+                                Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Checking snapshot : " + documentSnapshot.getData());
+                                if (Objects.requireNonNull(documentSnapshot.getString("movie_id"))
+                                        .equalsIgnoreCase(String.valueOf(movieId))) {
+                                    Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Found matching snapshot, constructing");
+                                    if (documentSnapshot.contains("user_id")) { // App review
+                                        String id = documentSnapshot.getId();
+                                        String author = documentSnapshot.getString("user_id");
+                                        String content = documentSnapshot.getString("content");
+                                        long rating = (long) documentSnapshot.get("rating");
+                                        String reviewMovieID = documentSnapshot.getString("movie_id");
+                                        int intRating = Math.round(rating);
+                                        FireReview fireReview = new FireReview(id, author, content, intRating, reviewMovieID);
+                                        Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Constructed, adding to movie");
+                                        movie.addAppReview(fireReview);
+                                    }
+                                }
+                            }
+
+                            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "TMDb Reviews : " + movie.getReviews());
+                            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Fire Reviews : " + movie.getFireReviews());
+
+                            int reviewAmount = movie.getReviews().size() + movie.getFireReviews().size();
+
+                            Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Updating amount to : " + String.valueOf(reviewAmount));
+                            detailActivity.setReviewText(String.valueOf(reviewAmount));
+                        });
+    }
 }

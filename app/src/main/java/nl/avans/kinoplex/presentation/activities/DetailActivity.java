@@ -45,7 +45,11 @@ public class DetailActivity extends AppCompatActivity
 
     private Button movieShowReviews;
     private Button movieOptions;
+    private Button backButton;
     private Movie movie;
+
+    private ImageView overlayBgPopup;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -82,9 +86,13 @@ public class DetailActivity extends AppCompatActivity
 
         movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
         movieOptions = findViewById(R.id.btn_detail_options);
+        backButton = findViewById(R.id.view_detail_backbutton);
 
         movieShowReviews.setOnClickListener(this);
         movieOptions.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+
+        overlayBgPopup = findViewById(R.id.overlay_bg_image_view);
 
         Glide.with(this)
                 .load(movie.getPosterPath())
@@ -128,6 +136,7 @@ public class DetailActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         // Asynchronously loads reviews into the movie
+        hideOverlayBg();
         ((FirestoreReviewDao) DataMigration.getFactory().getReviewDao(Integer.parseInt(movie.getId()))).getList(movie, this);
     }
 
@@ -155,6 +164,11 @@ public class DetailActivity extends AppCompatActivity
                 startActivity(reviews);
 
                 break;
+
+            case R.id.view_detail_backbutton:
+                finish();
+
+                break;
         }
     }
 
@@ -164,12 +178,19 @@ public class DetailActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.detail_options_addtolist:
                 Log.d(Constants.DETAILACT_TAG, "User wants to add the movie to a list...");
-
+                Intent chooseListPopup = new Intent(getApplicationContext(), ChooseListPopUp.class);
+                String json = new Gson().toJson(movie);
+                chooseListPopup.putExtra(Constants.MOVIE_TAG, json);
+                startActivity(chooseListPopup);
+                showOverlayBg();
                 break;
 
             case R.id.detail_options_addReview:
                 Log.d(Constants.DETAILACT_TAG, "User wants to add a review to this movie...");
-
+                Intent addReviewIntent = new Intent(this, AddReviewActivity.class);
+                String jsonMovie = new Gson().toJson(movie);
+                addReviewIntent.putExtra(Constants.MOVIE_TAG, jsonMovie);
+                startActivity(addReviewIntent);
                 break;
 
             case R.id.detail_options_share:
@@ -189,6 +210,16 @@ public class DetailActivity extends AppCompatActivity
 
 
         return false;
+    }
+
+    private void showOverlayBg() {
+        overlayBgPopup.setVisibility(View.VISIBLE);
+        Log.d(Constants.DETAILACT_TAG, "SHOW OVERLAY........................................................................");
+    }
+
+    private void hideOverlayBg() {
+        Log.d(Constants.DETAILACT_TAG, "HIDE OVERLAY........................................................................");
+        overlayBgPopup.setVisibility(View.INVISIBLE);
     }
 
 }

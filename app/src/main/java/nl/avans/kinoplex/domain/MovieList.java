@@ -1,6 +1,8 @@
 package nl.avans.kinoplex.domain;
 
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -8,66 +10,93 @@ import java.util.Map;
 import java.util.Set;
 
 public class MovieList extends DomainObject {
-  private List<Movie> movieList;
-  private static Set<MovieList> listSet = new LinkedHashSet<>();
-  private String name;
-  private String dbId;
-  private int userId;
+    private List<Movie> movieList;
+    private static Set<MovieList> listSet = new LinkedHashSet<>();
+    private String name;
+    private String dbId;
+    private String userId;
 
-  public MovieList(String name, int userId) {
-    this.name = name;
-    this.userId = userId;
-    movieList = new ArrayList<>();
-  }
+    public MovieList(String name, String userId) {
+        this.name = name;
+        this.userId = userId;
+        movieList = new ArrayList<>();
+    }
 
-  public String getDbId() {
-    return dbId;
-  }
 
-  public void setDbId(String dbId) {
-    this.dbId = dbId;
-  }
+    public String getDbId() {
+        String temp = dbId;
+        if (temp != null) temp = temp.toLowerCase();
+        return temp;
+    }
 
-  public void addMovie(Movie movie) {
-    this.movieList.add(movie);
-  }
+    public void setDbId(String dbId) {
+        List<String> TMDbIds = Arrays.asList("now_playing", "popular", "top_rated", "upcoming");
+        dbId = dbId.toLowerCase();
+        if (TMDbIds.contains(dbId.toLowerCase()) && !(dbId.startsWith("!"))) dbId = '!' + dbId;
+        this.dbId = dbId;
+    }
 
-  public void removeMovie(int movieId) {}
+    public void addMovie(Movie movie) {
+        this.movieList.add(movie);
+    }
 
-  public List<DomainObject> getDomainMovieList() {
-    System.out.println(movieList);
-    List<DomainObject> domainList = new ArrayList<>(movieList);
-    return domainList;
-  }
+    public void removeMovie(int movieId) {
+    }
 
-  public List<Movie> getMovieList() {
-    return movieList;
-  }
+    public List<DomainObject> getDomainMovieList() {
+        System.out.println(movieList);
+        List<DomainObject> domainList = new ArrayList<>(movieList);
+        return domainList;
+    }
 
-  public static Set<MovieList> getListSet() {
-    return listSet;
-  }
+    public List<Movie> getMovieList() {
+        return movieList;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public static Set<MovieList> getListSet() {
+        return listSet;
+    }
 
-  @Override
-  public String getId() {
-    return dbId;
-  }
+    public void setMovieList(List<Movie> movieList) {
+        this.movieList = movieList;
+    }
 
-  @Override
-  public Map<String, Object> storeToMap() {
-    return new HashMap<String, Object>() {
-      {
-        ArrayList<Object> movieIds = new ArrayList<>();
-        for (Movie movie : movieList) movieIds.add(movie.getId());
-        put("name", name);
-        put("movies", movieIds);
-        put("id", dbId);
-        put("user_id", userId);
-      }
-    };
-  }
+    public static void setListSet(Set<MovieList> listSet) {
+        MovieList.listSet = listSet;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getId() {
+        return dbId;
+    }
+
+    @Override
+    public Map<String, Object> storeToMap() {
+        return new HashMap<String, Object>() {
+            {
+                ArrayList<Object> movieIds = new ArrayList<>();
+                for (Movie movie : movieList) movieIds.add(movie.getId());
+                put("name", name);
+                put("movies", movieIds);
+                put("id", dbId);
+                put("user_id", userId);
+            }
+        };
+    }
 }

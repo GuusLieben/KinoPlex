@@ -85,7 +85,7 @@ public class TMDbMovieDao implements DaoObject {
                 if (integers[1] != null) {
                     FirestoreUtils.getInstance().collection(Constants.COL_MOVIES).document(movie.getId()).set(movie.storeToMap()).addOnSuccessListener(aVoid -> {
                         final Handler handler = new Handler();
-                        handler.postDelayed(() -> ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(movieId)).readIntoList((MovieList) integers[1]), 250);
+                        handler.postDelayed(() -> ((FirestoreMovieDao) DataMigration.getFactory().getMovieDao(movieId)).readIntoList((MovieList) integers[1], null), 250);
                     });
                 }
             } catch (JSONException |
@@ -114,7 +114,9 @@ public class TMDbMovieDao implements DaoObject {
                 JSONObject result = new JsonUtilsTask().execute(uri).get();
                 String language = result.getString("original_language");
                 String tagline = result.getString("tagline");
-                int runtime = result.getInt("runtime");
+                Object runtimeObj = result.get("runtime");
+                int runtime = 0;
+                if (runtimeObj != null) runtime = (int) runtimeObj;
                 JSONArray genres = result.getJSONArray("genres");
                 double rating = result.getDouble("vote_average");
                 List<String> genreIds = new ArrayList<>();

@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class Movie extends DomainObject {
     List<TMDbReview> reviews;
+    List<FireReview> fireReviews;
     String title;
     int id;
     int runtime;
@@ -67,6 +68,18 @@ public class Movie extends DomainObject {
 
     public int getRuntime() {
         return runtime;
+    }
+
+    public List<FireReview> getFireReviews() {
+        return fireReviews;
+    }
+
+    public void setFireReviews(List<FireReview> fireReviews) {
+        this.fireReviews = fireReviews;
+    }
+
+    public void addAppReview(FireReview fireReview) {
+        this.fireReviews.add(fireReview);
     }
 
     public String getFormattedRuntime() {
