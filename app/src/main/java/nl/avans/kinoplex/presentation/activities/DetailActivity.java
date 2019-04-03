@@ -38,6 +38,11 @@ import nl.avans.kinoplex.domain.Movie;
 
 import static nl.avans.kinoplex.domain.Constants.YOUTUBE_API_KEY;
 
+/**
+ * @author Stijn Schep
+ * Activity that facilitates the details of a single movie
+ *
+ */
 public class DetailActivity extends AppCompatActivity
         implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, YouTubeThumbnailView.OnInitializedListener {
 

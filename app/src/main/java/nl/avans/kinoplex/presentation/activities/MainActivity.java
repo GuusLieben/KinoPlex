@@ -93,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
+    /**
+     * @author Stijn Schep
+     * Dynamically populates the navigation menu with standard and custom user lists
+     */
     public void addListsToNavigation() {
         List<DomainObject> objects = parentAdapter.getDataSet();
 
@@ -147,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home_account_logout:
-                LoginManager.Logout(this, this);
+                LoginManager.Logout(this);
         }
 
 
@@ -189,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LoginManager.Logout(this, this);
+        LoginManager.Logout(this);
     }
 
 }
