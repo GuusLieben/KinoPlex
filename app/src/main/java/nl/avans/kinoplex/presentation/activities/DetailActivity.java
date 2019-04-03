@@ -191,7 +191,8 @@ public class DetailActivity extends AppCompatActivity
         break;
 
       case R.id.Trailer_Thumbnail:
-        Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Trailer' button");
+        Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Trailer' button ---------------------> " + trailerUrl);
+
         if (trailerUrl != null) {
           watchYoutubeTrailer(this, trailerUrl);
         } else {
