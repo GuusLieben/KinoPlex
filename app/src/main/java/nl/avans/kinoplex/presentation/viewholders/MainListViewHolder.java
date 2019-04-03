@@ -27,12 +27,20 @@ import nl.avans.kinoplex.presentation.activities.ListActivity;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 
+/**
+ * The type Main list view holder.
+ */
 public class MainListViewHolder extends AbstractViewHolder {
     private final TextView listTitle;
     private final Button seeAllBtn;
     private RecyclerView movieListRecylerview;
     private Context context;
 
+    /**
+     * Instantiates a new Main list view holder.
+     *
+     * @param itemView the item view
+     */
     public MainListViewHolder(@NonNull View itemView) {
         super(itemView);
 
@@ -44,10 +52,21 @@ public class MainListViewHolder extends AbstractViewHolder {
         movieListRecylerview = itemView.findViewById(R.id.recyclerview_movie_list);
     }
 
+    /**
+     * Bind.
+     *
+     * @param movieList the movie list
+     */
     public void bind(DomainObject movieList) {
         bind(movieList, null);
     }
 
+    /**
+     * Bind.
+     * @authors Stijn Schep, Lars Akkermans
+     * @param movieList the movie list
+     * @param adapter   the adapter
+     */
     public void bind(DomainObject movieList, MainMovieAdapter adapter) {
         Log.d(Constants.MAINLISTVH_TAG, "Binding MainListViewHolder for list " + ((MovieList) movieList).getName());
 

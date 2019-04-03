@@ -99,6 +99,7 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
   /**
    * Gets filter.
    * @author Lars Akkermans
+   * checks which filter to return, else null
    * @param filterType the filter type
    * @return the filter
    */
@@ -113,6 +114,10 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
     }
   }
 
+  /**
+   * @author Lars Akkermans
+   * year date filter
+   */
   private Filter movieFilterYear =
           new Filter() {
             @Override
@@ -120,7 +125,7 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
               List<DomainObject> filteredList = new ArrayList<>();
 
 
-              if (constraint == null || constraint.length() == 0) { // checks if the searchview is empty, if so, all data will be shown
+              if (constraint == null || constraint.length() == 0) { // checks if the query is empty, if so, all data will be shown
                 filteredList.addAll(listFull);
               } else {
                 String filterPattern = constraint.toString().toLowerCase().trim(); // otherwise the chosen filter will be applied
@@ -148,6 +153,10 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
             }
           };
 
+  /**
+   * @author Lars Akkermans
+   * genre filter
+   */
   private Filter movieFilterGenre =
           new Filter() {
             @Override
@@ -155,7 +164,7 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
               List<DomainObject> filteredList = new ArrayList<>();
 
 
-              if (constraint == null || constraint.length() == 0) { // checks if the searchview is empty, if so, all data will be shown
+              if (constraint == null || constraint.length() == 0) { // checks if the query is empty, if so, all data will be shown
                 filteredList.addAll(listFull);
               } else {
                 String filterPattern = constraint.toString().toLowerCase().trim(); // otherwise the chosen filter will be applied
@@ -181,6 +190,13 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
             }
           };
 
+  /**
+   * @author Lars Akkermans
+   * checks if filterpattern (query) is in the genres list
+   * @param filterPattern the filter pattern
+   * @param list the genres list
+   * @return boolean
+   */
   private boolean checkFilterPatternInList(String filterPattern, List<String> list) {
     for ( String s : list ) {
       String genre = Constants.GENRES.get(Integer.parseInt(s));

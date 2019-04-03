@@ -31,6 +31,7 @@ public class DialogBuilder {
 
     /**
      * The enum Input.
+     * @author Stijn Schep
      */
     public enum Input {
         /**
@@ -51,6 +52,7 @@ public class DialogBuilder {
 
     /**
      * The enum Filter type.
+     * @author Lars Akkermans
      */
     public enum FilterType {
         /**
@@ -63,6 +65,14 @@ public class DialogBuilder {
         GENRE_FILTER
     }
 
+    /**
+     * @author Stijn Schep
+     *
+     * @param type
+     * @param activity
+     * @param input
+     * @return
+     */
     private static View getView(Input type, Activity activity, String input) {
         LayoutInflater inflater = activity.getLayoutInflater();
         switch (type) {
@@ -88,6 +98,7 @@ public class DialogBuilder {
 
     /**
      * Simple input builder.
+     * @author Stijn Schep
      *
      * @param activity the activity
      * @param title    the title
@@ -136,6 +147,7 @@ public class DialogBuilder {
 
     /**
      * Simple list edit dialog.
+     * @author Stijn Schep
      *
      * @param activity the activity
      * @param title    the title
@@ -201,6 +213,8 @@ public class DialogBuilder {
         SearchView editTextYear = filterView.findViewById(R.id.dialog_year_input);
         ((TextView) filterView.findViewById(R.id.dialog_genre_label)).setText(filterView.getResources().getString(R.string.movieGenre));
         SearchView editTextGenre = filterView.findViewById(R.id.dialog_genre_input);
+
+        // set up the query listeners
         editTextYear.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -234,6 +248,8 @@ public class DialogBuilder {
 
 
         Log.d("DIALOGBUILDERRRR", "YEAR QUERYYYYYY __> " + yearQuery + " , GENRE QUERYYYYYYYYY___> " + genreQuery);
+
+        // set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -246,12 +262,14 @@ public class DialogBuilder {
                 dialog.dismiss();
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
+
         builder.show();
     }
 }
