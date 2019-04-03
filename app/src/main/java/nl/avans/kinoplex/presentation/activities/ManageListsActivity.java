@@ -22,10 +22,6 @@ import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 
-/**
- * @author Stijn Schep
- * Activity that shows a list of the current user's MovieLists and allows the user to manage them
- */
 public class ManageListsActivity extends Activity implements View.OnClickListener {
     private Button returnButton;
     private Button addListButton;

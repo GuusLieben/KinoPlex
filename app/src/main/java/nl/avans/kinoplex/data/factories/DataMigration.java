@@ -1,26 +1,24 @@
 package nl.avans.kinoplex.data.factories;
 
-/** The type Data migration. */
 public class DataMigration {
 
     private static DaoFactory factory = new FirestoreDaoFactory();
     private static DaoFactory TMDbFactory = new TMDbDaoFactory();
 
-  /**
-   * Gets app remote factory.
-   *
-   * @return the factory
-   */
-  public static DaoFactory getFactory() {
+    public static DaoFactory getFactory() {
         return factory;
     }
 
-  /**
-   * Gets TMDb factory.
-   *
-   * @return the tm db factory
-   */
-  public static DaoFactory getTMDbFactory() {
+    public static DaoFactory getTMDbFactory() {
         return TMDbFactory;
     }
+
+//    public static boolean isInternetAvailable(Context context) {
+//        ConnectivityManager cm =
+//                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//
+//        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+//        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+//        return isConnected;
+//    }
 }

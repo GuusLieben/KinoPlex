@@ -1,6 +1,6 @@
 package nl.avans.kinoplex.domain;
 
-/** @author Guus Lieben
- * The interface Review.
- */
-public interface Review {}
+public interface Review {
+
+    // Used for storage in Movie. Use instanceof to confirm instance
+}

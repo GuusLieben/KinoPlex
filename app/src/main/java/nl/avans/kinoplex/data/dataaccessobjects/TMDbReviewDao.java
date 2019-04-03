@@ -20,17 +20,11 @@ import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.TMDbReview;
 
-/** The type Tm db review dao. */
 public class TMDbReviewDao implements DaoObject {
 
     private int movieId;
 
-  /**
-   * Instantiates a new Tm db review dao.
-   *
-   * @param movieId the movie id
-   */
-  public TMDbReviewDao(int movieId) {
+    public TMDbReviewDao(int movieId) {
         this.movieId = movieId;
     }
 
@@ -54,12 +48,7 @@ public class TMDbReviewDao implements DaoObject {
         throw new UnsupportedOperationException();
     }
 
-  /**
-   * Gets a list of reviews for the movie defined in the constructor.
-   *
-   * @return the list of reviews
-   */
-  public List<TMDbReview> getList() {
+    public List<TMDbReview> getList() {
         try {
             return new LoadReviewsForMovie().execute(movieId).get();
         } catch (ExecutionException | InterruptedException e) {
@@ -68,10 +57,6 @@ public class TMDbReviewDao implements DaoObject {
         return new ArrayList<>();
     }
 
-    /**
-     * @author Guus Lieben
-     * Async task to load reviews for a given movieId
-     */
     private static class LoadReviewsForMovie extends AsyncTask<Integer, Void, List<TMDbReview>> {
 
         @Override
