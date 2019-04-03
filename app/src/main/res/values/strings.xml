@@ -73,4 +73,7 @@
 
     <string name="movieYear">Year</string>
     <string name="movieGenre" translatable="false">Genre</string>
+    <string name="show_reviews_pre">Show reviews (</string>
+    <string name="share_message">Look what I found! \'%s\' is a great movie, rated at %d! Also, the poster is just great : %s</string>
+    <string name="released">Released</string>
 </resources>

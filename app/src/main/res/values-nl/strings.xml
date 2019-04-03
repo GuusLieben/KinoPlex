@@ -51,5 +51,8 @@
 
     <string name="movieYear">Jaar</string>
     <string name="management">Beheer</string>
+    <string name="show_reviews_pre">Toon reviews (</string>
+    <string name="share_message">Kijk eens wat ik heb gevonden! \'%s\' is een geweldige film, met een gemiddelde score van %d! En de poster is gewoon prachtig : %s</string>
+    <string name="released">Uitgebracht</string>
 
 </resources>
