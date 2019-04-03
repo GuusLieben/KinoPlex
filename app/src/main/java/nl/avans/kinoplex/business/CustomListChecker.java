@@ -1,8 +1,11 @@
 package nl.avans.kinoplex.business;
 
+import android.content.Context;
 import android.util.Log;
 
 /** The type Custom list checker. */
+import nl.avans.kinoplex.R;
+
 public class CustomListChecker {
 
   /**
@@ -25,6 +28,20 @@ public class CustomListChecker {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public static String returnCorrectTitle(String name, Context context) {
+        if (name.equalsIgnoreCase("!Now_playing")) {
+            return context.getResources().getString(R.string.now_playing);
+        } else if (name.equalsIgnoreCase("!Popular")) {
+            return context.getResources().getString(R.string.Popular);
+        } else if (name.equalsIgnoreCase("!Top_rated")) {
+            return context.getResources().getString(R.string.top_rated);
+        } else if (name.equalsIgnoreCase("!Upcoming")) {
+            return context.getResources().getString(R.string.upcoming);
+        } else {
+            return name;
         }
     }
 }
