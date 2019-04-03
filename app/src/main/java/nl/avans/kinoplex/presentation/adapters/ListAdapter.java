@@ -146,7 +146,11 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-              list.clear();
+              if(list == null) {
+                return;
+              }
+
+                list.clear();
               list.addAll((List) filterResults.values);
               updateDataSet((List<DomainObject>) filterResults.values); // update the data with the filteredresults
               notifyDataSetChanged();
@@ -183,6 +187,10 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
+                if(list == null) {
+                    return;
+                }
+
               list.clear();
               list.addAll((List) results.values);
               updateDataSet((List<DomainObject>) results.values); // update the data with the filteredresults
