@@ -31,6 +31,10 @@ import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.ListAdapter;
 
+/**
+ * The type List activity.
+ * @author Lars Akkermans
+ */
 public class ListActivity extends AppCompatActivity {
     private MovieList movieList;
     private RecyclerView recyclerView;
@@ -81,6 +85,7 @@ public class ListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -101,14 +106,30 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Gets filter.
+     * @author Lars Akkermans
+     * @param filterType the filter type
+     * @return the filter
+     */
     public Filter getFilter(DialogBuilder.FilterType filterType) {
         return ((ListAdapter) adapter).getFilter(filterType);
     }
 
+    /**
+     * Sets year filter query.
+     * @author Lars Akkermans
+     * @param query the query
+     */
     public void setYearFilterQuery(String query) {
         yearFilterQuery = query;
     }
 
+    /**
+     * Sets genre filter query.
+     * @author Lars Akkermans
+     * @param query the query
+     */
     public void setGenreFilterQuery(String query) {
         genreFilterQuery = query;
     }

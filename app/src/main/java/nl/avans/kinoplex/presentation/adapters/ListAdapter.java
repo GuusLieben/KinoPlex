@@ -27,10 +27,19 @@ import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
 
 import static nl.avans.kinoplex.presentation.adapters.SearchAdapter.getYear;
 
+/**
+ * The type List adapter.
+ */
 public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
   private Context context;
   private List<DomainObject> list;
   private List<DomainObject> listFull;
+
+  /**
+   * Instantiates a new List adapter.
+   * @author Lars Akkermans
+   * @param dataSet the data set
+   */
   public ListAdapter(List<DomainObject> dataSet) {
     super(dataSet);
     listFull = new ArrayList<>(dataSet);
@@ -87,6 +96,12 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
     return getDataSet().size();
   }
 
+  /**
+   * Gets filter.
+   * @author Lars Akkermans
+   * @param filterType the filter type
+   * @return the filter
+   */
   public Filter getFilter(DialogBuilder.FilterType filterType) {
     switch (filterType) {
       case YEAR_FILTER:
