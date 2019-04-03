@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import nl.avans.kinoplex.R;
@@ -16,20 +18,25 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.MovieList;
+import nl.avans.kinoplex.presentation.activities.ListActivity;
 import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 
-
-    /*
-           CREATED BY: Stijn Schep
-           USAGE: Builds a dialog box
-     */
-
+/** The type Dialog builder. */
 public class DialogBuilder {
 
+  /** The enum Input. */
+  public enum Input {
+    /** Single edittext input. */
+    SINGLE_EDITTEXT,
+    /** Prefilled edittext input. */
+    PREFILLED_EDITTEXT,
+    /** Edittext with label input. */
+    EDITTEXT_WITH_LABEL
+  }
 
-    public enum Input {
-        SINGLE_EDITTEXT, PREFILLED_EDITTEXT, EDITTEXT_WITH_LABEL
+    public enum FilterType {
+        YEAR_FILTER, GENRE_FILTER
     }
 
     private static View getView(Input type, Activity activity, String input) {
@@ -45,7 +52,7 @@ public class DialogBuilder {
                 return view;
 
             case EDITTEXT_WITH_LABEL:
-                return inflater.inflate(R.layout.dialog_edittext_with_label, null);
+                return inflater.inflate(R.layout.dialog_list_filter_layout, null);
 
             default:
                     final EditText default_input = new EditText(activity);
@@ -55,13 +62,16 @@ public class DialogBuilder {
         }
     }
 
-
-    /**
-     * @param activity The activity in which the dialog should be shown
-     * @param title The title of the dialog box
-     * @param type The type of input that should be shown. Uses inner-Enum Input
-     */
-    public static void simpleInputBuilder(Activity activity, String title, Input type, RecyclerView.Adapter adapter) {
+  /**
+   * Simple input builder.
+   *
+   * @param activity the activity
+   * @param title the title
+   * @param type the type
+   * @param adapter the adapter
+   */
+  public static void simpleInputBuilder(
+      Activity activity, String title, Input type, RecyclerView.Adapter adapter) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -100,8 +110,17 @@ public class DialogBuilder {
         builder.show();
     }
 
-    public static void simpleListEditDialog(Activity activity, String title, Input type,
-                                            MovieList list, RecyclerView.Adapter adapter) {
+  /**
+   * Simple list edit dialog.
+   *
+   * @param activity the activity
+   * @param title the title
+   * @param type the type
+   * @param list the list
+   * @param adapter the adapter
+   */
+  public static void simpleListEditDialog(
+      Activity activity, String title, Input type, MovieList list, RecyclerView.Adapter adapter) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -139,18 +158,59 @@ public class DialogBuilder {
         builder.show();
     }
 
-    public static void createFilterDialog(AppCompatActivity activity, Filter filter) {
+  /**
+   * Create filter dialog.
+   *
+   * @param activity the activity
+   */
+  public static void createFilterDialog(AppCompatActivity activity) {
+        Filter yearFilter = ((ListActivity) activity).getFilter(FilterType.YEAR_FILTER);
+        Filter genreFilter = ((ListActivity) activity).getFilter(FilterType.GENRE_FILTER);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(R.string.filter_title);
-        View view = getView(Input.EDITTEXT_WITH_LABEL, activity, null);
-        builder.setView(view);
-        ((TextView)view.findViewById(R.id.dialog_label_input)).setText(view.getResources().getString(R.string.movieYear));
-        EditText editText = view.findViewById(R.id.dialog_input_with_label);
+
+        View filterView = getView(Input.EDITTEXT_WITH_LABEL, activity, null);
+        builder.setView(filterView);
+        ((TextView) filterView.findViewById(R.id.dialog_year_label)).setText(filterView.getResources().getString(R.string.movieYear));
+        SearchView editTextYear = filterView.findViewById(R.id.dialog_year_input);
+        ((TextView) filterView.findViewById(R.id.dialog_genre_label)).setText(filterView.getResources().getString(R.string.movieGenre));
+        SearchView editTextGenre = filterView.findViewById(R.id.dialog_genre_input);
+
+        editTextYear.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                yearFilter.filter(newText);
+                return false;
+            }
+        });
+
+        editTextGenre.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                genreFilter.filter(newText);
+                return false;
+            }
+        });
+
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String yearValue = editText.getText().toString();
-                filter.filter(yearValue);
+                String yearValue = editTextYear.getQuery().toString();
+                String genre = editTextGenre.getQuery().toString();
+                if ( yearValue.isEmpty() && genre.isEmpty()) {
+                    yearFilter.filter(yearValue);
+                    genreFilter.filter(genre);
+                }
                 dialog.dismiss();
             }
         });

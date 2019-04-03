@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Filter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.CustomListChecker;
 import nl.avans.kinoplex.business.DialogBuilder;
 import nl.avans.kinoplex.business.PosterPicker;
 import nl.avans.kinoplex.data.factories.DataMigration;
@@ -38,8 +40,6 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        setTitle("ListActivity");
-
         ImageView background = findViewById(R.id.iv_background_poster);
         Glide.with(this).load(PosterPicker.getRandomPosterID()).into(background);
 
@@ -53,10 +53,11 @@ public class ListActivity extends AppCompatActivity {
         Log.d(Constants.DETAILACT_TAG, JSON);
 
         movieList = new Gson().fromJson(jsonObj, MovieList.class);
+        Log.d(Constants.LISTACT_TAG, "Started listActivity with movie: " + movieList);
 
         Toolbar toolbar = findViewById(R.id.toolbar_list_activity);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle( movieList.getName() );
+        getSupportActionBar().setTitle(CustomListChecker.returnCorrectTitle(movieList.getName(), this) );
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView = findViewById(R.id.recyclerview_detail_list);
@@ -84,14 +85,14 @@ public class ListActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.list_filter_menu_item:
-                DialogBuilder.createFilterDialog(this, getFilter());
+                DialogBuilder.createFilterDialog(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public Filter getFilter() {
-        return ((ListAdapter)adapter).getFilter();
+    public Filter getFilter(DialogBuilder.FilterType filterType) {
+        return ((ListAdapter) adapter).getFilter(filterType);
     }
 }

@@ -2,6 +2,7 @@ package nl.avans.kinoplex.presentation.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +19,21 @@ import java.util.List;
 import java.util.Objects;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.DialogBuilder;
+import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
 
 import static nl.avans.kinoplex.presentation.adapters.SearchAdapter.getYear;
 
-public class ListAdapter extends AbstractAdapter<MovieViewHolder> implements Filterable {
+public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
   private Context context;
   private List<DomainObject> list;
   private List<DomainObject> listFull;
   public ListAdapter(List<DomainObject> dataSet) {
     super(dataSet);
+    listFull = new ArrayList<>(dataSet);
   }
 
   @NonNull
@@ -43,7 +47,6 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> implements Fil
 
     View view = inflater.inflate(layoutID, viewGroup, false);
     list = new ArrayList<>(getDataSet());
-    listFull = new ArrayList<>(list);
     return new MovieViewHolder(view);
   }
 
@@ -57,7 +60,15 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> implements Fil
     Glide.with(viewHolder.itemView.getContext())
         .load(movie.getPosterPath())
         .into(imageView); // sets the poster of the current movie in the recyclerview
-    // genre.setText(movie.getGenres()[0]);
+
+    List<String> genres = new ArrayList<>();
+    for ( String s : movie.getGenres() ) {
+      String g = Constants.GENRES.get(Integer.parseInt(s));
+      genres.add(g);
+    }
+    String stringGenres = String.join(", ", genres);
+    genre.setText(stringGenres);
+
     viewHolder.setMovie(movie);
     viewHolder
         .getMovieTitle()
@@ -76,12 +87,18 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> implements Fil
     return getDataSet().size();
   }
 
-  @Override
-  public Filter getFilter() {
-    return movieFilter;
+  public Filter getFilter(DialogBuilder.FilterType filterType) {
+    switch (filterType) {
+      case YEAR_FILTER:
+        return movieFilterYear;
+      case GENRE_FILTER:
+        return movieFilterGenre;
+      default:
+        return null;
+    }
   }
 
-  private Filter movieFilter =
+  private Filter movieFilterYear =
           new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
@@ -115,4 +132,49 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> implements Fil
               notifyDataSetChanged();
             }
           };
+
+  private Filter movieFilterGenre =
+          new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+              List<DomainObject> filteredList = new ArrayList<>();
+
+
+              if (constraint == null || constraint.length() == 0) { // checks if the searchview is empty, if so, all data will be shown
+                filteredList.addAll(listFull);
+              } else {
+                String filterPattern = constraint.toString().toLowerCase().trim(); // otherwise the chosen filter will be applied
+
+                for (DomainObject movie : listFull) {
+                  if (Objects.requireNonNull(checkFilterPatternInList(filterPattern, ((Movie) movie).getGenres()))) {
+                    filteredList.add(movie);
+                  }
+                }
+              }
+              FilterResults results = new FilterResults();
+              results.values = filteredList;
+
+              return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+              list.clear();
+              list.addAll((List) results.values);
+              updateDataSet((List<DomainObject>) results.values); // update the data with the filteredresults
+              notifyDataSetChanged();
+            }
+          };
+
+  private boolean checkFilterPatternInList(String filterPattern, List<String> list) {
+    for ( String s : list ) {
+      String genre = Constants.GENRES.get(Integer.parseInt(s));
+      Log.d("CHECKFILTERPATERNINLIST", "THE GENRE IN THIS LIST RIGHT NOWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW ____________________________________>>>>>>>>" + genre + " AND filterPATERN _____>> " + filterPattern);
+      if ( genre.toLowerCase().contains(filterPattern.toLowerCase()) ) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
+

@@ -23,12 +23,19 @@ import nl.avans.kinoplex.domain.TMDbReview;
 import nl.avans.kinoplex.presentation.activities.DetailActivity;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 
+/** The type Firestore review dao. */
 public class FirestoreReviewDao implements DaoObject<Review> {
 
     private int movieId;
     private FirebaseFirestore db;
 
-    public FirestoreReviewDao(int movieId) {
+  /**
+   * @author Guus Lieben
+   * Instantiates a new Firestore review dao.
+   *
+   * @param movieId the movie id
+   */
+  public FirestoreReviewDao(int movieId) {
         this.db = FirestoreUtils.getInstance();
         this.movieId = movieId;
     }
@@ -70,6 +77,13 @@ public class FirestoreReviewDao implements DaoObject<Review> {
                         });
     }
 
+    /**
+     * Writes a list of Document References into the given adapter
+     *
+     * @author Guus Lieben
+     * @param referenceList the List with Document References
+     * @param adapter the adapter to write to
+     */
     private void writeReferencesToAdapter(List<Object> referenceList, RecyclerView.Adapter adapter) {
         for (Object reviewReference : referenceList) {
             Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to write reference to adapter : " + reviewReference.toString());
@@ -130,7 +144,14 @@ public class FirestoreReviewDao implements DaoObject<Review> {
         return true;
     }
 
-    public void getList(Movie movie, DetailActivity detailActivity) {
+  /**
+   * @author Guus Lieben
+   * Gets the list of reviews for a given movie
+   *
+   * @param movie the movie to collect reviews for
+   * @param detailActivity the instance of the Detail Activity carrying the movie
+   */
+  public void getList(Movie movie, DetailActivity detailActivity) {
         Log.d(Constants.FIRESTOREREVIEWDAO_TAG, "Attempting to read list of reviews for movie");
         db.collection(Constants.COL_REVIEWS)
                 .get()
