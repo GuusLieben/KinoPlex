@@ -24,6 +24,10 @@ import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 import nl.avans.kinoplex.presentation.adapters.AddToListAdapter;
 
+/**
+ * The type Choose list pop up.
+ * @author Lars Akkermans
+ */
 public class ChooseListPopUp extends Activity {
     private TextView movieTitleView;
     private RecyclerView recyclerView;

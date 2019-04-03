@@ -22,6 +22,10 @@ import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.Review;
 
+/**
+ * The type Add review activity.
+ * @author Lars Akkermans
+ */
 public class AddReviewActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private EditText contextView;

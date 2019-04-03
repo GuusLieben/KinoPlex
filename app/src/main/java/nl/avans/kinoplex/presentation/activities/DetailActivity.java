@@ -41,9 +41,9 @@ import nl.avans.kinoplex.domain.Movie;
 import static nl.avans.kinoplex.domain.Constants.YOUTUBE_API_KEY;
 
 /**
- * @author Stijn Schep
- * Activity that facilitates the details of a single movie
+ * The type Detail activity.
  *
+ * @author Stijn Schep Activity that facilitates the details of a single movie
  */
 public class DetailActivity extends AppCompatActivity
         implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, YouTubeThumbnailView.OnInitializedListener {
@@ -70,6 +70,7 @@ public class DetailActivity extends AppCompatActivity
     private Movie movie;
     private String trailerUrl;
 
+    private ImageView overlayBgPopup;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -105,6 +106,7 @@ public class DetailActivity extends AppCompatActivity
         movieAvgRatingTextView = findViewById(R.id.tv_detail_movie_avg_rating);
 
         movieRatingBar = findViewById(R.id.rb_detail_movie_rating);
+        overlayBgPopup = findViewById(R.id.overlay_bg_image_view);
 
         thumbnailView = (YouTubeThumbnailView) findViewById(R.id.trailer_ThumbnailView);
         thumbnailView.initialize(YOUTUBE_API_KEY,this);
@@ -166,10 +168,16 @@ public class DetailActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        hideOverlayBg();
         // Asynchronously loads reviews into the movie
         ((FirestoreReviewDao) DataMigration.getFactory().getReviewDao(Integer.parseInt(movie.getId()))).getList(movie, this);
     }
 
+    /**
+     * Sets review text.
+     *
+     * @param text the text
+     */
     public void setReviewText(String text) {
         movieShowReviews.setText("Show reviews (" + text + ')');
     }
@@ -221,13 +229,14 @@ public class DetailActivity extends AppCompatActivity
                 String json = new Gson().toJson(movie);
                 chooseListPopup.putExtra(Constants.MOVIE_TAG, json);
                 startActivity(chooseListPopup);
+                showOverlayBg();
                 break;
 
             case R.id.detail_options_addReview:
                 Log.d(Constants.DETAILACT_TAG, "User wants to add a review to this movie...");
                 Intent addReviewIntent = new Intent(this, AddReviewActivity.class);
-                addReviewIntent.putExtra(Constants.MOVIE_ID, movie.getId());
-                addReviewIntent.putExtra(Constants.MOVIE_TITLE, movie.getTitle());
+                String jsonMovie = new Gson().toJson(movie);
+                addReviewIntent.putExtra(Constants.MOVIE_TAG, jsonMovie);
                 startActivity(addReviewIntent);
                 break;
 
@@ -243,13 +252,25 @@ public class DetailActivity extends AppCompatActivity
                 }
 
                 return super.onOptionsItemSelected(item);
-
         }
-
 
         return false;
     }
 
+    private void showOverlayBg() {
+        overlayBgPopup.setVisibility(View.VISIBLE);
+    }
+
+    private void hideOverlayBg() {
+        overlayBgPopup.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Watch youtube trailer.
+     *
+     * @param context the context
+     * @param id      the id
+     */
     public static void watchYoutubeTrailer(Context context, String id){
         Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
         Intent webIntent = new Intent(Intent.ACTION_VIEW,

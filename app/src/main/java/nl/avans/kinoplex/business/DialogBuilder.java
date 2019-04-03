@@ -24,23 +24,43 @@ import nl.avans.kinoplex.presentation.activities.ListActivity;
 import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 
-/** The type Dialog builder. */
+/**
+ * The type Dialog builder.
+ */
 public class DialogBuilder {
 
-  /** The Input type which is used in the dialog. */
-  public enum Input {
-    /** Uses a single edit text with margins on Start and End. */
-    SINGLE_EDITTEXT,
+    /**
+     * The enum Input.
+     */
+    public enum Input {
+        /**
+         * Single edittext input.
+         */
+        SINGLE_EDITTEXT,
 
-    /** Same as SINGLE_EDITTEXT, but uses existing input to fill the EditText if available . */
-    PREFILLED_EDITTEXT,
+        /**
+         * Prefilled edittext input.
+         */
+        PREFILLED_EDITTEXT,
 
-    /** Edittext with label input. */
-    EDITTEXT_WITH_LABEL
+        /**
+         * Edittext with label input.
+         */
+        EDITTEXT_WITH_LABEL
   }
 
+    /**
+     * The enum Filter type.
+     */
     public enum FilterType {
-        YEAR_FILTER, GENRE_FILTER
+        /**
+         * Year filter filter type.
+         */
+        YEAR_FILTER,
+        /**
+         * Genre filter filter type.
+         */
+        GENRE_FILTER
     }
 
     private static View getView(Input type, Activity activity, String input) {
@@ -66,16 +86,15 @@ public class DialogBuilder {
         }
     }
 
-  /**
-   * @author Stijn Schep
-   * Simple input builder.
-   *
-   * @param activity the activity from which the method was called
-   * @param title the title of the Dialog
-   * @param type the type of content that the Dialog should have
-   * @param adapter the adapter which should be updated
-   */
-  public static void simpleInputBuilder(
+    /**
+     * Simple input builder.
+     *
+     * @param activity the activity
+     * @param title    the title
+     * @param type     the type
+     * @param adapter  the adapter
+     */
+    public static void simpleInputBuilder(
       Activity activity, String title, Input type, RecyclerView.Adapter adapter) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -115,17 +134,16 @@ public class DialogBuilder {
         builder.show();
     }
 
-  /**
-   * @author Stijn Schep
-   * Simple dialog to change the title of a list
-   *
-   * @param activity the activity from which the method is called
-   * @param title the title of the Dialog
-   * @param type the type of content that the Dialog should have
-   * @param list the list with MovieLists which should be edited
-   * @param adapter the adapter that needs to be updated
-   */
-  public static void simpleListEditDialog(
+    /**
+     * Simple list edit dialog.
+     *
+     * @param activity the activity
+     * @param title    the title
+     * @param type     the type
+     * @param list     the list
+     * @param adapter  the adapter
+     */
+    public static void simpleListEditDialog(
       Activity activity, String title, Input type, MovieList list, RecyclerView.Adapter adapter) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -164,12 +182,14 @@ public class DialogBuilder {
         builder.show();
     }
 
-  /**
-   * Create filter dialog.
-   *
-   * @param activity the activity
-   */
-  public static void createFilterDialog(AppCompatActivity activity, String yearQuery, String genreQuery) {
+    /**
+     * Create filter dialog.
+     * @author Lars Akkermans
+     * @param activity   the activity
+     * @param yearQuery  the year query
+     * @param genreQuery the genre query
+     */
+    public static void createFilterDialog(AppCompatActivity activity, String yearQuery, String genreQuery) {
         Filter yearFilter = ((ListActivity) activity).getFilter(FilterType.YEAR_FILTER);
         Filter genreFilter = ((ListActivity) activity).getFilter(FilterType.GENRE_FILTER);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
