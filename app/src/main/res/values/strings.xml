@@ -16,6 +16,8 @@
     <string name="Popular">Popular</string>
     <string name="top_rated">Top Rated</string>
 
+    <string name="trailer">Trailer</string>
+
 
     <string name="now_playing_arrow">Now Playing ▶</string>
 
@@ -50,4 +52,5 @@
     <string name="addedToList">Added to the list</string>
     <string name="upcoming">Upcoming</string>
     <string name="no_more_reviews">No more reviews :(</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

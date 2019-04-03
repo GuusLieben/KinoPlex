@@ -18,6 +18,8 @@
     <string name="invalidLogin">Ongeldige inloggegevens!</string>
     <string name="repeatPassword">Herhaal Wachtwoord&#8230;</string>
     <string name="fullName">Volledige naam&#8230;</string>
+    <string name="trailer">Trailer</string>
+
 
     <string name="Genres">Genres ▶</string>
     <string name="navigation_drawer_open">Open</string>

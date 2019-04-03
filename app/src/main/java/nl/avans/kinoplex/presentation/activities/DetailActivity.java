@@ -1,6 +1,9 @@
 package nl.avans.kinoplex.presentation.activities;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -44,9 +48,11 @@ public class DetailActivity extends AppCompatActivity
     private RatingBar movieRatingBar;
 
     private Button movieShowReviews;
+    private Button movieTrailerLink;
     private Button movieOptions;
     private Button backButton;
     private Movie movie;
+    private String trailerUrl;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -70,6 +76,8 @@ public class DetailActivity extends AppCompatActivity
         Movie movie = new Gson().fromJson(JSON, Movie.class);
         this.movie = movie;
 
+        trailerUrl = "g7hJjzrOXDo";
+
         movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 
         movieTitleTextView = findViewById(R.id.tv_detail_movie_title);
@@ -82,10 +90,12 @@ public class DetailActivity extends AppCompatActivity
 
         movieRatingBar = findViewById(R.id.rb_detail_movie_rating);
 
+        movieTrailerLink = findViewById(R.id.btn_trailer_link);
         movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
         movieOptions = findViewById(R.id.btn_detail_options);
         backButton = findViewById(R.id.view_detail_backbutton);
 
+        movieTrailerLink.setOnClickListener(this);
         movieShowReviews.setOnClickListener(this);
         movieOptions.setOnClickListener(this);
         backButton.setOnClickListener(this);
@@ -160,6 +170,15 @@ public class DetailActivity extends AppCompatActivity
 
                 break;
 
+            case R.id.btn_trailer_link:
+                Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Trailer' button");
+                if(trailerUrl != null){
+                    watchYoutubeVideo(this,trailerUrl);
+                } else {
+                    Toast.makeText(this, "No trailer", Toast.LENGTH_LONG).show();
+                }
+                break;
+
             case R.id.view_detail_backbutton:
                 finish();
 
@@ -204,6 +223,17 @@ public class DetailActivity extends AppCompatActivity
 
 
         return false;
+    }
+
+    public static void watchYoutubeVideo(Context context, String id){
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            context.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            context.startActivity(webIntent);
+        }
     }
 
 }
