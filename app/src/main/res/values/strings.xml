@@ -72,5 +72,5 @@
     <string name="filter_title" translatable="false">Filters</string>
 
     <string name="movieYear">Year</string>
-
+    <string name="movieGenre" translatable="false">Genre</string>
 </resources>
