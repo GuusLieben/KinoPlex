@@ -144,7 +144,6 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                                     //Prevents duplicated movies in standard lists
                                     if(CustomListChecker.isCustomList(name)) {
                                         Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Notifying adapter that list " + name + " changed");
-                                        adapter.notifyDataSetChanged();
                                         ((AbstractAdapter<MainMovieViewHolder>) adapter).addToDataSet(getMovieFromSnapshot(documentSnapshot));
                                     }
                                 }
