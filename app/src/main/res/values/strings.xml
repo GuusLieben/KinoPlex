@@ -73,4 +73,5 @@
 
     <string name="movieYear">Year</string>
     <string name="movieGenre" translatable="false">Genre</string>
+    <string name="refreshFilters" translatable="false">Refresh Filters</string>
 </resources>
