@@ -19,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -28,13 +31,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 
+import static nl.avans.kinoplex.domain.Constants.YOUTUBE_API_KEY;
+
 public class DetailActivity extends AppCompatActivity
-    implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, YouTubeThumbnailView.OnInitializedListener {
   private ImageView movieBackdropImageView;
 
   private TextView movieTitleTextView;
@@ -47,8 +53,11 @@ public class DetailActivity extends AppCompatActivity
 
   private RatingBar movieRatingBar;
 
+  private YouTubeThumbnailView thumbnailView;
+  private YouTubeThumbnailLoader thumbnailLoader;
+
   private Button movieShowReviews;
-  private Button movieTrailerLink;
+  private Button trailerText;
   private Button movieOptions;
   private Button backButton;
   private Movie movie;
@@ -77,7 +86,11 @@ public class DetailActivity extends AppCompatActivity
     Movie movie = new Gson().fromJson(JSON, Movie.class);
     this.movie = movie;
 
-    trailerUrl = "g7hJjzrOXDo";
+
+    trailerUrl = DataMigration.getTMDbFactory().getTrailerDao(movie.getId()).GetTrailer();
+
+    // 550 heeft trailer. onder is link.
+    //trailerUrl = "BdJKm16Co6M";
 
     movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 
@@ -91,12 +104,16 @@ public class DetailActivity extends AppCompatActivity
 
     movieRatingBar = findViewById(R.id.rb_detail_movie_rating);
 
-    movieTrailerLink = findViewById(R.id.btn_trailer_link);
+    thumbnailView = findViewById(R.id.Trailer_Thumbnail);
+    thumbnailView.initialize(YOUTUBE_API_KEY,this);
+
+    trailerText = findViewById(R.id.btn_trailer_link);
     movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
     movieOptions = findViewById(R.id.btn_detail_options);
     backButton = findViewById(R.id.view_detail_backbutton);
 
-    movieTrailerLink.setOnClickListener(this);
+    trailerText.setOnClickListener(this);
+    thumbnailView.setOnClickListener(this);
     movieShowReviews.setOnClickListener(this);
     movieOptions.setOnClickListener(this);
     backButton.setOnClickListener(this);
@@ -173,7 +190,7 @@ public class DetailActivity extends AppCompatActivity
 
         break;
 
-      case R.id.btn_trailer_link:
+      case R.id.Trailer_Thumbnail:
         Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Trailer' button");
         if (trailerUrl != null) {
           watchYoutubeTrailer(this, trailerUrl);
@@ -251,4 +268,34 @@ public class DetailActivity extends AppCompatActivity
       context.startActivity(webIntent);
     }
   }
+
+  @Override
+  public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
+    thumbnailLoader = youTubeThumbnailLoader;
+    youTubeThumbnailLoader.setOnThumbnailLoadedListener(new ThumbnailLoadedListener());
+    youTubeThumbnailLoader.setVideo(trailerUrl);
+
+  }
+
+  @Override
+  public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
+
+  }
+
+  private final class ThumbnailLoadedListener implements
+          YouTubeThumbnailLoader.OnThumbnailLoadedListener {
+
+    @Override
+    public void onThumbnailError(YouTubeThumbnailView arg0, YouTubeThumbnailLoader.ErrorReason arg1) {
+
+    }
+
+    @Override
+    public void onThumbnailLoaded(YouTubeThumbnailView arg0, String arg1) {
+
+    }
+
+
+  }
+
 }
