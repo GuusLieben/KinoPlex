@@ -14,6 +14,7 @@ import nl.avans.kinoplex.data.factories.FirestoreDaoFactory;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
 import nl.avans.kinoplex.presentation.activities.AddReviewActivity;
 import nl.avans.kinoplex.presentation.activities.DetailActivity;
+import nl.avans.kinoplex.presentation.activities.ListActivity;
 import nl.avans.kinoplex.presentation.activities.LoginActivity;
 import nl.avans.kinoplex.presentation.activities.MainActivity;
 import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
@@ -40,6 +41,7 @@ public class Constants {
     public static final String MOVIE_API_URL = "https://api.themoviedb.org/3/movie/";
     public static final String GENRE_API_URL = "https://api.themoviedb.org/3/genre/movie/list";
     public static final String REVIEW_API_URL = "https://api.themoviedb.org/3/movie/{movie_id}/reviews";
+    //public static final String YOUTUBE_API_KEY = "AIzaSyCs0EKmQ9p-AI-V8u3I6BS_VOMffDvcjdk";
 
     // Collections - Firestore
     public static final String COL_LISTS = "lists";
@@ -73,7 +75,7 @@ public class Constants {
     public static final String LOGINACT_TAG = LoginActivity.class.getCanonicalName();
     public static final String REGISTERACT_TAG = RegisterActivity.class.getCanonicalName();
 
-    //    public static final String LISTACT_TAG = ListActivity.class.getCanonicalName();
+        public static final String LISTACT_TAG = ListActivity.class.getCanonicalName();
     //    public static final String LOGINACT_TAG = LoginActivity.class.getCanonicalName();
 
     public static final String MAINACT_TAG = MainActivity.class.getCanonicalName();
