@@ -3,65 +3,118 @@ package nl.avans.kinoplex.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+/** The type Fire review. */
 public class FireReview extends DomainObject implements Review {
 
-    String id;
-    String userId;
-    String content;
-    int rating;
-    String movieId;
+  /** The Id. */
+  String id;
 
-    public FireReview(String id, String userId, String content, int rating, String movieId) {
-        this.id = id;
-        this.userId = userId;
-        this.content = content;
-        this.rating = rating;
-        this.movieId = movieId;
-    }
+  /** The User id. */
+  String userId;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+  /** The review content. */
+  String content;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  /** The Rating. */
+  int rating;
 
-    public String getUserId() {
-        return userId;
-    }
+  /** The Movie id. */
+  String movieId;
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+  /**
+   * @author Guus Lieben Instantiates a new Fire review.
+   * @param id the id
+   * @param userId the user id
+   * @param content the content
+   * @param rating the rating
+   * @param movieId the movie id
+   */
+  public FireReview(String id, String userId, String content, int rating, String movieId) {
+    this.id = id;
+    this.userId = userId;
+    this.content = content;
+    this.rating = rating;
+    this.movieId = movieId;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  @Override
+  public String getId() {
+    return id;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  /**
+   * Sets id.
+   *
+   * @param id the id
+   */
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public int getRating() {
-        return rating;
-    }
+  /**
+   * Gets user id.
+   *
+   * @return the user id
+   */
+  public String getUserId() {
+    return userId;
+  }
 
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
+  /**
+   * Sets user id.
+   *
+   * @param userId the user id
+   */
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
-    @Override
-    public Map<String, Object> storeToMap() {
-        return new HashMap<String, Object>() {
-            {
-                put("id", id);
-                put("user_id", userId);
-                put("content", content);
-                put("rating", rating);
-                put("movie_id", movieId);
-            }
-        };
-    }
+  /**
+   * Gets content.
+   *
+   * @return the content
+   */
+  public String getContent() {
+    return content;
+  }
+
+  /**
+   * Sets content.
+   *
+   * @param content the content
+   */
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  /**
+   * Gets rating.
+   *
+   * @return the rating
+   */
+  public int getRating() {
+    return rating;
+  }
+
+  /**
+   * Sets rating.
+   *
+   * @param rating the rating
+   */
+  public void setRating(int rating) {
+    this.rating = rating;
+  }
+
+  @Override
+  public Map<String, Object> storeToMap() {
+    return new HashMap<String, Object>() {
+      {
+        put("id", id);
+        put("user_id", userId);
+        put("content", content);
+        put("rating", rating);
+        put("movie_id", movieId);
+      }
+    };
+  }
 }

@@ -2,10 +2,17 @@ package nl.avans.kinoplex.business;
 
 import android.util.Log;
 
-
+/** The type Custom list checker. */
 public class CustomListChecker {
 
-    public static boolean isCustomList(String listname) {
+  /**
+   * @author
+   * Is custom list boolean.
+   *
+   * @param listname the listname
+   * @return the boolean
+   */
+  public static boolean isCustomList(String listname) {
         Log.d(CustomListChecker.class.getCanonicalName(), "Checking if list " + listname + " is a custom list");
 
         if (listname.equalsIgnoreCase("!Now_playing")) {

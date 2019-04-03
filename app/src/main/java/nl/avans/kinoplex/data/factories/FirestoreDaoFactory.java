@@ -11,9 +11,8 @@ import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.domain.Review;
 
+/** The type Firestore dao factory. */
 public class FirestoreDaoFactory implements DaoFactory {
-
-    // It's a factory, what do you think it does?
 
     @Override
     public DaoObject<Review> getReviewDao(int movieId) {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/** The type Movie list. */
 public class MovieList extends DomainObject {
     private List<Movie> movieList;
     private static Set<MovieList> listSet = new LinkedHashSet<>();
@@ -16,68 +17,138 @@ public class MovieList extends DomainObject {
     private String dbId;
     private String userId;
 
-    public MovieList(String name, String userId) {
+  /**
+   * @author Guus Lieben
+   * Instantiates a new Movie list.
+   *
+   * @param name the name
+   * @param userId the user id
+   */
+  public MovieList(String name, String userId) {
         this.name = name;
         this.userId = userId;
         movieList = new ArrayList<>();
     }
 
-
-    public String getDbId() {
+  /**
+   * Gets db id.
+   *
+   * @return the db id
+   */
+  public String getDbId() {
         String temp = dbId;
         if (temp != null) temp = temp.toLowerCase();
         return temp;
     }
 
-    public void setDbId(String dbId) {
+  /**
+   * Sets db id.
+   *
+   * @param dbId the db id
+   */
+  public void setDbId(String dbId) {
         List<String> TMDbIds = Arrays.asList("now_playing", "popular", "top_rated", "upcoming");
         dbId = dbId.toLowerCase();
         if (TMDbIds.contains(dbId.toLowerCase()) && !(dbId.startsWith("!"))) dbId = '!' + dbId;
         this.dbId = dbId;
     }
 
-    public void addMovie(Movie movie) {
+  /**
+   * Add movie.
+   *
+   * @param movie the movie
+   */
+  public void addMovie(Movie movie) {
         this.movieList.add(movie);
     }
 
-    public void removeMovie(int movieId) {
-    }
+  /**
+   * Remove movie.
+   *
+   * @param movieId the movie id
+   */
+  public void removeMovie(int movieId) {}
 
-    public List<DomainObject> getDomainMovieList() {
+  /**
+   * Gets domain movie list.
+   *
+   * @return the domain movie list
+   */
+  public List<DomainObject> getDomainMovieList() {
         System.out.println(movieList);
         List<DomainObject> domainList = new ArrayList<>(movieList);
         return domainList;
     }
 
-    public List<Movie> getMovieList() {
+  /**
+   * Gets movie list.
+   *
+   * @return the movie list
+   */
+  public List<Movie> getMovieList() {
         return movieList;
     }
 
-    public static Set<MovieList> getListSet() {
+  /**
+   * Gets list set.
+   *
+   * @return the list set
+   */
+  public static Set<MovieList> getListSet() {
         return listSet;
     }
 
-    public void setMovieList(List<Movie> movieList) {
+  /**
+   * Sets movie list.
+   *
+   * @param movieList the movie list
+   */
+  public void setMovieList(List<Movie> movieList) {
         this.movieList = movieList;
     }
 
-    public static void setListSet(Set<MovieList> listSet) {
+  /**
+   * Sets list set.
+   *
+   * @param listSet the list set
+   */
+  public static void setListSet(Set<MovieList> listSet) {
         MovieList.listSet = listSet;
     }
 
-    public void setName(String name) {
+  /**
+   * Sets name.
+   *
+   * @param name the name
+   */
+  public void setName(String name) {
         this.name = name;
     }
 
-    public String getUserId() {
+  /**
+   * Gets user id.
+   *
+   * @return the user id
+   */
+  public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+  /**
+   * Sets user id.
+   *
+   * @param userId the user id
+   */
+  public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public String getName() {
+  /**
+   * Gets name.
+   *
+   * @return the name
+   */
+  public String getName() {
         return name;
     }
 

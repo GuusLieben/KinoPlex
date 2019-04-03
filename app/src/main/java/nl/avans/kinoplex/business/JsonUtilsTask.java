@@ -15,6 +15,7 @@ import java.net.URLConnection;
 
 import nl.avans.kinoplex.domain.Constants;
 
+/** Basic utilities for JSON tasks */
 public class JsonUtilsTask extends AsyncTask<Uri, Void, JSONObject> {
 
     @Override
