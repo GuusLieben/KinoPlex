@@ -11,17 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/login_poster_2"/>
+        android:src="@drawable/login_poster_2" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="10dp"
         android:layout_gravity="bottom"
-        android:textSize="20sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/drawer_head_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="17dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/build_commit_version"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="10sp" />
 
 
 </FrameLayout>

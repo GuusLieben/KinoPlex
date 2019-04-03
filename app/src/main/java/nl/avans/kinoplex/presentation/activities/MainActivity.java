@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     RecyclerView mainRecyclerView;
     private DrawerLayout drawerLayout;
-
+    TextView drawerHeadVersion;
     private NavigationView navigationView;
 
     private Map<Integer, MovieList> listMapping;
@@ -75,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        drawerHeadVersion = headerView.findViewById(R.id.drawer_head_version);
+        drawerHeadVersion.setText(String.format(getString(R.string.build_commit_version), Constants.VERSION_COMMIT));
 
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
         setSupportActionBar(toolbar);
@@ -111,10 +116,10 @@ public class MainActivity extends AppCompatActivity implements
 
         int i = 1;
 
-        for(DomainObject dObject : objects) {
+        for (DomainObject dObject : objects) {
             MovieList list = (MovieList) dObject;
 
-            if(CustomListChecker.isCustomList(list.getName())) {
+            if (CustomListChecker.isCustomList(list.getName())) {
                 MenuItem menuItem = navigationView.getMenu().getItem(0);
                 SubMenu subMenu = menuItem.getSubMenu();
                 subMenu.add(0, i, 0, list.getName());
@@ -172,11 +177,11 @@ public class MainActivity extends AppCompatActivity implements
                 startActivity(intent);
                 break;
 
-                default:
-                    Intent listIntent = new Intent(this, ListActivity.class);
-                    String jsonString = new Gson().toJson(listMapping.get(menuItem.getItemId()));
-                    listIntent.putExtra(Constants.INTENT_EXTRA_MOVIELIST, jsonString);
-                    startActivity(listIntent);
+            default:
+                Intent listIntent = new Intent(this, ListActivity.class);
+                String jsonString = new Gson().toJson(listMapping.get(menuItem.getItemId()));
+                listIntent.putExtra(Constants.INTENT_EXTRA_MOVIELIST, jsonString);
+                startActivity(listIntent);
         }
 
 
@@ -189,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements
 
         Log.d(Constants.MAINACT_TAG, "onResume was called");
 
-        if( ManageListsActivity.datahasChanged ) {
+        if (ManageListsActivity.datahasChanged) {
             DataMigration.getFactory().getListDao().readIntoAdapter(parentAdapter); // Async
 
             ManageListsActivity.datahasChanged = false;
