@@ -96,6 +96,9 @@ public class DetailActivity extends AppCompatActivity
 
         trailerUrl = DataMigration.getTMDbFactory().getTrailerDao(movie.getId()).GetTrailer();
 
+        ImageView playButton = findViewById(R.id.play_button);
+        if (trailerUrl == null) playButton.setVisibility(View.INVISIBLE);
+
 
         movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 
@@ -111,7 +114,7 @@ public class DetailActivity extends AppCompatActivity
         overlayBgPopup = findViewById(R.id.overlay_bg_image_view);
 
         thumbnailView = (YouTubeThumbnailView) findViewById(R.id.trailer_ThumbnailView);
-        thumbnailView.initialize(YOUTUBE_API_KEY,this);
+        thumbnailView.initialize(YOUTUBE_API_KEY, this);
 
         //trailerText = findViewById(R.id.btn_trailer_link);
         movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
@@ -157,7 +160,7 @@ public class DetailActivity extends AppCompatActivity
         movieGenreTextView.setText(genres);
 
         Date currentTime = Calendar.getInstance().getTime();
-        if(movie.getReleaseDate().after(currentTime)){
+        if (movie.getReleaseDate().after(currentTime)) {
             movieStatusTextView.setText(getResources().getString(R.string.upcoming));
         } else {
             movieStatusTextView.setText(getResources().getString(R.string.released));
@@ -210,8 +213,8 @@ public class DetailActivity extends AppCompatActivity
 
             case R.id.trailer_ThumbnailView:
                 Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Trailer' button");
-                if(trailerUrl != null){
-                    watchYoutubeTrailer(this,trailerUrl);
+                if (trailerUrl != null) {
+                    watchYoutubeTrailer(this, trailerUrl);
                 } else {
                     Toast.makeText(this, "No trailer", Toast.LENGTH_LONG).show();
                 }
@@ -276,7 +279,7 @@ public class DetailActivity extends AppCompatActivity
      * @param context the context
      * @param id      the id
      */
-    public static void watchYoutubeTrailer(Context context, String id){
+    public static void watchYoutubeTrailer(Context context, String id) {
         Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
         Intent webIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("http://www.youtube.com/watch?v=" + id));
