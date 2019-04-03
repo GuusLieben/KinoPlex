@@ -4,9 +4,15 @@ import java.util.Random;
 
 import nl.avans.kinoplex.R;
 
+/** The type Poster picker. */
 public class PosterPicker {
 
-    public static int getRandomPosterID() {
+  /**
+   * Gets random poster id.
+   *
+   * @return the random poster id
+   */
+  public static int getRandomPosterID() {
         Random random = new Random();
         int number = random.nextInt(7);
 

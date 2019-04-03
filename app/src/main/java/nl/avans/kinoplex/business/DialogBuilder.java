@@ -22,17 +22,18 @@ import nl.avans.kinoplex.presentation.activities.ListActivity;
 import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 
-
-    /*
-           CREATED BY: Stijn Schep
-           USAGE: Builds a dialog box
-     */
-
+/** The type Dialog builder. */
 public class DialogBuilder {
 
-    public enum Input {
-        SINGLE_EDITTEXT, PREFILLED_EDITTEXT, EDITTEXT_WITH_LABEL
-    }
+  /** The enum Input. */
+  public enum Input {
+    /** Single edittext input. */
+    SINGLE_EDITTEXT,
+    /** Prefilled edittext input. */
+    PREFILLED_EDITTEXT,
+    /** Edittext with label input. */
+    EDITTEXT_WITH_LABEL
+  }
 
     public enum FilterType {
         YEAR_FILTER, GENRE_FILTER
@@ -61,13 +62,16 @@ public class DialogBuilder {
         }
     }
 
-
-    /**
-     * @param activity The activity in which the dialog should be shown
-     * @param title The title of the dialog box
-     * @param type The type of input that should be shown. Uses inner-Enum Input
-     */
-    public static void simpleInputBuilder(Activity activity, String title, Input type, RecyclerView.Adapter adapter) {
+  /**
+   * Simple input builder.
+   *
+   * @param activity the activity
+   * @param title the title
+   * @param type the type
+   * @param adapter the adapter
+   */
+  public static void simpleInputBuilder(
+      Activity activity, String title, Input type, RecyclerView.Adapter adapter) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -106,8 +110,17 @@ public class DialogBuilder {
         builder.show();
     }
 
-    public static void simpleListEditDialog(Activity activity, String title, Input type,
-                                            MovieList list, RecyclerView.Adapter adapter) {
+  /**
+   * Simple list edit dialog.
+   *
+   * @param activity the activity
+   * @param title the title
+   * @param type the type
+   * @param list the list
+   * @param adapter the adapter
+   */
+  public static void simpleListEditDialog(
+      Activity activity, String title, Input type, MovieList list, RecyclerView.Adapter adapter) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -145,7 +158,12 @@ public class DialogBuilder {
         builder.show();
     }
 
-    public static void createFilterDialog(AppCompatActivity activity) {
+  /**
+   * Create filter dialog.
+   *
+   * @param activity the activity
+   */
+  public static void createFilterDialog(AppCompatActivity activity) {
         Filter yearFilter = ((ListActivity) activity).getFilter(FilterType.YEAR_FILTER);
         Filter genreFilter = ((ListActivity) activity).getFilter(FilterType.GENRE_FILTER);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

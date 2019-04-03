@@ -10,9 +10,16 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.presentation.activities.LoginActivity;
 
+/** The type Login manager. */
 public class LoginManager {
 
-    public static void saveLoginCredentials(Context context, Pair<String, String> credentials) {
+  /**
+   * Save login credentials.
+   *
+   * @param context the context
+   * @param credentials the credentials
+   */
+  public static void saveLoginCredentials(Context context, Pair<String, String> credentials) {
         Log.d(Constants.LOGINMANGER_TAG, "Checking context...");
 
         if (context == null) return;
@@ -32,7 +39,13 @@ public class LoginManager {
         Constants.editor.apply();
     }
 
-    public static Pair<String, String> getLoginCredentials(Context context) {
+  /**
+   * Gets login credentials.
+   *
+   * @param context the context
+   * @return the login credentials
+   */
+  public static Pair<String, String> getLoginCredentials(Context context) {
         if (context == null) {
             return null;
         }
@@ -54,7 +67,13 @@ public class LoginManager {
         return null;
     }
 
-    public static void Logout(Context context, Activity activity) {
+  /**
+   * Logout.
+   *
+   * @param context the context
+   * @param activity the activity
+   */
+  public static void Logout(Context context, Activity activity) {
         Constants.editor.remove(Constants.PREF_USERNAME);
         Constants.editor.remove(Constants.PREF_HASHEDPASS);
         Constants.editor.remove(Constants.PREF_AUTOLOGIN);
