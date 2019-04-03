@@ -28,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import nl.avans.kinoplex.R;
@@ -146,7 +148,14 @@ public class DetailActivity extends AppCompatActivity
         String genres = String.join(", ", genreNames);
 
         movieGenreTextView.setText(genres);
-        movieStatusTextView.setText("Released");
+
+        Date currentTime = Calendar.getInstance().getTime();
+        if(movie.getReleaseDate().after(currentTime)){
+            movieStatusTextView.setText(getResources().getString(R.string.upcoming));
+        } else {
+            movieStatusTextView.setText(getResources().getString(R.string.released));
+        }
+
         movieDescriptionTextView.setText(movie.getOverview());
         movieAvgRatingTextView.setText(ratingString);
         movieRatingBar.setRating(rating / 2);
