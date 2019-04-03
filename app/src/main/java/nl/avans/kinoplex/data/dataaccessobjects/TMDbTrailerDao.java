@@ -61,7 +61,7 @@ public class TMDbTrailerDao {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return Url;
+            return null;
         }
     }
 
