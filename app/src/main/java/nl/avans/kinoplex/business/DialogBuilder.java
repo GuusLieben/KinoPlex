@@ -23,8 +23,7 @@ import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
      */
 
 public class DialogBuilder {
-
-
+    
     public enum Input {
         SINGLE_EDITTEXT, PREFILLED_EDITTEXT
     }

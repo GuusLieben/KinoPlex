@@ -17,6 +17,7 @@
     <string name="top_rated">Top Rated</string>
 
 
+    <string name="trailer">Trailer</string>
     <string name="now_playing_arrow">Now Playing ▶</string>
 
     <string name="addToList">Add to list</string>
@@ -52,10 +53,14 @@
     <string name="addedToList">Added to the list</string>
     <string name="upcoming">Upcoming</string>
     <string name="no_more_reviews">No more reviews :(</string>
+<<<<<<< HEAD
 
     <string name="rating_value" translatable="false">Rating :</string>
     <string name="rating_content" translatable="false">Content :</string>
 
     <string name="addMovieToList_add">Add \'</string>
     <string name="addMovieToList_toList"> \'to list</string>
+=======
+    <string name="title_activity_maps">Map</string>
+>>>>>>> KinoPlex/youtubeTrailer
 </resources>
