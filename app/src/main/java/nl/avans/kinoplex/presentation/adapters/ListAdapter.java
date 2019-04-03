@@ -169,7 +169,6 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
   private boolean checkFilterPatternInList(String filterPattern, List<String> list) {
     for ( String s : list ) {
       String genre = Constants.GENRES.get(Integer.parseInt(s));
-      Log.d("CHECKFILTERPATERNINLIST", "THE GENRE IN THIS LIST RIGHT NOWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW ____________________________________>>>>>>>>" + genre + " AND filterPATERN _____>> " + filterPattern);
       if ( genre.toLowerCase().contains(filterPattern.toLowerCase()) ) {
         return true;
       }

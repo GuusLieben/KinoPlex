@@ -35,6 +35,9 @@ public class ListActivity extends AppCompatActivity {
     private MovieList movieList;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+    private String yearFilterQuery = "";
+    private String genreFilterQuery = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +88,13 @@ public class ListActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.list_filter_menu_item:
-                DialogBuilder.createFilterDialog(this);
+                DialogBuilder.createFilterDialog(this, yearFilterQuery, genreFilterQuery);
+                return true;
+            case R.id.refresh_filters:
+                getFilter(DialogBuilder.FilterType.YEAR_FILTER).filter("");
+                getFilter(DialogBuilder.FilterType.GENRE_FILTER).filter("");
+                setGenreFilterQuery("");
+                setYearFilterQuery("");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -94,5 +103,13 @@ public class ListActivity extends AppCompatActivity {
 
     public Filter getFilter(DialogBuilder.FilterType filterType) {
         return ((ListAdapter) adapter).getFilter(filterType);
+    }
+
+    public void setYearFilterQuery(String query) {
+        yearFilterQuery = query;
+    }
+
+    public void setGenreFilterQuery(String query) {
+        genreFilterQuery = query;
     }
 }

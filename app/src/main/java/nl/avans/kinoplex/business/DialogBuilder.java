@@ -13,6 +13,8 @@ import android.widget.Filter;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
@@ -167,7 +169,7 @@ public class DialogBuilder {
    *
    * @param activity the activity
    */
-  public static void createFilterDialog(AppCompatActivity activity) {
+  public static void createFilterDialog(AppCompatActivity activity, String yearQuery, String genreQuery) {
         Filter yearFilter = ((ListActivity) activity).getFilter(FilterType.YEAR_FILTER);
         Filter genreFilter = ((ListActivity) activity).getFilter(FilterType.GENRE_FILTER);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -179,7 +181,6 @@ public class DialogBuilder {
         SearchView editTextYear = filterView.findViewById(R.id.dialog_year_input);
         ((TextView) filterView.findViewById(R.id.dialog_genre_label)).setText(filterView.getResources().getString(R.string.movieGenre));
         SearchView editTextGenre = filterView.findViewById(R.id.dialog_genre_input);
-
         editTextYear.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -189,6 +190,7 @@ public class DialogBuilder {
             @Override
             public boolean onQueryTextChange(String newText) {
                 yearFilter.filter(newText);
+                ((ListActivity) activity).setYearFilterQuery(newText);
                 return false;
             }
         });
@@ -202,10 +204,16 @@ public class DialogBuilder {
             @Override
             public boolean onQueryTextChange(String newText) {
                 genreFilter.filter(newText);
+                ((ListActivity) activity).setGenreFilterQuery(newText);
                 return false;
             }
         });
 
+        editTextYear.setQuery(yearQuery, false);
+        editTextGenre.setQuery(genreQuery, false);
+
+
+        Log.d("DIALOGBUILDERRRR", "YEAR QUERYYYYYY __> " + yearQuery + " , GENRE QUERYYYYYYYYY___> " + genreQuery);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
