@@ -147,11 +147,12 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/trailer"
-            android:id="@+id/btn_trailer_link"/>
+        <com.google.android.youtube.player.YouTubeThumbnailView
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:id="@+id/trailer_ThumbnailView"/>
+
+
 
 
     </LinearLayout>
