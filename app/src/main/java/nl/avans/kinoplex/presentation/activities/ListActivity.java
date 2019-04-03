@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Filter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -84,14 +85,14 @@ public class ListActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.list_filter_menu_item:
-                DialogBuilder.createFilterDialog(this, getFilter());
+                DialogBuilder.createFilterDialog(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public Filter getFilter() {
-        return ((ListAdapter)adapter).getFilter();
+    public Filter getFilter(DialogBuilder.FilterType filterType) {
+        return ((ListAdapter) adapter).getFilter(filterType);
     }
 }
