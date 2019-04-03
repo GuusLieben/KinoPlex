@@ -1,6 +1,18 @@
 # KinoPlex
 Avans University - Programming (Java) P1.3
 
-## Doelstelling
-Het doel van dit project is om een Android applicatie te maken die de gebruiker in staat stelt om informatie van films te vinden en te delen. Deze applicatie voldoet dan aan de requirements die in dit plan van aanpak beschreven staan.
-De opdrachtgever wil met deze applicatie films kunnen ontdekken en delen met vrienden. Hierbij moet data vanaf het internet gehaald en getoond worden. Het project moet op 4 april aan de opdrachtgever overhandigd worden, maar moet ook in de toekomst onderhouden kunnen worden. Vandaar dat de applicatie ook in de toekomst nog veranderd moet kunnen worden.
+This project was made for the Avans University assignment '_PM&SWE 190315_'. The goal of this application is to learn how to apply several project planning standards to a simulated 'real-life' work environment, with the product and process adapting as the requirements changed during the planning and development of the project. 
+
+The final product is a simple Android app which uses [The Movie Database](https://developers.themoviedb.org/3/getting-started/introduction) as its main API, and [Firestore](https://firebase.google.com/) as it's main database.
+
+This product was built and delivered by the following group of five AE&I students : 
+
+> [Guus Lieben](https://github.com/guuslieben/) (Project manager / lead back-end)
+
+> [Stijn Schep](https://github.com/StijnSchep) (Secretary / lead front-end)
+
+> [Lars Akkermans](https://github.com/akkermans99)
+
+> [Romano Keereweer](https://github.com/romanokeereweer)
+
+> [Halil Erdemir](https://github.com/HIErdemir)
