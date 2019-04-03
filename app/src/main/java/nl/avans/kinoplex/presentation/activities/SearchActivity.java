@@ -25,9 +25,13 @@ import nl.avans.kinoplex.business.PosterPicker;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.presentation.adapters.SearchAdapter;
 
+/**
+ * The type Search activity.
+ */
 public class SearchActivity extends TaskLoaderActivity implements
         NavigationView.OnNavigationItemSelectedListener {
     private SearchAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

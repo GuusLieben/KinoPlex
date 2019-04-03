@@ -73,4 +73,11 @@
 
     <string name="movieYear">Year</string>
     <string name="movieGenre" translatable="false">Genre</string>
+    <string name="refreshFilters" translatable="false">Refresh Filters</string>
+
+    <string name="show_reviews_pre">Show reviews (</string>
+    <string name="share_message">Look what I found! \'%s\' is a great movie, rated at %d! Also, the poster is just great : %s</string>
+    <string name="released">Released</string>
+    <string name="build_commit_version">Build %s</string>
+
 </resources>

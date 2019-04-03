@@ -33,7 +33,8 @@ import nl.avans.kinoplex.presentation.viewholders.ReviewViewHolder;
 /** The type Constants. */
 public class Constants {
 
-  /** The constant holding genre id's and names. */
+    public static final String VERSION_COMMIT = "7187edd";
+    /** The constant holding genre id's and names. */
   // Domain
   public static SparseArray<String> GENRES = new SparseArray<>();
 

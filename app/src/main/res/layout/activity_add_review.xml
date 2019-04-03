@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="40dp">
                 <RatingBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -75,11 +75,11 @@
             </LinearLayout>
 
             <EditText
-                android:layout_width="250dp"
+                android:layout_width="350sp"
                 android:layout_height="150dp"
                 android:id="@+id/edit_text_add_review"
                 android:textSize="14sp"
-                android:background="@color/colorPrimary"
+                android:background="#333333"
                 android:paddingRight="3sp"
                 android:paddingLeft="3sp"
                 android:paddingBottom="2sp"
@@ -104,8 +104,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/AddReview"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:backgroundTint="#333333"
                 android:id="@+id/btn_add_review"
                 android:background="@color/actionColor"/>
         </LinearLayout>

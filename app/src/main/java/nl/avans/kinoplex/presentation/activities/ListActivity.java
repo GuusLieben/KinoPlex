@@ -31,10 +31,17 @@ import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.ListAdapter;
 
+/**
+ * The type List activity.
+ * @author Lars Akkermans
+ */
 public class ListActivity extends AppCompatActivity {
     private MovieList movieList;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+    private String yearFilterQuery = "";
+    private String genreFilterQuery = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +85,7 @@ public class ListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -85,14 +93,44 @@ public class ListActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.list_filter_menu_item:
-                DialogBuilder.createFilterDialog(this);
+                DialogBuilder.createFilterDialog(this, yearFilterQuery, genreFilterQuery);
+                return true;
+            case R.id.refresh_filters:
+                getFilter(DialogBuilder.FilterType.YEAR_FILTER).filter("");
+                getFilter(DialogBuilder.FilterType.GENRE_FILTER).filter("");
+                setGenreFilterQuery("");
+                setYearFilterQuery("");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    /**
+     * Gets filter.
+     * @author Lars Akkermans
+     * @param filterType the filter type
+     * @return the filter
+     */
     public Filter getFilter(DialogBuilder.FilterType filterType) {
         return ((ListAdapter) adapter).getFilter(filterType);
+    }
+
+    /**
+     * Sets year filter query.
+     * @author Lars Akkermans
+     * @param query the query
+     */
+    public void setYearFilterQuery(String query) {
+        yearFilterQuery = query;
+    }
+
+    /**
+     * Sets genre filter query.
+     * @author Lars Akkermans
+     * @param query the query
+     */
+    public void setGenreFilterQuery(String query) {
+        genreFilterQuery = query;
     }
 }

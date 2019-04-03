@@ -13,6 +13,8 @@ import android.widget.Filter;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.factories.DataMigration;
@@ -22,25 +24,55 @@ import nl.avans.kinoplex.presentation.activities.ListActivity;
 import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 
-/** The type Dialog builder. */
+/**
+ * The type Dialog builder.
+ */
 public class DialogBuilder {
 
-  /** The Input type which is used in the dialog. */
-  public enum Input {
-    /** Uses a single edit text with margins on Start and End. */
-    SINGLE_EDITTEXT,
+    /**
+     * The enum Input.
+     * @author Stijn Schep
+     */
+    public enum Input {
+        /**
+         * Single edittext input.
+         */
+        SINGLE_EDITTEXT,
 
-    /** Same as SINGLE_EDITTEXT, but uses existing input to fill the EditText if available . */
-    PREFILLED_EDITTEXT,
+        /**
+         * Prefilled edittext input.
+         */
+        PREFILLED_EDITTEXT,
 
-    /** Edittext with label input. */
-    EDITTEXT_WITH_LABEL
+        /**
+         * Edittext with label input.
+         */
+        EDITTEXT_WITH_LABEL
   }
 
+    /**
+     * The enum Filter type.
+     * @author Lars Akkermans
+     */
     public enum FilterType {
-        YEAR_FILTER, GENRE_FILTER
+        /**
+         * Year filter filter type.
+         */
+        YEAR_FILTER,
+        /**
+         * Genre filter filter type.
+         */
+        GENRE_FILTER
     }
 
+    /**
+     * @author Stijn Schep
+     *
+     * @param type
+     * @param activity
+     * @param input
+     * @return
+     */
     private static View getView(Input type, Activity activity, String input) {
         LayoutInflater inflater = activity.getLayoutInflater();
         switch (type) {
@@ -64,16 +96,16 @@ public class DialogBuilder {
         }
     }
 
-  /**
-   * @author Stijn Schep
-   * Simple input builder.
-   *
-   * @param activity the activity from which the method was called
-   * @param title the title of the Dialog
-   * @param type the type of content that the Dialog should have
-   * @param adapter the adapter which should be updated
-   */
-  public static void simpleInputBuilder(
+    /**
+     * Simple input builder.
+     * @author Stijn Schep
+     *
+     * @param activity the activity
+     * @param title    the title
+     * @param type     the type
+     * @param adapter  the adapter
+     */
+    public static void simpleInputBuilder(
       Activity activity, String title, Input type, RecyclerView.Adapter adapter) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -113,17 +145,17 @@ public class DialogBuilder {
         builder.show();
     }
 
-  /**
-   * @author Stijn Schep
-   * Simple dialog to change the title of a list
-   *
-   * @param activity the activity from which the method is called
-   * @param title the title of the Dialog
-   * @param type the type of content that the Dialog should have
-   * @param list the list with MovieLists which should be edited
-   * @param adapter the adapter that needs to be updated
-   */
-  public static void simpleListEditDialog(
+    /**
+     * Simple list edit dialog.
+     * @author Stijn Schep
+     *
+     * @param activity the activity
+     * @param title    the title
+     * @param type     the type
+     * @param list     the list
+     * @param adapter  the adapter
+     */
+    public static void simpleListEditDialog(
       Activity activity, String title, Input type, MovieList list, RecyclerView.Adapter adapter) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -162,12 +194,14 @@ public class DialogBuilder {
         builder.show();
     }
 
-  /**
-   * Create filter dialog.
-   *
-   * @param activity the activity
-   */
-  public static void createFilterDialog(AppCompatActivity activity) {
+    /**
+     * Create filter dialog.
+     * @author Lars Akkermans
+     * @param activity   the activity
+     * @param yearQuery  the year query
+     * @param genreQuery the genre query
+     */
+    public static void createFilterDialog(AppCompatActivity activity, String yearQuery, String genreQuery) {
         Filter yearFilter = ((ListActivity) activity).getFilter(FilterType.YEAR_FILTER);
         Filter genreFilter = ((ListActivity) activity).getFilter(FilterType.GENRE_FILTER);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -180,6 +214,7 @@ public class DialogBuilder {
         ((TextView) filterView.findViewById(R.id.dialog_genre_label)).setText(filterView.getResources().getString(R.string.movieGenre));
         SearchView editTextGenre = filterView.findViewById(R.id.dialog_genre_input);
 
+        // set up the query listeners
         editTextYear.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -189,6 +224,7 @@ public class DialogBuilder {
             @Override
             public boolean onQueryTextChange(String newText) {
                 yearFilter.filter(newText);
+                ((ListActivity) activity).setYearFilterQuery(newText);
                 return false;
             }
         });
@@ -202,10 +238,18 @@ public class DialogBuilder {
             @Override
             public boolean onQueryTextChange(String newText) {
                 genreFilter.filter(newText);
+                ((ListActivity) activity).setGenreFilterQuery(newText);
                 return false;
             }
         });
 
+        editTextYear.setQuery(yearQuery, false);
+        editTextGenre.setQuery(genreQuery, false);
+
+
+        Log.d("DIALOGBUILDERRRR", "YEAR QUERYYYYYY __> " + yearQuery + " , GENRE QUERYYYYYYYYY___> " + genreQuery);
+
+        // set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -218,12 +262,14 @@ public class DialogBuilder {
                 dialog.dismiss();
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
+
         builder.show();
     }
 }

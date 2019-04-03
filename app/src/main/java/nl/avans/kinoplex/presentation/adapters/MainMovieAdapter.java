@@ -16,9 +16,17 @@ import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
+/**
+ * The type Main movie adapter.
+ */
 public class MainMovieAdapter extends AbstractAdapter<MainMovieViewHolder> {
   private Context context;
 
+  /**
+   * Instantiates a new Main movie adapter.
+   *
+   * @param dataSet the data set
+   */
   public MainMovieAdapter(List<DomainObject> dataSet) {
     super(dataSet);
 

@@ -27,10 +27,19 @@ import nl.avans.kinoplex.presentation.viewholders.MovieViewHolder;
 
 import static nl.avans.kinoplex.presentation.adapters.SearchAdapter.getYear;
 
+/**
+ * The type List adapter.
+ */
 public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
   private Context context;
   private List<DomainObject> list;
   private List<DomainObject> listFull;
+
+  /**
+   * Instantiates a new List adapter.
+   * @author Lars Akkermans
+   * @param dataSet the data set
+   */
   public ListAdapter(List<DomainObject> dataSet) {
     super(dataSet);
     listFull = new ArrayList<>(dataSet);
@@ -87,6 +96,13 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
     return getDataSet().size();
   }
 
+  /**
+   * Gets filter.
+   * @author Lars Akkermans
+   * checks which filter to return, else null
+   * @param filterType the filter type
+   * @return the filter
+   */
   public Filter getFilter(DialogBuilder.FilterType filterType) {
     switch (filterType) {
       case YEAR_FILTER:
@@ -98,6 +114,10 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
     }
   }
 
+  /**
+   * @author Lars Akkermans
+   * year date filter
+   */
   private Filter movieFilterYear =
           new Filter() {
             @Override
@@ -105,7 +125,7 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
               List<DomainObject> filteredList = new ArrayList<>();
 
 
-              if (constraint == null || constraint.length() == 0) { // checks if the searchview is empty, if so, all data will be shown
+              if (constraint == null || constraint.length() == 0) { // checks if the query is empty, if so, all data will be shown
                 filteredList.addAll(listFull);
               } else {
                 String filterPattern = constraint.toString().toLowerCase().trim(); // otherwise the chosen filter will be applied
@@ -133,6 +153,10 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
             }
           };
 
+  /**
+   * @author Lars Akkermans
+   * genre filter
+   */
   private Filter movieFilterGenre =
           new Filter() {
             @Override
@@ -140,7 +164,7 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
               List<DomainObject> filteredList = new ArrayList<>();
 
 
-              if (constraint == null || constraint.length() == 0) { // checks if the searchview is empty, if so, all data will be shown
+              if (constraint == null || constraint.length() == 0) { // checks if the query is empty, if so, all data will be shown
                 filteredList.addAll(listFull);
               } else {
                 String filterPattern = constraint.toString().toLowerCase().trim(); // otherwise the chosen filter will be applied
@@ -166,10 +190,16 @@ public class ListAdapter extends AbstractAdapter<MovieViewHolder> {
             }
           };
 
+  /**
+   * @author Lars Akkermans
+   * checks if filterpattern (query) is in the genres list
+   * @param filterPattern the filter pattern
+   * @param list the genres list
+   * @return boolean
+   */
   private boolean checkFilterPatternInList(String filterPattern, List<String> list) {
     for ( String s : list ) {
       String genre = Constants.GENRES.get(Integer.parseInt(s));
-      Log.d("CHECKFILTERPATERNINLIST", "THE GENRE IN THIS LIST RIGHT NOWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW ____________________________________>>>>>>>>" + genre + " AND filterPATERN _____>> " + filterPattern);
       if ( genre.toLowerCase().contains(filterPattern.toLowerCase()) ) {
         return true;
       }

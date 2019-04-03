@@ -21,10 +21,20 @@ import nl.avans.kinoplex.presentation.activities.ChooseListPopUp;
 import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.viewholders.AddToListViewHolder;
 
+/**
+ * The type Add to list adapter.
+ */
 public class AddToListAdapter extends AbstractAdapter<AddToListViewHolder> {
     private Context context;
     private Movie movie;
 
+    /**
+     * Instantiates a new Add to list adapter.
+     * @author Lars Akkermans
+     * @param dataSet the data set
+     * @param movie   the movie
+     * @param c       the c
+     */
     public AddToListAdapter(List<DomainObject> dataSet, Movie movie, Context c) {
         super(dataSet);
         this.movie = movie;
