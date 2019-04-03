@@ -16,28 +16,44 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import nl.avans.kinoplex.R;
+import nl.avans.kinoplex.business.CustomListChecker;
 import nl.avans.kinoplex.business.LoginManager;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.data.factories.TMDbDaoFactory;
 import nl.avans.kinoplex.domain.Constants;
+import nl.avans.kinoplex.domain.DomainObject;
+import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 
 public class MainActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        MainListAdapter.DrawerMenuUpdateListener {
 
 
     private MainListAdapter parentAdapter;
     RecyclerView mainRecyclerView;
     private DrawerLayout drawerLayout;
 
+    private NavigationView navigationView;
+
+    private Map<Integer, MovieList> listMapping;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        listMapping = new HashMap<>();
 
         Constants.pref =
                 getApplicationContext().getSharedPreferences(Constants.PREF_LOGIN, MODE_PRIVATE);
@@ -51,7 +67,8 @@ public class MainActivity extends AppCompatActivity implements
 
         drawerLayout = findViewById(R.id.drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView = findViewById(R.id.nav_view);
 
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
         setSupportActionBar(toolbar);
@@ -60,11 +77,6 @@ public class MainActivity extends AppCompatActivity implements
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
-        MenuItem manageListItem = navigationView.getMenu().findItem(R.id.nav_item_add_list);
-        SpannableString s = new SpannableString(manageListItem.getTitle());
-        s.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.softTextColor)), 0, s.length(), 0);
-        manageListItem.setTitle(s);
 
         // Load the adapters with a blank dataset.
         // TODO : Replace blank ArrayLists with existing Datasets from Firestore (cache)
@@ -77,8 +89,44 @@ public class MainActivity extends AppCompatActivity implements
 
         // set the parentAdapter to the mainrecyclerview
         mainRecyclerView.setAdapter(parentAdapter);
+        parentAdapter.setListener(this);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
 
+    /**
+     * @author Stijn Schep
+     * Dynamically populates the navigation menu with standard and custom user lists
+     */
+    public void addListsToNavigation() {
+        List<DomainObject> objects = parentAdapter.getDataSet();
+
+        navigationView.getMenu().getItem(0).getSubMenu().clear();
+        navigationView.getMenu().getItem(1).getSubMenu().clear();
+
+        int i = 1;
+
+        for(DomainObject dObject : objects) {
+            MovieList list = (MovieList) dObject;
+
+            if(CustomListChecker.isCustomList(list.getName())) {
+                MenuItem menuItem = navigationView.getMenu().getItem(0);
+                SubMenu subMenu = menuItem.getSubMenu();
+                subMenu.add(0, i, 0, list.getName());
+                listMapping.put(i, list);
+                i++;
+            } else {
+                MenuItem menuItem = navigationView.getMenu().getItem(1);
+                SubMenu subMenu = menuItem.getSubMenu();
+                subMenu.add(0, i, 0, CustomListChecker.returnCorrectTitle(list.getName(), this));
+                listMapping.put(i, list);
+                i++;
+            }
+
+            MenuItem manageListItem = navigationView.getMenu().findItem(R.id.nav_item_add_list);
+            SpannableString s = new SpannableString(getResources().getString(R.string.manageLists));
+            s.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.softTextColor)), 0, s.length(), 0);
+            manageListItem.setTitle(s);
+        }
     }
 
     @Override
@@ -103,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home_account_logout:
-                LoginManager.Logout(this, this);
+                LoginManager.Logout(this);
         }
 
 
@@ -116,6 +164,13 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.nav_item_add_list:
                 Intent intent = new Intent(this, ManageListsActivity.class);
                 startActivity(intent);
+                break;
+
+                default:
+                    Intent listIntent = new Intent(this, ListActivity.class);
+                    String jsonString = new Gson().toJson(listMapping.get(menuItem.getItemId()));
+                    listIntent.putExtra(Constants.INTENT_EXTRA_MOVIELIST, jsonString);
+                    startActivity(listIntent);
         }
 
 
@@ -138,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LoginManager.Logout(this, this);
+        LoginManager.Logout(this);
     }
+
 }

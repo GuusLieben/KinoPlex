@@ -29,6 +29,7 @@ public class SearchActivity extends TaskLoaderActivity implements
         NavigationView.OnNavigationItemSelectedListener {
     private SearchAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +44,16 @@ public class SearchActivity extends TaskLoaderActivity implements
         adapter = new SearchAdapter(new ArrayList<>());
 
         DrawerLayout drawerLayout = findViewById(R.id.search_drawerlayout);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         Toolbar toolbar = findViewById(R.id.toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
         setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         DataMigration.getFactory().getMovieDao().readAll(adapter);

@@ -10,9 +10,17 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.presentation.activities.LoginActivity;
 
+/** Utilities to save login credentials in SharedPreferences. **/
 public class LoginManager {
 
-    public static void saveLoginCredentials(Context context, Pair<String, String> credentials) {
+  /**
+   * @author Stijn Schep
+   * Save login credentials to SharedPreferences.
+   *
+   * @param context the context from which the method is called
+   * @param credentials the credentials to save in SharedPreferences {username, hashed password}
+   */
+  public static void saveLoginCredentials(Context context, Pair<String, String> credentials) {
         Log.d(Constants.LOGINMANGER_TAG, "Checking context...");
 
         if (context == null) return;
@@ -32,7 +40,14 @@ public class LoginManager {
         Constants.editor.apply();
     }
 
-    public static Pair<String, String> getLoginCredentials(Context context) {
+  /**
+   * @author Stijn Schep
+   * Gets login credentials from SharedPreferences.
+   *
+   * @param context the context from which the method is called
+   * @return The credentials of the user (username, hashed password) if auto-login was previously selected
+   */
+  public static Pair<String, String> getLoginCredentials(Context context) {
         if (context == null) {
             return null;
         }
@@ -54,7 +69,15 @@ public class LoginManager {
         return null;
     }
 
-    public static void Logout(Context context, Activity activity) {
+  /**
+   * @author Stijn Schep
+   * Remove login information from SharedPreferences and send the user to LoginActivity
+   *
+   * @param activity the activity from which the method is called
+   */
+  public static void Logout(Activity activity) {
+      Log.d(Constants.LOGINMANGER_TAG, "User wants to log out");
+
         Constants.editor.remove(Constants.PREF_USERNAME);
         Constants.editor.remove(Constants.PREF_HASHEDPASS);
         Constants.editor.remove(Constants.PREF_AUTOLOGIN);
@@ -62,9 +85,9 @@ public class LoginManager {
         //Leave on commit to avoid problems with Async
         Constants.editor.commit();
 
-        Intent loginIntent = new Intent(context, LoginActivity.class);
+        Intent loginIntent = new Intent(activity, LoginActivity.class);
         activity.finish();
 
-        context.startActivity(loginIntent);
+        activity.startActivity(loginIntent);
     }
 }

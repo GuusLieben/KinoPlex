@@ -11,9 +11,8 @@ import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.domain.Review;
 
+/** The type Tm db dao factory. */
 public class TMDbDaoFactory implements DaoFactory {
-
-    // It's a factory, what do you think it does?
 
     @Override
     public DaoObject<Review> getReviewDao(int movieId) {
@@ -35,7 +34,13 @@ public class TMDbDaoFactory implements DaoFactory {
         return new TMDbListDao();
     }
 
-    public DaoObject<Void> getGenreDao() {
+  /**
+   * @author Guus Lieben
+   * Gets a clean genre dao.
+   *
+   * @return the genre dao
+   */
+  public DaoObject<Void> getGenreDao() {
         return new TMDbGenreDao();
     }
 

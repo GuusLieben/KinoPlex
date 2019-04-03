@@ -15,44 +15,21 @@ import java.net.URLConnection;
 
 import nl.avans.kinoplex.domain.Constants;
 
+/** Basic utilities for JSON tasks */
 public class JsonUtilsTask extends AsyncTask<Uri, Void, JSONObject> {
 
+
+    /**
+     * @author Stijn Scheo
+     * Runs the JsonUtils getJSONObjectFromUrl(Uri uri) method Asynchronously
+     *
+     * @param uris the Uri with which a connection should be built
+     * @return the JSONObject fetched from the Uri
+     */
     @Override
     protected JSONObject doInBackground(Uri... uris) {
         Uri uri = uris[0];
 
-        URLConnection connection;
-        BufferedReader reader = null;
-        try {
-            Log.d(
-                    Constants.JSONUTILS_TAG,
-                    String.format("Successfully parsed Uri to : %s", uri.toString()));
-
-            URL url = new URL(uri.toString());
-            connection = url.openConnection();
-            Log.d(Constants.JSONUTILS_TAG, "Successfully opened connection to API");
-
-            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) stringBuilder.append(line);
-
-            return new JSONObject(stringBuilder.toString());
-        } catch (IOException | JSONException e) {
-            Log.e(Constants.JSONUTILS_TAG, e.getMessage());
-            for (StackTraceElement el : e.getStackTrace()) Log.e(Constants.JSONUTILS_TAG, el.toString());
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    Log.e(Constants.JSONUTILS_TAG, e.getMessage());
-                    for (StackTraceElement el : e.getStackTrace())
-                        Log.e(Constants.JSONUTILS_TAG, el.toString());
-                }
-            }
-        }
-        return new JSONObject(); // Never return null, please
+        return JsonUtils.getJSONObjectFromUrl(uri);
     }
 }

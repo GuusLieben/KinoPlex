@@ -1,6 +1,9 @@
 package nl.avans.kinoplex.presentation.activities;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -13,8 +16,12 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -29,8 +36,16 @@ import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 
+import static nl.avans.kinoplex.domain.Constants.YOUTUBE_API_KEY;
+
+/**
+ * @author Stijn Schep
+ * Activity that facilitates the details of a single movie
+ *
+ */
 public class DetailActivity extends AppCompatActivity
-        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, YouTubeThumbnailView.OnInitializedListener {
+
     private ImageView movieBackdropImageView;
 
     private TextView movieTitleTextView;
@@ -41,14 +56,17 @@ public class DetailActivity extends AppCompatActivity
     private TextView movieDescriptionTextView;
     private TextView movieAvgRatingTextView;
 
+    private YouTubeThumbnailView thumbnailView;
+    private YouTubeThumbnailLoader thumbnailLoader;
+
     private RatingBar movieRatingBar;
 
     private Button movieShowReviews;
+
     private Button movieOptions;
     private Button backButton;
     private Movie movie;
-
-    private ImageView overlayBgPopup;
+    private String trailerUrl;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -72,6 +90,8 @@ public class DetailActivity extends AppCompatActivity
         Movie movie = new Gson().fromJson(JSON, Movie.class);
         this.movie = movie;
 
+        trailerUrl = "g7hJjzrOXDo";
+
         movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 
         movieTitleTextView = findViewById(R.id.tv_detail_movie_title);
@@ -84,15 +104,17 @@ public class DetailActivity extends AppCompatActivity
 
         movieRatingBar = findViewById(R.id.rb_detail_movie_rating);
 
+        thumbnailView = (YouTubeThumbnailView) findViewById(R.id.trailer_ThumbnailView);
+        thumbnailView.initialize(YOUTUBE_API_KEY,this);
+
         movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
         movieOptions = findViewById(R.id.btn_detail_options);
         backButton = findViewById(R.id.view_detail_backbutton);
 
+        thumbnailView.setOnClickListener(this);
         movieShowReviews.setOnClickListener(this);
         movieOptions.setOnClickListener(this);
         backButton.setOnClickListener(this);
-
-        overlayBgPopup = findViewById(R.id.overlay_bg_image_view);
 
         Glide.with(this)
                 .load(movie.getPosterPath())
@@ -136,7 +158,6 @@ public class DetailActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         // Asynchronously loads reviews into the movie
-        hideOverlayBg();
         ((FirestoreReviewDao) DataMigration.getFactory().getReviewDao(Integer.parseInt(movie.getId()))).getList(movie, this);
     }
 
@@ -165,6 +186,15 @@ public class DetailActivity extends AppCompatActivity
 
                 break;
 
+            case R.id.trailer_ThumbnailView:
+                Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Trailer' button");
+                if(trailerUrl != null){
+                    watchYoutubeTrailer(this,trailerUrl);
+                } else {
+                    Toast.makeText(this, "No trailer", Toast.LENGTH_LONG).show();
+                }
+                break;
+
             case R.id.view_detail_backbutton:
                 finish();
 
@@ -182,14 +212,13 @@ public class DetailActivity extends AppCompatActivity
                 String json = new Gson().toJson(movie);
                 chooseListPopup.putExtra(Constants.MOVIE_TAG, json);
                 startActivity(chooseListPopup);
-                showOverlayBg();
                 break;
 
             case R.id.detail_options_addReview:
                 Log.d(Constants.DETAILACT_TAG, "User wants to add a review to this movie...");
                 Intent addReviewIntent = new Intent(this, AddReviewActivity.class);
-                String jsonMovie = new Gson().toJson(movie);
-                addReviewIntent.putExtra(Constants.MOVIE_TAG, jsonMovie);
+                addReviewIntent.putExtra(Constants.MOVIE_ID, movie.getId());
+                addReviewIntent.putExtra(Constants.MOVIE_TITLE, movie.getTitle());
                 startActivity(addReviewIntent);
                 break;
 
@@ -212,14 +241,43 @@ public class DetailActivity extends AppCompatActivity
         return false;
     }
 
-    private void showOverlayBg() {
-        overlayBgPopup.setVisibility(View.VISIBLE);
-        Log.d(Constants.DETAILACT_TAG, "SHOW OVERLAY........................................................................");
+    public static void watchYoutubeTrailer(Context context, String id){
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            context.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            context.startActivity(webIntent);
+        }
     }
 
-    private void hideOverlayBg() {
-        Log.d(Constants.DETAILACT_TAG, "HIDE OVERLAY........................................................................");
-        overlayBgPopup.setVisibility(View.INVISIBLE);
+
+    @Override
+    public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
+        thumbnailLoader = youTubeThumbnailLoader;
+        youTubeThumbnailLoader.setOnThumbnailLoadedListener(new ThumbnailLoadedListener());
+        youTubeThumbnailLoader.setVideo(trailerUrl);
     }
 
+    @Override
+    public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
+
+    }
+
+    private final class ThumbnailLoadedListener implements
+            YouTubeThumbnailLoader.OnThumbnailLoadedListener {
+
+        @Override
+        public void onThumbnailError(YouTubeThumbnailView arg0, YouTubeThumbnailLoader.ErrorReason arg1) {
+
+        }
+
+        @Override
+        public void onThumbnailLoaded(YouTubeThumbnailView arg0, String arg1) {
+
+
+        }
+
+    }
 }

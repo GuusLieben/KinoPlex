@@ -1,12 +1,24 @@
 package nl.avans.kinoplex.business;
 
+import android.util.Log;
+
 import java.util.Random;
 
 import nl.avans.kinoplex.R;
 
+/** Class to fetch a random poster from drawables. **/
 public class PosterPicker {
+    private static final String TAG = PosterPicker.class.getCanonicalName();
 
-    public static int getRandomPosterID() {
+  /**
+   * @author Stijn Schep
+   * Fetch a random poster from the drawable map.
+   *
+   * @return the ID of a random poster
+   */
+  public static int getRandomPosterID() {
+      Log.d(TAG, "Fetching a random poster");
+
         Random random = new Random();
         int number = random.nextInt(7);
 

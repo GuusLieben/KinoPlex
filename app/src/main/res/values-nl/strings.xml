@@ -18,6 +18,8 @@
     <string name="invalidLogin">Ongeldige inloggegevens!</string>
     <string name="repeatPassword">Herhaal Wachtwoord&#8230;</string>
     <string name="fullName">Volledige naam&#8230;</string>
+    <string name="trailer">Trailer</string>
+
 
     <string name="Genres">Genres ▶</string>
     <string name="navigation_drawer_open">Open</string>
@@ -40,8 +42,14 @@
     <string name="addMovieToList_add">Voeg \'</string>
     <string name="addMovieToList_toList">\' toe aan lijst</string>
 
+    <string name="standardList">standaard lijsten</string>
+    <string name="userLists">gebruikerslijsten</string>
+
+
     <string name="addReviewForMovie">Voeg review toe voor: </string>
     <string name="manage_list_filters">Beheer Filters</string>
 
     <string name="movieYear">Jaar</string>
+    <string name="management">Beheer</string>
+
 </resources>

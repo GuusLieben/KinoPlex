@@ -14,8 +14,18 @@ import java.net.URLConnection;
 
 import nl.avans.kinoplex.domain.Constants;
 
-public class JsonUtils<T> {
+/**
+ * Basic utilities for JSON tasks
+ */
+public class JsonUtils {
 
+  /**
+   * @author Guus Lieben
+   * Gets a JSONObject from a given Uri
+   *
+   * @param uri the uri
+   * @return the json object from url
+   */
   public static JSONObject getJSONObjectFromUrl(Uri uri) {
     URLConnection connection;
     BufferedReader reader = null;
