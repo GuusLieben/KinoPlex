@@ -3,6 +3,7 @@ package nl.avans.kinoplex.presentation.adapters;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
     public void onBindViewHolder(@NonNull MovieViewHolder viewHolder, int position) {
         Movie movie = (Movie) list.get(position);
         viewHolder.setMovie(movie);
-
+        Log.d("film", movie.getTitle() + " " + movie.getId());
         ImageView imageView = viewHolder.itemView.findViewById(R.id.image_view_movie_poster);
         TextView releaseYear = viewHolder.itemView.findViewById(R.id.movie_year);
         TextView genre = viewHolder.itemView.findViewById(R.id.movie_genre);
