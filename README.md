@@ -1,5 +1,6 @@
 # KinoPlex
 Avans University - Programming (Java) P1.3
+
 [View JavaDocs](http://avans.studyhost.nl/JavaDoc%20Kinoplex/index.html)
 
 This project was made for the Avans University assignment '_PM&SWE 190315_'. The goal of this application is to learn how to apply several project planning standards to a simulated 'real-life' work environment, with the product and process adapting as the requirements changed during the planning and development of the project. 
