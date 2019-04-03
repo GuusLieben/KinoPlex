@@ -35,12 +35,18 @@ import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.MainListAdapter;
 
+/**
+ * The type Main activity.
+ */
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         MainListAdapter.DrawerMenuUpdateListener {
 
 
     private MainListAdapter parentAdapter;
+    /**
+     * The Main recycler view.
+     */
     RecyclerView mainRecyclerView;
     private DrawerLayout drawerLayout;
 

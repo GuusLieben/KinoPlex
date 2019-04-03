@@ -18,6 +18,9 @@ import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.viewholders.MainListViewHolder;
 
 
+/**
+ * The type Main list adapter.
+ */
 public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
 
   private Context context;
@@ -26,20 +29,42 @@ public class MainListAdapter extends AbstractAdapter<MainListViewHolder> {
 
   private Map<DomainObject, MainMovieAdapter> adapterMap;
 
+  /**
+   * The interface Drawer menu update listener.
+   */
   public interface DrawerMenuUpdateListener {
+    /**
+     * Add lists to navigation.
+     */
     void addListsToNavigation();
   }
 
+  /**
+   * Sets listener.
+   *
+   * @param listener the listener
+   */
   public void setListener(DrawerMenuUpdateListener listener) {
     this.listener = listener;
   }
 
+  /**
+   * Instantiates a new Main list adapter.
+   *
+   * @param dataSet the data set
+   * @param context the context
+   */
   public MainListAdapter(List<DomainObject> dataSet, Context context) {
 
     super(dataSet);
     this.context = context;
   }
 
+  /**
+   * Sets adapter map.
+   *
+   * @param map the map
+   */
   public void setAdapterMap(Map<DomainObject, MainMovieAdapter> map) {
     this.adapterMap = map;
   }

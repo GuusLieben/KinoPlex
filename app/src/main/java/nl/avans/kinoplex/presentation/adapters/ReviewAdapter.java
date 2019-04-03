@@ -17,8 +17,16 @@ import nl.avans.kinoplex.domain.FireReview;
 import nl.avans.kinoplex.domain.TMDbReview;
 import nl.avans.kinoplex.presentation.viewholders.ReviewViewHolder;
 
+/**
+ * The type Review adapter.
+ */
 public class ReviewAdapter extends AbstractAdapter<ReviewViewHolder> {
 
+    /**
+     * Instantiates a new Review adapter.
+     *
+     * @param dataSet the data set
+     */
     public ReviewAdapter(List<DomainObject> dataSet) {
         super(dataSet);
     }

@@ -19,6 +19,9 @@ import nl.avans.kinoplex.presentation.activities.DetailActivity;
 
 import static nl.avans.kinoplex.domain.Constants.MAINMOVIEVH_TAG;
 
+/**
+ * The type Main movie view holder.
+ */
 public class MainMovieViewHolder extends AbstractViewHolder implements View.OnClickListener {
     
     /*
@@ -31,10 +34,18 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
     private TextView movieTitle;
     private RatingBar movieRating;
 
+    /**
+     * The Context.
+     */
     Context context;
 
     private Movie movie;
 
+    /**
+     * Instantiates a new Main movie view holder.
+     *
+     * @param itemView the item view
+     */
     public MainMovieViewHolder(@NonNull View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
@@ -47,14 +58,29 @@ public class MainMovieViewHolder extends AbstractViewHolder implements View.OnCl
         movieRating = itemView.findViewById(R.id.tb_main_movie_rating);
     }
 
+    /**
+     * Gets movie poster.
+     *
+     * @return the movie poster
+     */
     public ImageView getMoviePoster() {
         return moviePoster;
     }
 
+    /**
+     * Gets movie title.
+     *
+     * @return the movie title
+     */
     public TextView getMovieTitle() {
         return movieTitle;
     }
 
+    /**
+     * Bind.
+     *
+     * @param obj the obj
+     */
     public void bind(DomainObject obj) {
         movie = (Movie) obj;
         System.out.println(movie.getTitle());
