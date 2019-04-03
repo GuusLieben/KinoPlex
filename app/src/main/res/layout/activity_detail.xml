@@ -155,22 +155,6 @@
             android:layout_height="100dp"
             android:gravity="center_horizontal">
 
-            <!--<Button
-                android:id="@+id/btn_trailer_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:text="@string/trailer"
-                android:textSize="15dp"
-                android:layout_marginBottom="0dp"/>-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textColor"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginRight="50dp"
-                android:text="@string/trailer_label"/>
-
             <com.google.android.youtube.player.YouTubeThumbnailView
                 android:id="@+id/Trailer_Thumbnail"
                 android:layout_width="200dp"
@@ -181,8 +165,24 @@
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
-                android:foreground="@drawable/ic_play_arrow_black_8_12dp"
                 android:id="@+id/trailer_ThumbnailView"/>
+
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:clickable="false"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:clickable="false"
+                    android:contentDescription="@string/contentDescription"
+                    android:src="@drawable/ic_play_arrow_black_8_12dp" />
+            </LinearLayout>
+
 
 
 
