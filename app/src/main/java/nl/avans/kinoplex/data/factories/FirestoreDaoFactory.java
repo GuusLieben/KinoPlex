@@ -7,6 +7,7 @@ import nl.avans.kinoplex.data.dataaccessobjects.FirestoreListDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreMovieDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreReviewDao;
 import nl.avans.kinoplex.data.dataaccessobjects.FirestoreUserDao;
+import nl.avans.kinoplex.data.dataaccessobjects.TMDbTrailerDao;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.domain.Review;
@@ -33,6 +34,12 @@ public class FirestoreDaoFactory implements DaoFactory {
     public DaoObject<MovieList> getListDao() {
         return new FirestoreListDao();
     }
+
+    @Override
+    public TMDbTrailerDao getTrailerDao(String movieId) {
+        return null;
+    }
+
 
     @Override
     public DaoObject<Pair> getUserDao() {

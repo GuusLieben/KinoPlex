@@ -7,6 +7,7 @@ import nl.avans.kinoplex.data.dataaccessobjects.TMDbGenreDao;
 import nl.avans.kinoplex.data.dataaccessobjects.TMDbListDao;
 import nl.avans.kinoplex.data.dataaccessobjects.TMDbMovieDao;
 import nl.avans.kinoplex.data.dataaccessobjects.TMDbReviewDao;
+import nl.avans.kinoplex.data.dataaccessobjects.TMDbTrailerDao;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.domain.Review;
@@ -34,7 +35,14 @@ public class TMDbDaoFactory implements DaoFactory {
         return new TMDbListDao();
     }
 
-  /**
+
+    @Override
+    public TMDbTrailerDao getTrailerDao(String movieId) {
+        return new TMDbTrailerDao(movieId);
+    }
+
+
+    /**
    * @author Guus Lieben
    * Gets a clean genre dao.
    *
