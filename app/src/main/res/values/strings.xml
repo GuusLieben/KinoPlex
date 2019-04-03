@@ -17,6 +17,7 @@
     <string name="top_rated">Top Rated</string>
 
 
+    <string name="trailer">Trailer</string>
     <string name="now_playing_arrow">Now Playing ▶</string>
 
     <string name="addToList">Add to list</string>
@@ -60,6 +61,7 @@
 
     <string name="addMovieToList_add">Add \'</string>
     <string name="addMovieToList_toList"> \'to list</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
 
     <string name="userLists">user lists</string>
     <string name="management">Management</string>
