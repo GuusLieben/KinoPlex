@@ -32,7 +32,7 @@ public class MovieList extends DomainObject {
     public void setDbId(String dbId) {
         List<String> TMDbIds = Arrays.asList("now_playing", "popular", "top_rated", "upcoming");
         dbId = dbId.toLowerCase();
-        if (TMDbIds.contains(dbId) && !(dbId.startsWith("!"))) dbId = '!' + dbId;
+        if (TMDbIds.contains(dbId.toLowerCase()) && !(dbId.startsWith("!"))) dbId = '!' + dbId;
         this.dbId = dbId;
     }
 
