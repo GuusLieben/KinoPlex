@@ -26,7 +26,6 @@ import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.Movie;
 import nl.avans.kinoplex.domain.MovieList;
 
-/** The type Tm db list dao. */
 public class TMDbListDao implements DaoObject, TMDbDaoObject {
 
     @Override
@@ -66,10 +65,6 @@ public class TMDbListDao implements DaoObject, TMDbDaoObject {
         return task.get();
     }
 
-    /**
-     * @author Guus Lieben
-     * Reads API remote collections into the default app remote
-     */
     private class ReadFromTMDb extends AsyncTask<Object, Void, DomainObject> {
 
         @Override

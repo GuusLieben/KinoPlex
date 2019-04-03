@@ -3,6 +3,7 @@ package nl.avans.kinoplex.data.dataaccessobjects;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -23,29 +24,17 @@ import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 import nl.avans.kinoplex.presentation.viewholders.MainMovieViewHolder;
 
-/** The type Firestore movie dao. */
 public class FirestoreMovieDao implements DaoObject<Movie> {
 
     private int movieId;
     private FirebaseFirestore db;
 
-  /**
-   * Instantiates a new Firestore movie dao.
-   *
-   * @param movieId the movie id
-   * @author Guus Lieben Instantiates a new Firestore movie dao.
-   */
-  public FirestoreMovieDao(int movieId) { // For specific movie
+    public FirestoreMovieDao(int movieId) { // For specific movie
         this();
         this.movieId = movieId;
     }
 
-  /**
-   * Instantiates a new Firestore movie dao.
-   *
-   * @author Guus Lieben
-   */
-  public FirestoreMovieDao() {
+    public FirestoreMovieDao() {
         db = FirestoreUtils.getInstance();
     } // For all movies
 
@@ -74,12 +63,6 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                 );
     }
 
-    /**
-     * Generates a local movie state from a given DocumentSnapshot.
-     *
-     * @author Guus Lieben
-     * @param documentSnapshot the document used to generate a local state
-     */
     private Movie getMovieFromSnapshot(DocumentSnapshot documentSnapshot) {
         Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Collecting movie from snapshot : " + documentSnapshot.getData());
         String title = documentSnapshot.getString("title");
@@ -117,15 +100,7 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
         return movie;
     }
 
-  /**
-   * Read a movie into a remote state of the given local state list. Then reads the full list into
-   * Requires MovieId * to be declared in the constructor.
-   *
-   * @param movieList the local state of the movie list to write to
-   * @param adapter the adapter to write to
-   * @author Guus Lieben
-   */
-  public void readIntoList(MovieList movieList, RecyclerView.Adapter adapter) {
+    public void readIntoList(MovieList movieList, RecyclerView.Adapter adapter) {
         Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Attempting to read movie into list");
         db.collection(Constants.COL_MOVIES)
                 .document(String.valueOf(movieId))
@@ -171,12 +146,6 @@ public class FirestoreMovieDao implements DaoObject<Movie> {
                         });
     }
 
-    /**
-     * Reads all movies into the given adapter
-     *
-     * @author Guus Lieben
-     * @param adapter the adapter to read to
-     */
     public void readAll(RecyclerView.Adapter adapter) {
         Log.d(Constants.FIRESTOREMOVIEDAO_TAG, "Attempting to read movies from Firestore");
         db.collection(Constants.COL_MOVIES).get().addOnSuccessListener(

@@ -59,6 +59,7 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
         RatingBar ratingBar = viewHolder.itemView.findViewById(R.id.movie_rating);
 
         Glide.with(viewHolder.itemView.getContext()).load(movie.getPosterPath()).into(imageView); // sets the poster of the current movie in the recyclerview
+        //genre.setText(movie.getGenres().get(0));
         viewHolder.getMovieTitle().setText(movie.getTitle()); // sets the title of the movie in the recyclerview
         releaseYear.setText(String.valueOf(getYear(movie.getReleaseDate()))); // sets the releaseyear of the movie in the recyclerview
 
@@ -134,13 +135,6 @@ public class SearchAdapter extends AbstractAdapter<MovieViewHolder> implements F
                 }
             };
 
-    /**
-     * @author Romano Keereweer
-     * gets the year of the given date
-     *
-     * @param date the given date to get the year from
-     *
-     */
     public static int getYear(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

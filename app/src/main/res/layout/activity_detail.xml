@@ -117,6 +117,7 @@
 
     </FrameLayout>
 
+
     <TextView
         android:id="@+id/tv_detail_movie_status"
         android:textColor="@color/textColor"
@@ -132,35 +133,17 @@
         android:layout_height="3dp"
         android:background="?android:attr/listDivider" />
 
-
     <TextView
-        android:id="@+id/tv_detail_movie_description"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_marginStart="20dp"
-
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+
+        android:textColor="@color/textColor"
+        android:id="@+id/tv_detail_movie_description"
         android:layout_weight="5"
-        android:textColor="@color/textColor" />
-
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-
-        <com.google.android.youtube.player.YouTubeThumbnailView
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:id="@+id/trailer_ThumbnailView"/>
-
-
-
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <View
         android:layout_width="match_parent"

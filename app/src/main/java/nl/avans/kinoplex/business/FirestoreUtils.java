@@ -7,14 +7,8 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import nl.avans.kinoplex.domain.Constants;
 
-/** Basic utilities for Firestore tasks */
 public class FirestoreUtils {
 
-  /**
-   * @author Guus Lieben
-   *
-   * @return The default instance of Firestore, generated with clean settings
-   */
   public static FirebaseFirestore getInstance() {
     Log.d(Constants.FIRESTOREUTILS_TAG, "New instance of Firestore requested");
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();

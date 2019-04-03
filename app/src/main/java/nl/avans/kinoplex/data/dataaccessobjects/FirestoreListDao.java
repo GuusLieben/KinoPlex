@@ -29,39 +29,22 @@ import nl.avans.kinoplex.presentation.adapters.MainMovieAdapter;
 
 import static nl.avans.kinoplex.domain.Constants.FIRESTORELISTDAO_TAG;
 
-/** Firestore implementation for MovieList objects */
 public class FirestoreListDao implements DaoObject<MovieList> {
 
     private FirebaseFirestore db;
 
-  /**
-   * @author Guus Lieben
-   * Instantiates a new Firestore list dao.
-   */
-  public FirestoreListDao() {
+    public FirestoreListDao() {
         db = FirestoreUtils.getInstance();
     }
 
-  /**
-   * @author Guus Lieben
-   * Write a local state to a remote object for the currrent user.
-   *
-   * @param movieList the local state of movie list to write
-   */
-  public void createListForUser(MovieList movieList) {
+    public void createListForUser(MovieList movieList) {
         String collectionId = movieList.getDbId();
         if (collectionId == null) collectionId = db.collection(Constants.COL_LISTS).document().getId().toLowerCase();
         movieList.setDbId(collectionId);
         db.collection(Constants.COL_LISTS).document(collectionId).set(movieList.storeToMap());
     }
 
-  /**
-   * @author Guus Lieben
-   * Read accessible collections for the current user into the given adapter
-   *
-   * @param adapter the adapter to write to
-   */
-  public void readCollectionsForCurrentUserToAdapter(RecyclerView.Adapter adapter) {
+    public void readCollectionsForCurrentUserToAdapter(RecyclerView.Adapter adapter) {
         db.collection(Constants.COL_LISTS).get().addOnSuccessListener(queryDocumentSnapshots -> {
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                 Log.d(Constants.FIRESTORELISTDAO_TAG, "------------------------------------------------------> " + Constants.pref.getString("userId", "-1"));
@@ -150,14 +133,7 @@ public class FirestoreListDao implements DaoObject<MovieList> {
                 });
     }
 
-  /**
-   * @author Guus Lieben
-   * Add a movie id to a remote list based on the local state of the list
-   *
-   * @param list the local state of the list to write to
-   * @param movieId the movie id to write
-   */
-  public void addMovieToList(MovieList list, int movieId) {
+    public void addMovieToList(MovieList list, int movieId) {
         Map<String, Object> listMap = list.storeToMap();
         ArrayList<Object> movies = (ArrayList<Object>) listMap.get("movies");
         Log.d(FIRESTORELISTDAO_TAG, "Storing movies to list");

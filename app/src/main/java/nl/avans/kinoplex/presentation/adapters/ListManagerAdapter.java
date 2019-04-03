@@ -15,10 +15,6 @@ import nl.avans.kinoplex.domain.DomainObject;
 import nl.avans.kinoplex.domain.MovieList;
 import nl.avans.kinoplex.presentation.viewholders.ListManagerViewHolder;
 
-/**
- * @author Stijn Schep
- * Adapter for the ManageListsActivity
- */
 public class ListManagerAdapter extends AbstractAdapter<ListManagerViewHolder> {
     private Activity activity;
 

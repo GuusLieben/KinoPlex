@@ -18,8 +18,8 @@ import nl.avans.kinoplex.business.JsonUtils;
 import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.DomainObject;
 
-/** The type Tm db genre dao. */
 public class TMDbGenreDao implements TMDbDaoObject {
+
 
     @Override
     public DomainObject readCollectionToAdapter(String identifier, int page, RecyclerView.Adapter adapter) throws ExecutionException, InterruptedException {
@@ -46,10 +46,6 @@ public class TMDbGenreDao implements TMDbDaoObject {
         new ReadGenres().execute();
     }
 
-    /**
-     * @author Guus Lieben
-     * Reads all remote genres into the local Constants
-     */
     private static class ReadGenres extends AsyncTask<Void, Void, Void> {
 
         @Override

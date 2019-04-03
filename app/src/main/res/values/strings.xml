@@ -17,7 +17,6 @@
     <string name="top_rated">Top Rated</string>
 
 
-    <string name="trailer">Trailer</string>
     <string name="now_playing_arrow">Now Playing ▶</string>
 
     <string name="addToList">Add to list</string>
@@ -48,8 +47,6 @@
 
     <string name="deleteList">Are you sure?</string>
 
-    <string name="standardList">standard lists</string>
-
     <string name="Genres">Genres ▶</string>
     <string name="plusSign" translatable="false">+</string>
     <string name="addedToList">Added to the list</string>
@@ -61,16 +58,10 @@
 
     <string name="addMovieToList_add">Add \'</string>
     <string name="addMovieToList_toList"> \'to list</string>
-    <string name="title_activity_maps" translatable="false">Map</string>
-
-    <string name="userLists">user lists</string>
-    <string name="management">Management</string>
-
 
     <string name="addReviewForMovie">Add review for: </string>
     <string name="manage_list_filters">Manage Filters</string>
     <string name="filter_title" translatable="false">Filters</string>
 
     <string name="movieYear">Year</string>
-    <string name="movieGenre" translatable="false">Genre</string>
 </resources>
