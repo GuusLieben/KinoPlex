@@ -34,223 +34,221 @@ import nl.avans.kinoplex.domain.Constants;
 import nl.avans.kinoplex.domain.Movie;
 
 public class DetailActivity extends AppCompatActivity
-        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-    private ImageView movieBackdropImageView;
+    implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+  private ImageView movieBackdropImageView;
 
-    private TextView movieTitleTextView;
-    private TextView movieYearTextView;
-    private TextView movieRuntimeTextView;
-    private TextView movieGenreTextView;
-    private TextView movieStatusTextView;
-    private TextView movieDescriptionTextView;
-    private TextView movieAvgRatingTextView;
+  private TextView movieTitleTextView;
+  private TextView movieYearTextView;
+  private TextView movieRuntimeTextView;
+  private TextView movieGenreTextView;
+  private TextView movieStatusTextView;
+  private TextView movieDescriptionTextView;
+  private TextView movieAvgRatingTextView;
 
-    private RatingBar movieRatingBar;
+  private RatingBar movieRatingBar;
 
-    private Button movieShowReviews;
-    private Button movieTrailerLink;
-    private Button movieOptions;
-    private Button backButton;
-    private Movie movie;
-    private String trailerUrl;
+  private Button movieShowReviews;
+  private Button movieTrailerLink;
+  private Button movieOptions;
+  private Button backButton;
+  private Movie movie;
+  private String trailerUrl;
 
-    private ImageView overlayBgPopup;
+  private ImageView overlayBgPopup;
 
+  @RequiresApi(api = Build.VERSION_CODES.O)
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_detail);
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+    setTitle("DetailActivity");
 
-        setTitle("DetailActivity");
-
-        // Check if any information was provided
-        if (getIntent().getExtras() == null) {
-            return;
-        }
-
-        // Get the provided movie data, logging the response
-        String JSON = getIntent().getExtras().getString(Constants.INTENT_EXTRA_MOVIE_JSON);
-        Log.d(Constants.DETAILACT_TAG, JSON);
-
-        //Create a movie object  from JSON, logging the object information
-        Movie movie = new Gson().fromJson(JSON, Movie.class);
-        this.movie = movie;
-
-        trailerUrl = "g7hJjzrOXDo";
-
-        movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
-
-        movieTitleTextView = findViewById(R.id.tv_detail_movie_title);
-        movieYearTextView = findViewById(R.id.tv_detail_movie_year);
-        movieRuntimeTextView = findViewById(R.id.tv_detail_movie_runtime);
-        movieGenreTextView = findViewById(R.id.tv_detail_movie_genre);
-        movieStatusTextView = findViewById(R.id.tv_detail_movie_status);
-        movieDescriptionTextView = findViewById(R.id.tv_detail_movie_description);
-        movieAvgRatingTextView = findViewById(R.id.tv_detail_movie_avg_rating);
-
-        movieRatingBar = findViewById(R.id.rb_detail_movie_rating);
-
-        movieTrailerLink = findViewById(R.id.btn_trailer_link);
-        movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
-        movieOptions = findViewById(R.id.btn_detail_options);
-        backButton = findViewById(R.id.view_detail_backbutton);
-
-        movieTrailerLink.setOnClickListener(this);
-        movieShowReviews.setOnClickListener(this);
-        movieOptions.setOnClickListener(this);
-        backButton.setOnClickListener(this);
-
-        overlayBgPopup = findViewById(R.id.overlay_bg_image_view);
-
-        Glide.with(this)
-                .load(movie.getPosterPath())
-                .into(movieBackdropImageView);
-
-        String ratingString = String.valueOf(movie.getRating());
-        float rating = Float.parseFloat(ratingString);
-
-        movieTitleTextView.setText(movie.getTitle());
-        movieYearTextView.setText(movie.getReleaseyear());
-        movieRuntimeTextView.setText(movie.getFormattedRuntime());
-
-        List<String> genreNames = new ArrayList<>();
-        for (String g1 : movie.getGenres()) {
-            System.out.println(g1);
-            int id = 0;
-            if (g1.contains("\"id\"")) {
-                try {
-                    JSONObject object = new JSONObject(g1);
-                    id = object.getInt("id");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else id = Integer.parseInt(g1);
-            String genreName = Constants.GENRES.get(id);
-            genreNames.add(genreName);
-        }
-
-        String genres = String.join(", ", genreNames);
-
-        movieGenreTextView.setText(genres);
-        movieStatusTextView.setText("Released");
-        movieDescriptionTextView.setText(movie.getOverview());
-        movieAvgRatingTextView.setText(ratingString);
-        movieRatingBar.setRating(rating / 2);
-
-        setTitle(movie.getTitle());
+    // Check if any information was provided
+    if (getIntent().getExtras() == null) {
+      return;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Asynchronously loads reviews into the movie
-        hideOverlayBg();
-        ((FirestoreReviewDao) DataMigration.getFactory().getReviewDao(Integer.parseInt(movie.getId()))).getList(movie, this);
-    }
+    // Get the provided movie data, logging the response
+    String JSON = getIntent().getExtras().getString(Constants.INTENT_EXTRA_MOVIE_JSON);
+    Log.d(Constants.DETAILACT_TAG, JSON);
 
-    public void setReviewText(String text) {
-        movieShowReviews.setText("Show reviews (" + text + ')');
-    }
+    // Create a movie object  from JSON, logging the object information
+    Movie movie = new Gson().fromJson(JSON, Movie.class);
+    this.movie = movie;
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_detail_options:
-                Log.d(Constants.DETAILACT_TAG, "User clicked on the options button");
+    trailerUrl = "g7hJjzrOXDo";
 
-                PopupMenu pm = new PopupMenu(this, movieOptions);
-                pm.getMenuInflater().inflate(R.menu.detail_options_popup, pm.getMenu());
-                pm.setOnMenuItemClickListener(this);
-                pm.show();
-                break;
+    movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 
-            case R.id.btn_detail_show_reviews:
-                Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Show Reviews' button");
-                Intent reviews = new Intent(this, ReviewActivity.class);
-                String movieJson = new Gson().toJson(movie);
-                reviews.putExtra("movieJson", movieJson);
-                startActivity(reviews);
+    movieTitleTextView = findViewById(R.id.tv_detail_movie_title);
+    movieYearTextView = findViewById(R.id.tv_detail_movie_year);
+    movieRuntimeTextView = findViewById(R.id.tv_detail_movie_runtime);
+    movieGenreTextView = findViewById(R.id.tv_detail_movie_genre);
+    movieStatusTextView = findViewById(R.id.tv_detail_movie_status);
+    movieDescriptionTextView = findViewById(R.id.tv_detail_movie_description);
+    movieAvgRatingTextView = findViewById(R.id.tv_detail_movie_avg_rating);
 
-                break;
+    movieRatingBar = findViewById(R.id.rb_detail_movie_rating);
 
-            case R.id.btn_trailer_link:
-                Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Trailer' button");
-                if(trailerUrl != null){
-                    watchYoutubeTrailer(this,trailerUrl);
-                } else {
-                    Toast.makeText(this, "No trailer", Toast.LENGTH_LONG).show();
-                }
-                break;
+    movieTrailerLink = findViewById(R.id.btn_trailer_link);
+    movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
+    movieOptions = findViewById(R.id.btn_detail_options);
+    backButton = findViewById(R.id.view_detail_backbutton);
 
-            case R.id.view_detail_backbutton:
-                finish();
+    movieTrailerLink.setOnClickListener(this);
+    movieShowReviews.setOnClickListener(this);
+    movieOptions.setOnClickListener(this);
+    backButton.setOnClickListener(this);
 
-                break;
-        }
-    }
+    overlayBgPopup = findViewById(R.id.overlay_bg_image_view);
 
-    // Triggered when the user clicks on an item inside the PopupMenu
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.detail_options_addtolist:
-                Log.d(Constants.DETAILACT_TAG, "User wants to add the movie to a list...");
-                Intent chooseListPopup = new Intent(getApplicationContext(), ChooseListPopUp.class);
-                String json = new Gson().toJson(movie);
-                chooseListPopup.putExtra(Constants.MOVIE_TAG, json);
-                startActivity(chooseListPopup);
-                showOverlayBg();
-                break;
+    Glide.with(this).load(movie.getPosterPath()).into(movieBackdropImageView);
 
-            case R.id.detail_options_addReview:
-                Log.d(Constants.DETAILACT_TAG, "User wants to add a review to this movie...");
-                Intent addReviewIntent = new Intent(this, AddReviewActivity.class);
-                String jsonMovie = new Gson().toJson(movie);
-                addReviewIntent.putExtra(Constants.MOVIE_TAG, jsonMovie);
-                startActivity(addReviewIntent);
-                break;
+    String ratingString = String.valueOf(movie.getRating());
+    float rating = Float.parseFloat(ratingString);
 
-            case R.id.detail_options_share:
-                Log.d(Constants.DETAILACT_TAG, "User wants to share this movie...");
+    movieTitleTextView.setText(movie.getTitle());
+    movieYearTextView.setText(movie.getReleaseyear());
+    movieRuntimeTextView.setText(movie.getFormattedRuntime());
 
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, movie.getPosterPath().toString());
-
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
-
-                return super.onOptionsItemSelected(item);
-
-        }
-
-
-        return false;
-    }
-
-<<<<<<< HEAD
-    private void showOverlayBg() {
-        overlayBgPopup.setVisibility(View.VISIBLE);
-        Log.d(Constants.DETAILACT_TAG, "SHOW OVERLAY........................................................................");
-    }
-
-    private void hideOverlayBg() {
-        Log.d(Constants.DETAILACT_TAG, "HIDE OVERLAY........................................................................");
-        overlayBgPopup.setVisibility(View.INVISIBLE);
-=======
-    public static void watchYoutubeTrailer(Context context, String id){
-        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
-        Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("http://www.youtube.com/watch?v=" + id));
+    List<String> genreNames = new ArrayList<>();
+    for (String g1 : movie.getGenres()) {
+      System.out.println(g1);
+      int id = 0;
+      if (g1.contains("\"id\"")) {
         try {
-            context.startActivity(appIntent);
-        } catch (ActivityNotFoundException ex) {
-            context.startActivity(webIntent);
+          JSONObject object = new JSONObject(g1);
+          id = object.getInt("id");
+        } catch (JSONException e) {
+          e.printStackTrace();
         }
->>>>>>> KinoPlex/youtubeTrailer
+      } else id = Integer.parseInt(g1);
+      String genreName = Constants.GENRES.get(id);
+      genreNames.add(genreName);
     }
 
+    String genres = String.join(", ", genreNames);
+
+    movieGenreTextView.setText(genres);
+    movieStatusTextView.setText("Released");
+    movieDescriptionTextView.setText(movie.getOverview());
+    movieAvgRatingTextView.setText(ratingString);
+    movieRatingBar.setRating(rating / 2);
+
+    setTitle(movie.getTitle());
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    // Asynchronously loads reviews into the movie
+    hideOverlayBg();
+    ((FirestoreReviewDao) DataMigration.getFactory().getReviewDao(Integer.parseInt(movie.getId())))
+        .getList(movie, this);
+  }
+
+  public void setReviewText(String text) {
+    movieShowReviews.setText("Show reviews (" + text + ')');
+  }
+
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.btn_detail_options:
+        Log.d(Constants.DETAILACT_TAG, "User clicked on the options button");
+
+        PopupMenu pm = new PopupMenu(this, movieOptions);
+        pm.getMenuInflater().inflate(R.menu.detail_options_popup, pm.getMenu());
+        pm.setOnMenuItemClickListener(this);
+        pm.show();
+        break;
+
+      case R.id.btn_detail_show_reviews:
+        Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Show Reviews' button");
+        Intent reviews = new Intent(this, ReviewActivity.class);
+        String movieJson = new Gson().toJson(movie);
+        reviews.putExtra("movieJson", movieJson);
+        startActivity(reviews);
+
+        break;
+
+      case R.id.btn_trailer_link:
+        Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Trailer' button");
+        if (trailerUrl != null) {
+          watchYoutubeTrailer(this, trailerUrl);
+        } else {
+          Toast.makeText(this, "No trailer", Toast.LENGTH_LONG).show();
+        }
+        break;
+
+      case R.id.view_detail_backbutton:
+        finish();
+
+        break;
+    }
+  }
+
+  // Triggered when the user clicks on an item inside the PopupMenu
+  @Override
+  public boolean onMenuItemClick(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.detail_options_addtolist:
+        Log.d(Constants.DETAILACT_TAG, "User wants to add the movie to a list...");
+        Intent chooseListPopup = new Intent(getApplicationContext(), ChooseListPopUp.class);
+        String json = new Gson().toJson(movie);
+        chooseListPopup.putExtra(Constants.MOVIE_TAG, json);
+        startActivity(chooseListPopup);
+        showOverlayBg();
+        break;
+
+      case R.id.detail_options_addReview:
+        Log.d(Constants.DETAILACT_TAG, "User wants to add a review to this movie...");
+        Intent addReviewIntent = new Intent(this, AddReviewActivity.class);
+        String jsonMovie = new Gson().toJson(movie);
+        addReviewIntent.putExtra(Constants.MOVIE_TAG, jsonMovie);
+        startActivity(addReviewIntent);
+        break;
+
+      case R.id.detail_options_share:
+        Log.d(Constants.DETAILACT_TAG, "User wants to share this movie...");
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, movie.getPosterPath().toString());
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+          startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    return false;
+  }
+
+  private void showOverlayBg() {
+    overlayBgPopup.setVisibility(View.VISIBLE);
+    Log.d(
+        Constants.DETAILACT_TAG,
+        "SHOW OVERLAY........................................................................");
+  }
+
+  private void hideOverlayBg() {
+    Log.d(
+        Constants.DETAILACT_TAG,
+        "HIDE OVERLAY........................................................................");
+    overlayBgPopup.setVisibility(View.INVISIBLE);
+  }
+
+  public static void watchYoutubeTrailer(Context context, String id) {
+    Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+    Intent webIntent =
+        new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + id));
+    try {
+      context.startActivity(appIntent);
+    } catch (ActivityNotFoundException ex) {
+      context.startActivity(webIntent);
+    }
+  }
 }
