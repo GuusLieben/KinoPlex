@@ -25,12 +25,12 @@ public class TMDbReviewDao implements DaoObject {
 
     private int movieId;
 
-  /**
-   * Instantiates a new Tm db review dao.
-   *
-   * @param movieId the movie id
-   */
-  public TMDbReviewDao(int movieId) {
+    /**
+     * Instantiates a new Tm db review dao.
+     *
+     * @param movieId the movie id
+     */
+    public TMDbReviewDao(int movieId) {
         this.movieId = movieId;
     }
 
@@ -54,12 +54,12 @@ public class TMDbReviewDao implements DaoObject {
         throw new UnsupportedOperationException();
     }
 
-  /**
-   * Gets a list of reviews for the movie defined in the constructor.
-   *
-   * @return the list of reviews
-   */
-  public List<TMDbReview> getList() {
+    /**
+     * Gets a list of reviews for the movie defined in the constructor.
+     *
+     * @return the list of reviews
+     */
+    public List<TMDbReview> getList() {
         try {
             return new LoadReviewsForMovie().execute(movieId).get();
         } catch (ExecutionException | InterruptedException e) {

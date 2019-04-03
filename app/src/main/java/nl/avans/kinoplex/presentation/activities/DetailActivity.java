@@ -69,6 +69,7 @@ public class DetailActivity extends AppCompatActivity
     private Button backButton;
     private Movie movie;
     private String trailerUrl;
+    private Button trailerText;
 
     private ImageView overlayBgPopup;
 
@@ -93,7 +94,8 @@ public class DetailActivity extends AppCompatActivity
         Movie movie = new Gson().fromJson(JSON, Movie.class);
         this.movie = movie;
 
-        trailerUrl = "g7hJjzrOXDo";
+        trailerUrl = DataMigration.getTMDbFactory().getTrailerDao(movie.getId()).GetTrailer();
+
 
         movieBackdropImageView = findViewById(R.id.iv_detail_movie_backdrop);
 
@@ -111,11 +113,14 @@ public class DetailActivity extends AppCompatActivity
         thumbnailView = (YouTubeThumbnailView) findViewById(R.id.trailer_ThumbnailView);
         thumbnailView.initialize(YOUTUBE_API_KEY,this);
 
+        //trailerText = findViewById(R.id.btn_trailer_link);
         movieShowReviews = findViewById(R.id.btn_detail_show_reviews);
         movieOptions = findViewById(R.id.btn_detail_options);
         backButton = findViewById(R.id.view_detail_backbutton);
 
+        //trailerText.setOnClickListener(this);
         thumbnailView.setOnClickListener(this);
+
         movieShowReviews.setOnClickListener(this);
         movieOptions.setOnClickListener(this);
         backButton.setOnClickListener(this);

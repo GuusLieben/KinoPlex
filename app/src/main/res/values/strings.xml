@@ -46,6 +46,7 @@
 
     <string name="cancel">Cancel</string>
 
+
     <string name="deleteList">Are you sure?</string>
 
     <string name="standardList">standard lists</string>
@@ -80,4 +81,5 @@
     <string name="released">Released</string>
     <string name="build_commit_version">Build %s</string>
 
+    <string name="trailer_label" translatable="false">Trailer: </string>
 </resources>
