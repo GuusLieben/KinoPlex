@@ -21,6 +21,10 @@ import nl.avans.kinoplex.presentation.activities.ManageListsActivity;
 import nl.avans.kinoplex.presentation.adapters.AbstractAdapter;
 import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 
+/**
+ * @author Stijn Schep
+ * ViewHolder for the ListManagerAdapter
+ */
 public class ListManagerViewHolder extends AbstractViewHolder implements View.OnClickListener {
 
     private TextView m_ListTitleTextView;

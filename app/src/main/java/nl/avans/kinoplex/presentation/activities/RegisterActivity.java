@@ -19,6 +19,10 @@ import nl.avans.kinoplex.business.PosterPicker;
 import nl.avans.kinoplex.data.factories.DataMigration;
 import nl.avans.kinoplex.domain.Constants;
 
+/**
+ * @author Stijn Schep
+ * Activity that allows the user to register with their name and a password
+ */
 public class RegisterActivity extends Activity implements
         View.OnClickListener, TextWatcher {
     private EditText fullNameEditText;
