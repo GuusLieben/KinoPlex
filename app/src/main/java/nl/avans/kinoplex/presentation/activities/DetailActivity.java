@@ -173,7 +173,7 @@ public class DetailActivity extends AppCompatActivity
             case R.id.btn_trailer_link:
                 Log.d(Constants.DETAILACT_TAG, "User clicked on the 'Trailer' button");
                 if(trailerUrl != null){
-                    watchYoutubeVideo(this,trailerUrl);
+                    watchYoutubeTrailer(this,trailerUrl);
                 } else {
                     Toast.makeText(this, "No trailer", Toast.LENGTH_LONG).show();
                 }
@@ -225,7 +225,7 @@ public class DetailActivity extends AppCompatActivity
         return false;
     }
 
-    public static void watchYoutubeVideo(Context context, String id){
+    public static void watchYoutubeTrailer(Context context, String id){
         Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
         Intent webIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("http://www.youtube.com/watch?v=" + id));
