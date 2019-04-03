@@ -27,12 +27,14 @@ import nl.avans.kinoplex.presentation.adapters.ListManagerAdapter;
 /** The type Dialog builder. */
 public class DialogBuilder {
 
-  /** The enum Input. */
+  /** The Input type which is used in the dialog. */
   public enum Input {
-    /** Single edittext input. */
+    /** Uses a single edit text with margins on Start and End. */
     SINGLE_EDITTEXT,
-    /** Prefilled edittext input. */
+
+    /** Same as SINGLE_EDITTEXT, but uses existing input to fill the EditText if available . */
     PREFILLED_EDITTEXT,
+
     /** Edittext with label input. */
     EDITTEXT_WITH_LABEL
   }
@@ -65,12 +67,13 @@ public class DialogBuilder {
     }
 
   /**
+   * @author Stijn Schep
    * Simple input builder.
    *
-   * @param activity the activity
-   * @param title the title
-   * @param type the type
-   * @param adapter the adapter
+   * @param activity the activity from which the method was called
+   * @param title the title of the Dialog
+   * @param type the type of content that the Dialog should have
+   * @param adapter the adapter which should be updated
    */
   public static void simpleInputBuilder(
       Activity activity, String title, Input type, RecyclerView.Adapter adapter) {
@@ -113,13 +116,14 @@ public class DialogBuilder {
     }
 
   /**
-   * Simple list edit dialog.
+   * @author Stijn Schep
+   * Simple dialog to change the title of a list
    *
-   * @param activity the activity
-   * @param title the title
-   * @param type the type
-   * @param list the list
-   * @param adapter the adapter
+   * @param activity the activity from which the method is called
+   * @param title the title of the Dialog
+   * @param type the type of content that the Dialog should have
+   * @param list the list with MovieLists which should be edited
+   * @param adapter the adapter that needs to be updated
    */
   public static void simpleListEditDialog(
       Activity activity, String title, Input type, MovieList list, RecyclerView.Adapter adapter) {

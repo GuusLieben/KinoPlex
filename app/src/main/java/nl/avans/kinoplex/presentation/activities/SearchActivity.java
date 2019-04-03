@@ -29,6 +29,7 @@ public class SearchActivity extends TaskLoaderActivity implements
         NavigationView.OnNavigationItemSelectedListener {
     private SearchAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
