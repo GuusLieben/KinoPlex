@@ -49,7 +49,7 @@
 
     <string name="deleteList">Are you sure?</string>
 
-    <string name="standardList">standard lists</string>
+    <string name="standardList">Standard lists</string>
 
     <string name="Genres">Genres ▶</string>
     <string name="plusSign" translatable="false">+</string>
@@ -64,7 +64,7 @@
     <string name="addMovieToList_toList"> \'to list</string>
     <string name="title_activity_maps" translatable="false">Map</string>
 
-    <string name="userLists">user lists</string>
+    <string name="userLists">User lists</string>
     <string name="management">Management</string>
 
 
