@@ -18,8 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nl.avans.kinoplex.R;
 import nl.avans.kinoplex.business.CustomListChecker;
@@ -42,10 +46,14 @@ public class MainActivity extends AppCompatActivity implements
 
     private NavigationView navigationView;
 
+    private Map<Integer, MovieList> listMapping;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        listMapping = new HashMap<>();
 
         Constants.pref =
                 getApplicationContext().getSharedPreferences(Constants.PREF_LOGIN, MODE_PRIVATE);
@@ -91,20 +99,23 @@ public class MainActivity extends AppCompatActivity implements
         navigationView.getMenu().getItem(0).getSubMenu().clear();
         navigationView.getMenu().getItem(1).getSubMenu().clear();
 
+        int i = 1;
+
         for(DomainObject dObject : objects) {
             MovieList list = (MovieList) dObject;
 
             if(CustomListChecker.isCustomList(list.getName())) {
-                MenuItem menuItem = navigationView.getMenu().getItem(1);
-                SubMenu subMenu = menuItem.getSubMenu();
-                subMenu.add( list.getName() );
-
-            } else {
                 MenuItem menuItem = navigationView.getMenu().getItem(0);
                 SubMenu subMenu = menuItem.getSubMenu();
-                subMenu.add( CustomListChecker.returnCorrectTitle(list.getName(), this) );
-
-
+                subMenu.add(0, i, 0, list.getName());
+                listMapping.put(i, list);
+                i++;
+            } else {
+                MenuItem menuItem = navigationView.getMenu().getItem(1);
+                SubMenu subMenu = menuItem.getSubMenu();
+                subMenu.add(0, i, 0, CustomListChecker.returnCorrectTitle(list.getName(), this));
+                listMapping.put(i, list);
+                i++;
             }
 
             MenuItem manageListItem = navigationView.getMenu().findItem(R.id.nav_item_add_list);
@@ -149,6 +160,13 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.nav_item_add_list:
                 Intent intent = new Intent(this, ManageListsActivity.class);
                 startActivity(intent);
+                break;
+
+                default:
+                    Intent listIntent = new Intent(this, ListActivity.class);
+                    String jsonString = new Gson().toJson(listMapping.get(menuItem.getItemId()));
+                    listIntent.putExtra(Constants.INTENT_EXTRA_MOVIELIST, jsonString);
+                    startActivity(listIntent);
         }
 
 

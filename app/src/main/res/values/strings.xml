@@ -62,6 +62,7 @@
     <string name="addMovieToList_toList"> \'to list</string>
 
     <string name="userLists">user lists</string>
+    <string name="management">Management</string>
 
 
     <string name="addReviewForMovie">Add review for: </string>

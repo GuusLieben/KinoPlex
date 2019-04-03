@@ -48,5 +48,6 @@
     <string name="manage_list_filters">Beheer Filters</string>
 
     <string name="movieYear">Jaar</string>
+    <string name="management">Beheer</string>
 
 </resources>

@@ -34,7 +34,7 @@ public class CustomListChecker {
         } else if (name.equalsIgnoreCase("!Upcoming")) {
             return context.getResources().getString(R.string.upcoming);
         } else {
-            return null;
+            return name;
         }
     }
 }
