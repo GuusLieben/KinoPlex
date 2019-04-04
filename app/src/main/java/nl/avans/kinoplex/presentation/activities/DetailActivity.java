@@ -253,7 +253,10 @@ public class DetailActivity extends AppCompatActivity
 
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, movie.getPosterPath().toString());
+
+                String shareMessage = String.format(getString(R.string.share_message), movie.getTitle(), movie.getRating().toString(), movie.getPosterPath().toString());
+
+                intent.putExtra(Intent.EXTRA_TEXT, shareMessage);
 
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
